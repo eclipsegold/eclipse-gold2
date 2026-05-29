@@ -22,22 +22,30 @@ export function Price({
   useEffect(() => {
     const target = currencyFor(lang, country)
     if (target === defaultCurrency) {
+      // Load-bearing: explicitly restore defaults so toggling back to the
+      // default-currency market shows the server price (no stale refetch value).
       setAmount(defaultAmount)
       setCurrency(defaultCurrency)
       return
     }
-    let active = true
-    fetch(`/api/price?handle=${encodeURIComponent(handle)}&country=${country}`)
+    const controller = new AbortController()
+    fetch(`/api/price?handle=${encodeURIComponent(handle)}&country=${country}`, {
+      signal: controller.signal,
+    })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (active && data) {
+        if (data) {
           setAmount(data.amount)
           setCurrency(data.currencyCode as Currency)
         }
       })
-      .catch(() => {})
+      .catch((err) => {
+        if (err?.name !== 'AbortError') {
+          // swallow network errors; the default price stays shown
+        }
+      })
     return () => {
-      active = false
+      controller.abort()
     }
   }, [country, lang, handle, defaultAmount, defaultCurrency])
 
