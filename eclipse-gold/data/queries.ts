@@ -2,7 +2,7 @@ import type { Lang, SunglassModel } from './types'
 import { models } from './models'
 
 export function getAllModels(): SunglassModel[] {
-  return models
+  return [...models]
 }
 
 export function getModelByHandle(handle: string): SunglassModel | undefined {

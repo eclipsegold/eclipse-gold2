@@ -11,6 +11,7 @@ describe('model lookups', () => {
   it('resolves a model by its localized slug', () => {
     expect(getModelBySlug('nebula-or-femme', 'fr')?.handle).toBe('nebula')
     expect(getModelBySlug('nebula-gold-damen', 'de')?.handle).toBe('nebula')
+    expect(getModelBySlug('nebula-oro-donna', 'it')?.handle).toBe('nebula')
   })
 
   it('returns undefined for an unknown handle', () => {
