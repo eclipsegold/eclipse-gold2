@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validateModels } from '../scripts/validate-models'
+import { validateModels, validateFullSet } from '../scripts/validate-models'
 import type { SunglassModel } from '../data/types'
 
 function makeModel(over: Partial<SunglassModel>): SunglassModel {
@@ -38,5 +38,45 @@ describe('validateModels', () => {
 
   it('returns no errors for a single valid model', () => {
     expect(validateModels([makeModel({})])).toEqual([])
+  })
+})
+
+describe('validateFullSet', () => {
+  const PHENOMENA = ['totality','heliacal','nebula','umbra','zenith','syzygy','penumbra','parhelion','equinox','chroma'] as const
+
+  // Build N fully-distinct, valid models (unique handle/slug/keyword/order/phenomenon).
+  function makeN(n: number): SunglassModel[] {
+    return Array.from({ length: n }, (_, i) =>
+      makeModel({
+        handle: `m${i}`,
+        order: i + 1,
+        phenomenon: PHENOMENA[i],
+        slug: { fr: `s${i}-fr`, de: `s${i}-de`, it: `s${i}-it` },
+        primaryKeyword: { fr: `k${i}-fr`, de: `k${i}-de`, it: `k${i}-it` },
+      }),
+    )
+  }
+
+  it('accepts a complete, valid 10-model set', () => {
+    expect(validateFullSet(makeN(10))).toEqual([])
+  })
+
+  it('flags the wrong model count', () => {
+    const errors = validateFullSet(makeN(9))
+    expect(errors.some((e) => e.code === 'WRONG_COUNT')).toBe(true)
+  })
+
+  it('flags duplicate order values', () => {
+    const models = makeN(10)
+    models[1].order = models[0].order
+    const errors = validateFullSet(models)
+    expect(errors.some((e) => e.code === 'DUPLICATE_ORDER')).toBe(true)
+  })
+
+  it('flags duplicate phenomenon values', () => {
+    const models = makeN(10)
+    models[1].phenomenon = models[0].phenomenon
+    const errors = validateFullSet(models)
+    expect(errors.some((e) => e.code === 'DUPLICATE_PHENOMENON')).toBe(true)
   })
 })
