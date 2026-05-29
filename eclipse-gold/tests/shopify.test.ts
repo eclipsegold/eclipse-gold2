@@ -45,4 +45,19 @@ describe('getShopifyProduct', () => {
     )
     expect(await getShopifyProduct('ghost', 'FR')).toBeNull()
   })
+
+  it('throws when required env vars are missing', async () => {
+    delete process.env.SHOPIFY_STORE_DOMAIN
+    await expect(getShopifyProduct('nebula', 'CH')).rejects.toThrow(/Missing/)
+  })
+
+  it('throws on a non-ok response', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }))
+    await expect(getShopifyProduct('nebula', 'CH')).rejects.toThrow(/500/)
+  })
+
+  it('throws when the response contains GraphQL errors', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ errors: [{ message: 'Throttled' }] }) }))
+    await expect(getShopifyProduct('nebula', 'CH')).rejects.toThrow(/Throttled/)
+  })
 })

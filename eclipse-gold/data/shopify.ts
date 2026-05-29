@@ -43,6 +43,10 @@ export async function getShopifyProduct(
   }
 
   const json = await res.json()
+  if (Array.isArray(json?.errors) && json.errors.length > 0) {
+    const message = json.errors.map((e: { message?: string }) => e.message ?? 'unknown').join('; ')
+    throw new Error(`Storefront API errors: ${message}`)
+  }
   const p = json?.data?.product
   if (!p) return null
 
@@ -51,6 +55,6 @@ export async function getShopifyProduct(
     title: p.title,
     availableForSale: p.availableForSale,
     price: p.priceRange.minVariantPrice,
-    images: p.images.nodes,
+    images: p.images?.nodes ?? [],
   }
 }
