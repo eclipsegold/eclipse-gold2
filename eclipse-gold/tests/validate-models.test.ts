@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { validateModels, validateFullSet } from '../scripts/validate-models'
+import { validateModels, validateFullSet, validateCollectionOrder } from '../scripts/validate-models'
 import type { SunglassModel } from '../data/types'
 
 function makeModel(over: Partial<SunglassModel>): SunglassModel {
@@ -78,5 +78,24 @@ describe('validateFullSet', () => {
     models[1].phenomenon = models[0].phenomenon
     const errors = validateFullSet(models)
     expect(errors.some((e) => e.code === 'DUPLICATE_PHENOMENON')).toBe(true)
+  })
+})
+
+describe('validateCollectionOrder', () => {
+  const a = makeModel({ handle: 'a', slug: { fr: 'a', de: 'a', it: 'a' }, primaryKeyword: { fr: 'ka', de: 'ka', it: 'ka' } })
+  const b = makeModel({ handle: 'b', order: 2, phenomenon: 'umbra', slug: { fr: 'b', de: 'b', it: 'b' }, primaryKeyword: { fr: 'kb', de: 'kb', it: 'kb' } })
+
+  it('passes when modelOrder exactly matches the model handles', () => {
+    expect(validateCollectionOrder([a, b], ['a', 'b'])).toEqual([])
+  })
+
+  it('flags a modelOrder handle with no matching model', () => {
+    const errors = validateCollectionOrder([a, b], ['a', 'b', 'typo'])
+    expect(errors.some((e) => e.code === 'ORPHAN_ORDER_HANDLE')).toBe(true)
+  })
+
+  it('flags a model missing from modelOrder', () => {
+    const errors = validateCollectionOrder([a, b], ['a'])
+    expect(errors.some((e) => e.code === 'MISSING_FROM_ORDER')).toBe(true)
   })
 })

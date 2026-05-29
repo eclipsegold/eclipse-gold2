@@ -76,10 +76,41 @@ export function validateFullSet(models: SunglassModel[]): ValidationError[] {
   return errors
 }
 
+/** Cross-checks the collection's modelOrder against the actual model handles. */
+export function validateCollectionOrder(
+  models: SunglassModel[],
+  modelOrder: string[],
+): ValidationError[] {
+  const errors: ValidationError[] = []
+  const handles = new Set(models.map((m) => m.handle))
+  for (const h of modelOrder) {
+    if (!handles.has(h)) {
+      errors.push({
+        code: 'ORPHAN_ORDER_HANDLE',
+        message: `collection modelOrder references "${h}" but no model has that handle`,
+      })
+    }
+  }
+  const ordered = new Set(modelOrder)
+  for (const m of models) {
+    if (!ordered.has(m.handle)) {
+      errors.push({
+        code: 'MISSING_FROM_ORDER',
+        message: `model "${m.handle}" is missing from collection modelOrder`,
+      })
+    }
+  }
+  return errors
+}
+
 // CLI runner — invoked by `npm run validate:models` (prebuild gate).
 async function main(): Promise<void> {
   const { models } = await import('../data/models')
-  const errors = validateFullSet(models)
+  const { collectionHub } = await import('../data/collection')
+  const errors = [
+    ...validateFullSet(models),
+    ...validateCollectionOrder(models, collectionHub.modelOrder),
+  ]
   if (errors.length > 0) {
     console.error(`✗ Model validation failed (${errors.length} error(s)):`)
     for (const e of errors) console.error(`  [${e.code}] ${e.message}`)
