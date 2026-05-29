@@ -36,4 +36,19 @@ describe('GET /api/price', () => {
     const res = await GET(req('https://x/api/price?handle=ghost&country=FR'))
     expect(res.status).toBe(404)
   })
+
+  it('defaults country to CH when omitted', async () => {
+    vi.mocked(getShopifyProduct).mockResolvedValue({
+      handle: 'nebula', title: 'NEBULA', availableForSale: true,
+      price: { amount: '49.90', currencyCode: 'CHF' }, images: [],
+    })
+    await GET(req('https://x/api/price?handle=nebula'))
+    expect(getShopifyProduct).toHaveBeenCalledWith('nebula', 'CH')
+  })
+
+  it('returns 502 when the Shopify lookup throws', async () => {
+    vi.mocked(getShopifyProduct).mockRejectedValue(new Error('boom'))
+    const res = await GET(req('https://x/api/price?handle=nebula&country=CH'))
+    expect(res.status).toBe(502)
+  })
 })
