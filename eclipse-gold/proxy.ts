@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { countryFromHeader } from './lib/geo'
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Redirect bare root to the default language.
