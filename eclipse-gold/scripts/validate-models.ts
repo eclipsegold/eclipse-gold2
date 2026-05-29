@@ -1,0 +1,94 @@
+import { LANGS, type Lang, type SunglassModel } from '../data/types'
+
+export interface ValidationError {
+  code: string
+  message: string
+}
+
+const LOCALIZED_STRING_FIELDS = [
+  'slug', 'primaryKeyword', 'seoTitle', 'metaDescription', 'tagline', 'intro',
+] as const
+
+export function validateModels(models: SunglassModel[]): ValidationError[] {
+  const errors: ValidationError[] = []
+
+  for (const lang of LANGS) {
+    assertUniquePerLang(models, lang, 'slug', 'DUPLICATE_SLUG', errors)
+    assertUniquePerLang(models, lang, 'primaryKeyword', 'DUPLICATE_KEYWORD', errors)
+  }
+
+  for (const m of models) {
+    for (const field of LOCALIZED_STRING_FIELDS) {
+      for (const lang of LANGS) {
+        if (!m[field][lang] || m[field][lang].trim() === '') {
+          errors.push({
+            code: 'EMPTY_TRANSLATION',
+            message: `${m.handle}.${field}.${lang} is empty`,
+          })
+        }
+      }
+    }
+    for (const lang of LANGS) {
+      if (m.features[lang].length === 0) {
+        errors.push({ code: 'EMPTY_TRANSLATION', message: `${m.handle}.features.${lang} is empty` })
+      }
+    }
+  }
+
+  return errors
+}
+
+function assertUniquePerLang(
+  models: SunglassModel[],
+  lang: Lang,
+  field: 'slug' | 'primaryKeyword',
+  code: string,
+  errors: ValidationError[],
+): void {
+  const seen = new Map<string, string>()
+  for (const m of models) {
+    const value = m[field][lang]
+    if (seen.has(value)) {
+      errors.push({
+        code,
+        message: `${field}.${lang} "${value}" used by both ${seen.get(value)} and ${m.handle}`,
+      })
+    } else {
+      seen.set(value, m.handle)
+    }
+  }
+}
+
+/** Full-set checks that only make sense once all 10 models exist. */
+export function validateFullSet(models: SunglassModel[]): ValidationError[] {
+  const errors = validateModels(models)
+  if (models.length !== 10) {
+    errors.push({ code: 'WRONG_COUNT', message: `expected 10 models, found ${models.length}` })
+  }
+  const orders = new Set(models.map((m) => m.order))
+  if (orders.size !== models.length) {
+    errors.push({ code: 'DUPLICATE_ORDER', message: 'model.order values are not unique' })
+  }
+  const phenomena = new Set(models.map((m) => m.phenomenon))
+  if (phenomena.size !== models.length) {
+    errors.push({ code: 'DUPLICATE_PHENOMENON', message: 'model.phenomenon values are not unique' })
+  }
+  return errors
+}
+
+// CLI runner — invoked by `npm run validate:models` (prebuild gate).
+async function main(): Promise<void> {
+  const { models } = await import('../data/models')
+  const errors = validateFullSet(models)
+  if (errors.length > 0) {
+    console.error(`✗ Model validation failed (${errors.length} error(s)):`)
+    for (const e of errors) console.error(`  [${e.code}] ${e.message}`)
+    process.exit(1)
+  }
+  console.log(`✓ ${models.length} models validated`)
+}
+
+// Run only when executed directly, not when imported by tests.
+if (process.argv[1] && process.argv[1].endsWith('validate-models.ts')) {
+  void main()
+}

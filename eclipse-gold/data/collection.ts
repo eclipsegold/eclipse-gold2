@@ -16,6 +16,8 @@ export const collectionHub: CollectionHub = {
     de: 'Zehn Lichtblitze, zehn Phänomene des Himmels. Die Kollektion Eclipse Gold zeigt die randlose Gold-Fassung in zehn Silhouetten, jede nach einem astronomischen Phänomen benannt.',
     it: 'Dieci bagliori, dieci fenomeni del cielo. La collezione Eclipse Gold declina la montatura rimless oro in dieci silhouette, ognuna ispirata a un fenomeno astronomico.',
   },
-  // Filled fully in a later task once all handles exist; nebula present from Task 3.
-  modelOrder: ['nebula'],
+  modelOrder: [
+    'totalis', 'helios', 'nebula', 'umbra', 'zenith',
+    'syzygy', 'penumbra', 'parhelion', 'equinox', 'chroma',
+  ],
 }
