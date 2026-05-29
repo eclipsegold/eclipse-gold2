@@ -1,0 +1,66 @@
+{% comment %}
+==========================================
+  SNIPPET : Eclipse Gold Product Card
+
+  Paramètres :
+    product     — l'objet produit Shopify
+    is_hero     — true si c'est un best-seller (grand format)
+    badge_type  — 'bestseller', 'limited', ou '' (rien)
+==========================================
+{% endcomment %}
+
+{% if product != blank %}
+  {%- assign first_variant = product.variants.first -%}
+  {%- assign is_sold_out = false -%}
+  {% if first_variant.inventory_quantity == 0 and first_variant.inventory_management != blank %}
+    {%- assign is_sold_out = true -%}
+  {% endif %}
+
+  <div class="eg-card{% if is_hero %} eg-card--hero{% endif %}{% if is_sold_out %} is-sold-out{% endif %}">
+
+    {% if badge_type == 'bestseller' %}
+      <div class="eg-badge eg-badge--bestseller">best-seller</div>
+    {% elsif badge_type == 'limited' or is_sold_out %}
+      <div class="eg-badge">édition limitée</div>
+    {% endif %}
+
+    <a href="{{ product.url }}" class="eg-image-wrap">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.title | escape }}"
+          class="eg-image"
+          loading="lazy"
+          width="800"
+          height="800"
+        >
+      {% else %}
+        <div class="eg-placeholder">
+          {{ product.title | split: '—' | first | strip }}
+        </div>
+      {% endif %}
+    </a>
+
+    <a href="{{ product.url }}" class="eg-info" style="text-decoration: none; color: inherit;">
+      <h3 class="eg-name">{{ product.title }}</h3>
+      <p class="eg-price">{{ product.price | money }}</p>
+    </a>
+
+    <div class="eg-action">
+      {% if is_sold_out %}
+        <button type="button" class="eg-btn eg-btn--waitlist" disabled>
+          Liste d'attente
+        </button>
+      {% else %}
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" class="eg-form">
+          <input type="hidden" name="id" value="{{ first_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="eg-btn">
+            Ajouter au panier
+          </button>
+        </form>
+      {% endif %}
+    </div>
+
+  </div>
+{% endif %}

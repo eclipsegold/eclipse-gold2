@@ -1,0 +1,118 @@
+{% comment %}
+==========================================
+  SECTION : Eclipse Gold Video Hero
+  OBSERVATY — Page d'accueil, full-bleed vidéo en haut
+==========================================
+{% endcomment %}
+
+<section class="egvh">
+  <div class="egvh-media" aria-hidden="true">
+    {%- if section.settings.video != blank -%}
+      {{ section.settings.video | video_tag: image_size: '2000x', autoplay: true, loop: true, muted: true, controls: false, class: 'egvh-v' }}
+    {%- elsif section.settings.fallback_video_url != blank -%}
+      <video class="egvh-v" autoplay muted loop playsinline preload="auto"
+             {%- if section.settings.poster_image -%} poster="{{ section.settings.poster_image | image_url: width: 1600 }}"{%- endif -%}>
+        <source src="{{ section.settings.fallback_video_url }}" type="video/mp4">
+      </video>
+    {%- elsif section.settings.poster_image -%}
+      {{ section.settings.poster_image | image_url: width: 2000 | image_tag: class: 'egvh-v', loading: 'eager', alt: section.settings.title }}
+    {%- endif -%}
+    <span class="egvh-overlay" style="--overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></span>
+  </div>
+
+  <div class="egvh-content">
+    {%- if section.settings.title != blank -%}
+      <h1 class="egvh-title">{{ section.settings.title | escape }}</h1>
+    {%- endif -%}
+    {%- if section.settings.tagline != blank -%}
+      <p class="egvh-tagline">{{ section.settings.tagline | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .egvh {
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    height: 80vh;
+    min-height: 480px;
+    background: #000000;
+    overflow: hidden;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+  }
+  .egvh-media { position: absolute; inset: 0; z-index: 0; }
+  .egvh-v, .egvh-media video, .egvh-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .egvh-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, var(--overlay, 0.3));
+    z-index: 1;
+  }
+  .egvh-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #d4af37;
+    padding: 0 20px;
+  }
+  .egvh-title {
+    font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: 12px;
+    font-weight: 400;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+    color: #d4af37;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    line-height: 1.05;
+  }
+  .egvh-tagline {
+    font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(16px, 1.7vw, 24px);
+    color: #d4af37;
+    opacity: 0.92;
+    margin: 0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+    letter-spacing: 1px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .egvh-v { display: none; }
+    .egvh-media { background: #000; }
+  }
+  @media (max-width: 749px) {
+    .egvh { height: 60vh; min-height: 360px; }
+    .egvh-title { letter-spacing: 6px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Eclipse Gold Video Hero",
+  "tag": "section",
+  "class": "section-eclipse-gold-video-hero",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Vidéo (Files)" },
+    { "type": "text", "id": "fallback_video_url", "label": "URL vidéo de secours (MP4)" },
+    { "type": "image_picker", "id": "poster_image", "label": "Image poster (fallback)" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "ECLIPSE GOLD" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Wear the sun." },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "label": "Intensité overlay", "default": 30 }
+  ],
+  "presets": [
+    { "name": "Eclipse Gold Video Hero", "category": "Hero" }
+  ]
+}
+{% endschema %}

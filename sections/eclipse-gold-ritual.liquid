@@ -1,0 +1,86 @@
+{% comment %}
+==========================================
+  SECTION : Le Rituel — image gauche, texte droite
+==========================================
+{% endcomment %}
+
+<section class="egr">
+  <div class="egr-inner">
+    <div class="egr-media eg-fade">
+      {%- if section.settings.image -%}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'egr-img', loading: 'lazy', alt: section.settings.title }}
+      {%- else -%}
+        <div class="egr-placeholder">
+          <div class="egr-card">
+            <span class="egr-card-line"></span>
+            <span class="egr-card-eyebrow">L'ÉCRIN</span>
+            <span class="egr-card-title">ECLIPSE GOLD</span>
+            <span class="egr-card-mark">~</span>
+            <span class="egr-card-line"></span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="egr-content eg-fade">
+      <span class="egr-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="egr-title">{{ section.settings.title }}</h2>
+      <div class="egr-body">{{ section.settings.body }}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .egr { background: #000000; color: #f5f1e8; padding: 120px 24px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+  .egr-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .egr-media { position: relative; }
+  .egr-img { width: 100%; height: auto; display: block; }
+  .egr-placeholder { aspect-ratio: 4 / 5; background: #000; border: 1px solid rgba(212, 175, 55, 0.18); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .egr-placeholder::before, .egr-placeholder::after { content: ''; position: absolute; background: rgba(212, 175, 55, 0.06); }
+  .egr-placeholder::before { top: 20px; left: 20px; right: 20px; bottom: 20px; border: 0.5px solid rgba(212, 175, 55, 0.25); }
+  .egr-card { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 40px; }
+  .egr-card-line { width: 80px; height: 1px; background: #d4af37; opacity: 0.55; }
+  .egr-card-eyebrow { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 11px; color: #d4af37; letter-spacing: 5px; text-transform: uppercase; opacity: 0.8; }
+  .egr-card-title { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 32px; letter-spacing: 10px; color: #d4af37; text-transform: uppercase; font-weight: 400; }
+  .egr-card-mark { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: 28px; color: #d4af37; opacity: 0.6; }
+  .egr-content { padding: 16px 0; }
+  .egr-eyebrow { display: inline-block; font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 12px; color: #d4af37; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 28px; }
+  .egr-title { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: clamp(32px, 4vw, 52px); letter-spacing: 4px; color: #f5f1e8; text-transform: uppercase; font-weight: 400; margin: 0 0 32px; line-height: 1.1; }
+  .egr-body { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.8; color: #f5f1e8; opacity: 0.82; }
+  .egr-body p { margin: 0 0 1em; }
+  .egr-body p:last-child { margin-bottom: 0; }
+  .egr .eg-fade { opacity: 0; transform: translateY(24px); transition: opacity 800ms ease, transform 800ms ease; }
+  .egr .eg-fade.is-visible { opacity: 1; transform: none; }
+  @media (max-width: 749px) {
+    .egr { padding: 80px 20px; }
+    .egr-inner { grid-template-columns: 1fr; gap: 48px; }
+    .egr-title { letter-spacing: 2px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.egr .eg-fade');
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('is-visible'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Le Rituel",
+  "tag": "section",
+  "class": "section-eg-ritual",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image (gauche) — sinon un visuel d'écrin sera affiché" },
+    { "type": "text", "id": "eyebrow", "label": "Sur-titre", "default": "L'EXPÉRIENCE ECLIPSE GOLD" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Le Rituel" },
+    { "type": "richtext", "id": "body", "label": "Texte", "default": "<p>Chaque paire arrive dans un écrin signé. Une carte gravée révèle le phénomène qu'elle incarne. Le déballage devient un instant suspendu — la première rencontre avec votre éclipse.</p>" }
+  ],
+  "presets": [{ "name": "Le Rituel", "category": "Eclipse Gold" }]
+}
+{% endschema %}

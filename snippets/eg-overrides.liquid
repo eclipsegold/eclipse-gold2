@@ -1,0 +1,142 @@
+{% doc %}
+Eclipse Gold global overrides (CSS + JS).
+Rendered once by the eclipse-gold-footer section.
+@example
+{% render 'eg-overrides' %}
+{% enddoc %}
+
+{% stylesheet %}
+html,body{background-color:#000 !important;overflow-x:hidden !important}
+.main-content,main,.template-collection,.template-page,.template-blog,.template-article,.template-search,.template-404,.template-list-collections,section,.shopify-section{background:#000 !important;color:#f5f1e8}
+.page-width,.container,.content-for-layout{background:#000 !important}
+.header__heading,.header__heading-link,.header__heading-logo{max-width:100%;overflow:hidden}
+.header__heading-logo{height:auto;max-height:48px}
+.header__heading-text,.header__inline-logo-text,.header__heading-link,a.header__heading-link{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif !important;font-weight:400 !important;font-size:22px !important;letter-spacing:8px !important;text-transform:uppercase !important;color:#d4af37 !important;text-decoration:none !important;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:768px){.header__heading-text,.header__inline-logo-text,.header__heading-link,a.header__heading-link{font-size:16px !important;letter-spacing:6px !important}}
+.header-wrapper,.section-header,header.section-header{background:#000 !important;border-bottom:1px solid rgba(212,175,55,0.18) !important}
+.header__menu a,.header__inline-menu a,.header-menu a,header-component a,.header a,.header__icons a{color:#f5f1e8 !important;letter-spacing:2px !important;font-size:12px !important;text-transform:uppercase !important;font-weight:300 !important;transition:color .3s ease}
+.header__menu a:hover,.header__inline-menu a:hover,.header-menu a:hover,header-component a:hover,.header a:hover{color:#d4af37 !important}
+.header svg,header-component svg,.header__icons svg{color:#f5f1e8 !important;fill:currentColor}
+.header svg:hover,header-component svg:hover{color:#d4af37 !important}
+body[data-template="cart"],.template-cart{background:#000 !important;color:#f5f1e8}
+.cart-page,.cart-page__main,.cart-page__summary,cart-items-component,cart-page-component{background:#000 !important;color:#f5f1e8 !important}
+.cart-page .section-background,.cart-page__summary .section-background{background:#000 !important}
+.cart-title h1,.cart-title,.cart-page__title h1{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif !important;color:#d4af37 !important;font-size:32px !important;letter-spacing:6px !important;text-transform:uppercase !important;font-weight:400 !important}
+.cart-page__items,.cart-products,.cart-products__item,.cart-item,.cart-item__details,.cart-item__title,.cart-item__price,.cart-products__title,.cart-summary,.cart-summary__total,.cart-summary__subtotal,.cart-drawer,.cart-drawer__items,cart-drawer-component,.drawer-cart{color:#f5f1e8 !important;background:#000 !important;border-color:rgba(212,175,55,0.2) !important}
+.cart-item__title a,.cart-products__item a,.cart-item a,.cart-drawer a{color:#f5f1e8 !important;text-decoration:none !important}
+.cart-item__title a:hover,.cart-drawer a:hover{color:#d4af37 !important}
+.cart-item__price,.cart-summary__total-value,.cart-summary__subtotal-value,.cart-price,.price-item,.totals__subtotal-value{font-family:'Inter','Helvetica Neue',sans-serif !important;color:#d4af37 !important;letter-spacing:1px}
+.cart-summary__subtotal-label,.totals__subtotal{color:#f5f1e8 !important;letter-spacing:3px !important;text-transform:uppercase !important;font-weight:400 !important}
+.cart__checkout-button,button[name="checkout"],.cart-summary__checkout,.cart-drawer__checkout,[name="checkout"],.shopify-payment-button__button{background:#d4af37 !important;color:#000 !important;border:0.5px solid #d4af37 !important;font-family:'Inter','Helvetica Neue',sans-serif !important;font-size:12px !important;letter-spacing:4px !important;text-transform:uppercase !important;font-weight:500 !important;padding:18px 32px !important;border-radius:0 !important;transition:background .3s ease,color .3s ease}
+.cart__checkout-button:hover,button[name="checkout"]:hover,.cart-summary__checkout:hover,.cart-drawer__checkout:hover,[name="checkout"]:hover{background:#f5f1e8 !important;color:#000 !important;border-color:#f5f1e8 !important}
+.cart-page--empty .cart-title h1,.cart-page--empty h1{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif !important;font-style:italic !important;color:#f5f1e8 !important;font-size:28px !important;letter-spacing:4px !important;font-weight:400 !important;text-transform:none !important}
+.cart-page--empty a[href*="collections"],.cart-page--empty a.button,.cart-page__continue-shopping,.cart-drawer__continue-shopping a{color:#d4af37 !important;text-decoration:underline !important;text-underline-offset:6px !important;letter-spacing:3px !important;background:transparent !important;border:none !important;text-transform:uppercase !important;font-size:11px !important;font-weight:500 !important;padding:12px 0 !important}
+.cart-item quantity-input button,.cart-item .quantity__button{color:#f5f1e8 !important;background:transparent !important;border-color:rgba(212,175,55,0.3) !important}
+.cart-item quantity-input input{color:#f5f1e8 !important;background:transparent !important}
+.cart-item__remove a,.cart-item__remove button,.cart-remove-button,.cart-products__remove{color:rgba(245,241,232,0.6) !important}
+.cart-item__remove a:hover,.cart-item__remove button:hover{color:#d4af37 !important}
+cart-drawer,.cart-drawer,dialog.cart-drawer,.cart-drawer__overlay,.cart-drawer__inner,.drawer__inner,.drawer{background-color:#000 !important;color:#f5f1e8 !important;border-left:1px solid rgba(212,175,55,0.18) !important}
+body[data-template="product"],.template-product,.product-information,.product-information__wrapper,.product-information__main,.product__info-container,main[data-template="product"]{background:#000 !important;color:#f5f1e8}
+.product__title,.product-information h1,.product__title h1,h1.product-information__title,.product-info__title h1{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif !important;color:#d4af37 !important;font-size:32px !important;letter-spacing:6px !important;text-transform:uppercase !important;font-weight:400 !important;line-height:1.2 !important}
+.product__price,.product-information .price,.product__price .price-item,.product-info__price,.price--large,.product-information .price-item--regular{font-family:'Inter','Helvetica Neue',sans-serif !important;color:#d4af37 !important;font-size:18px !important;letter-spacing:2px !important;font-weight:400 !important}
+.product__description,.product-information__description,.product__description p,.product-info__description{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif !important;font-style:italic !important;color:#f5f1e8 !important;opacity:0.85 !important;font-size:15px !important;line-height:1.7 !important}
+.product-form__submit:not([name="checkout"]),.product-form__buttons button[type="submit"]:not([name="checkout"]),button.product-form__submit,add-to-cart-component button[type="submit"],.add-to-cart-button{background:transparent !important;color:#d4af37 !important;border:none !important;border-bottom:1px solid #d4af37 !important;font-family:'Inter','Helvetica Neue',sans-serif !important;font-size:11px !important;letter-spacing:5px !important;text-transform:uppercase !important;font-weight:500 !important;padding:18px 8px !important;border-radius:0 !important;transition:background .3s ease,color .3s ease;width:100% !important}
+.product-form__submit:not([name="checkout"]):hover,.product-form__buttons button[type="submit"]:not([name="checkout"]):hover,button.product-form__submit:hover{background:#d4af37 !important;color:#000 !important}
+.product-information label,.product-information legend,.product__info-container label,.variant-option__label{color:#f5f1e8 !important;letter-spacing:2px !important;text-transform:uppercase !important;font-size:11px !important}
+variant-picker,.variant-picker,.variant-input-wrapper{color:#f5f1e8 !important}
+.variant-input-wrapper input+label,.product-form__input label{background:transparent !important;color:#f5f1e8 !important;border-color:rgba(212,175,55,0.3) !important}
+.variant-input-wrapper input:checked+label,.product-form__input input:checked+label{background:#d4af37 !important;color:#000 !important;border-color:#d4af37 !important}
+.eg-accordion{margin:32px 0;width:100%}
+.eg-accordion details{border-top:0.5px solid rgba(212,175,55,0.25);padding:18px 0}
+.eg-accordion details:last-child{border-bottom:0.5px solid rgba(212,175,55,0.25)}
+.eg-accordion summary{list-style:none;cursor:pointer;font-family:'Inter','Helvetica Neue',sans-serif;color:#d4af37;font-size:12px;letter-spacing:4px;text-transform:uppercase;font-weight:500;display:flex;justify-content:space-between;align-items:center}
+.eg-accordion summary::-webkit-details-marker{display:none}
+.eg-accordion summary::after{content:'+';font-size:20px;line-height:1;color:#d4af37}
+.eg-accordion details[open] summary::after{content:'−'}
+.eg-accordion .eg-accordion__body{padding:16px 0 4px;font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;color:#f5f1e8;opacity:0.85;font-size:14px;line-height:1.7}
+.eg-popup{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity 480ms ease}
+.eg-popup.is-open{display:flex;opacity:1}
+.eg-popup__overlay{position:absolute;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(8px)}
+.eg-popup__box{position:relative;background:#000;border:0.5px solid rgba(212,175,55,0.5);color:#f5f1e8;padding:56px 48px;max-width:480px;width:calc(100% - 32px);text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.6)}
+.eg-popup__close{position:absolute;top:12px;right:16px;background:transparent;border:none;color:rgba(245,241,232,0.7);font-size:28px;line-height:1;cursor:pointer;padding:4px 8px;transition:color .3s ease}
+.eg-popup__close:hover{color:#d4af37}
+.eg-popup__title{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;color:#d4af37;font-size:28px;letter-spacing:10px;margin:0 0 18px;font-weight:400;text-transform:uppercase}
+.eg-popup__subtitle{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;color:#f5f1e8;opacity:0.78;font-size:14px;line-height:1.6;margin:0 0 32px}
+.eg-popup__form{display:flex;flex-direction:column;gap:14px;align-items:stretch}
+.eg-popup__input{background:transparent;border:none;border-bottom:0.5px solid rgba(212,175,55,0.5);color:#f5f1e8;font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;font-size:14px;padding:12px 6px;outline:none;text-align:center;transition:border-color .3s ease}
+.eg-popup__input:focus{border-bottom-color:#d4af37}
+.eg-popup__input::placeholder{color:rgba(245,241,232,0.4)}
+.eg-popup__btn{background:transparent;color:#d4af37;border:0.5px solid #d4af37;padding:14px 32px;font-family:'Inter','Helvetica Neue',sans-serif;font-size:11px;letter-spacing:4px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background .3s ease,color .3s ease;font-weight:500}
+.eg-popup__btn:hover{background:#d4af37;color:#000}
+.eg-popup__msg{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;color:#d4af37;margin-top:16px}
+@media(max-width:480px){.eg-popup__box{padding:48px 28px}.eg-popup__title{font-size:22px;letter-spacing:6px}}
+{% endstylesheet %}
+
+{% javascript %}
+(function(){
+  function ready(fn){if(document.readyState!=='loading')fn();else document.addEventListener('DOMContentLoaded',fn)}
+  var EG_MENU=[
+    {label:'ACCUEIL',href:'/'},
+    {label:'COLLECTION',href:'/collections/les-10-eclats'},
+    {label:'CONTACT',href:'/pages/contact'},
+    {label:'LE JOURNAL',href:'/blogs/le-journal'}
+  ];
+  function clearNode(n){while(n.firstChild)n.removeChild(n.firstChild)}
+  function rewriteMenu(){
+    var roots=document.querySelectorAll('.header__inline-menu, .header__menu, .header-menu, header-menu, nav.header__inline-menu, .header nav ul, header-component ul.list-menu');
+    roots.forEach(function(root){
+      if(!root||root.dataset.egMenuRewritten==='1')return;
+      var lis=root.querySelectorAll(':scope > li');
+      if(!lis.length)return;
+      for(var i=0;i<EG_MENU.length;i++){
+        var li=lis[i];
+        if(!li){li=document.createElement('li');root.appendChild(li)}
+        var a=li.querySelector('a');
+        if(!a){clearNode(li);a=document.createElement('a');li.appendChild(a)}
+        a.textContent=EG_MENU[i].label;
+        a.setAttribute('href',EG_MENU[i].href);
+        a.style.color='#f5f1e8';a.style.letterSpacing='2px';a.style.fontSize='12px';
+        a.style.textTransform='uppercase';a.style.fontWeight='300';
+        li.style.display='';
+      }
+      for(var j=EG_MENU.length;j<lis.length;j++){if(lis[j])lis[j].style.display='none'}
+      root.dataset.egMenuRewritten='1';
+    });
+  }
+  function injectAccordion(){
+    var tpl=document.getElementById('eg-product-accordion-tpl');
+    if(!tpl)return;
+    if(document.querySelector('.eg-accordion'))return;
+    var hosts=[
+      document.querySelector('.product-information__main'),
+      document.querySelector('.product__info-container'),
+      document.querySelector('.product-information'),
+      document.querySelector('.product__info-wrapper')
+    ];
+    var host=null;
+    for(var i=0;i<hosts.length;i++){if(hosts[i]){host=hosts[i];break}}
+    if(!host)return;
+    host.appendChild(tpl.content.cloneNode(true));
+  }
+  function getCookie(name){var m=document.cookie.match(new RegExp('(?:^|; )'+name+'=([^;]*)'));return m?decodeURIComponent(m[1]):null}
+  function setCookie(name,val,days){var d=new Date();d.setTime(d.getTime()+days*86400000);document.cookie=name+'='+encodeURIComponent(val)+'; expires='+d.toUTCString()+'; path=/; SameSite=Lax'}
+  function openPopup(){var p=document.getElementById('eg-popup');if(!p)return;p.classList.add('is-open');p.setAttribute('aria-hidden','false')}
+  function closePopup(){var p=document.getElementById('eg-popup');if(!p)return;p.classList.remove('is-open');p.setAttribute('aria-hidden','true');setCookie('eg_popup_seen','1',7)}
+  function setupPopup(){
+    var p=document.getElementById('eg-popup');
+    if(!p)return;
+    if(window.Shopify&&window.Shopify.designMode)return;
+    if(getCookie('eg_popup_seen')==='1')return;
+    var posted=p.querySelector('.eg-popup__msg');
+    if(posted){openPopup();setCookie('eg_popup_seen','1',7)}
+    else{setTimeout(openPopup,8000)}
+    p.querySelectorAll('[data-eg-popup-close]').forEach(function(el){el.addEventListener('click',closePopup)});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')closePopup()});
+  }
+  ready(function(){
+    rewriteMenu();injectAccordion();setupPopup();
+    var mo=new MutationObserver(function(){rewriteMenu();injectAccordion()});
+    mo.observe(document.body,{childList:true,subtree:true});
+  });
+})();
+{% endjavascript %}

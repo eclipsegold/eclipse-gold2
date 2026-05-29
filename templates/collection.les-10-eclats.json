@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "eclipse_gold_collection_main": {
+      "type": "eclipse-gold-section",
+      "name": "Eclipse Gold Collection",
+      "settings": {
+        "subtitle": "La collection complète",
+        "title": "LES 10 ÉCLATS",
+        "tagline": "Dix phénomènes du ciel. Dix paires d'exception.",
+        "collection": "les-10-eclats",
+        "hero_product_1": "totalis-noir",
+        "hero_product_2": "helios-jaune",
+        "show_cta": false
+      }
+    }
+  },
+  "order": [
+    "eclipse_gold_collection_main"
+  ]
+}

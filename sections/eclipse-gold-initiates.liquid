@@ -1,0 +1,85 @@
+{% comment %}
+==========================================
+  SECTION : Les Initiés — newsletter premium
+==========================================
+{% endcomment %}
+
+<section class="egi">
+  <div class="egi-inner eg-fade">
+    <h2 class="egi-title">{{ section.settings.title }}</h2>
+    <p class="egi-subtitle">{{ section.settings.subtitle }}</p>
+    {% form 'customer', class: 'egi-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input
+        type="email"
+        name="contact[email]"
+        class="egi-input"
+        placeholder="{{ section.settings.placeholder | escape }}"
+        aria-label="{{ section.settings.placeholder | escape }}"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email"
+        required>
+      <button type="submit" class="egi-btn">{{ section.settings.button_label | escape }}</button>
+      {%- if form.posted_successfully? -%}
+        <p class="egi-msg egi-msg-ok">{{ section.settings.success | escape }}</p>
+      {%- elsif form.errors -%}
+        <p class="egi-msg egi-msg-err">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+    {% endform %}
+  </div>
+</section>
+
+<style>
+  .egi { background: #000000; color: #f5f1e8; padding: 120px 24px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+  .egi-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .egi-title { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: clamp(28px, 3.2vw, 40px); letter-spacing: 10px; color: #d4af37; text-transform: uppercase; font-weight: 400; margin: 0 0 28px; line-height: 1.2; }
+  .egi-subtitle { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(15px, 1.4vw, 18px); color: #f5f1e8; opacity: 0.78; margin: 0 0 56px; line-height: 1.6; }
+  .egi-form { display: flex; gap: 14px; align-items: stretch; max-width: 480px; margin: 0 auto; }
+  .egi-input { flex: 1; background: transparent; border: none; border-bottom: 0.5px solid rgba(212, 175, 55, 0.4); color: #f5f1e8; font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: 15px; padding: 14px 6px; outline: none; transition: border-color 360ms ease; }
+  .egi-input::placeholder { color: #f5f1e8; opacity: 0.45; }
+  .egi-input:focus { border-bottom-color: #d4af37; }
+  .egi-btn { background: transparent; border: 0.5px solid #d4af37; color: #d4af37; padding: 12px 32px; font-family: 'Inter', 'Helvetica Neue', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: background 360ms ease, color 360ms ease; font-weight: 500; }
+  .egi-btn:hover { background: #d4af37; color: #000; }
+  .egi-msg { margin: 24px 0 0; font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: 14px; }
+  .egi-msg-ok { color: #d4af37; }
+  .egi-msg-err { color: #c47a7a; opacity: 0.85; }
+  .egi .eg-fade { opacity: 0; transform: translateY(24px); transition: opacity 800ms ease, transform 800ms ease; }
+  .egi .eg-fade.is-visible { opacity: 1; transform: none; }
+  @media (max-width: 749px) {
+    .egi { padding: 80px 20px; }
+    .egi-title { letter-spacing: 5px; }
+    .egi-subtitle { margin-bottom: 40px; }
+    .egi-form { flex-direction: column; gap: 20px; }
+    .egi-btn { padding: 14px 32px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.egi .eg-fade');
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('is-visible'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Les Initiés",
+  "tag": "section",
+  "class": "section-eg-initiates",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "LES INITIÉS" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Une lettre confidentielle. Réservée à ceux qui savent regarder le ciel." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder champ email", "default": "Votre adresse" },
+    { "type": "text", "id": "button_label", "label": "Texte du bouton", "default": "Rejoindre" },
+    { "type": "text", "id": "success", "label": "Message de succès", "default": "Bienvenue parmi les Initiés." }
+  ],
+  "presets": [{ "name": "Les Initiés", "category": "Eclipse Gold" }]
+}
+{% endschema %}

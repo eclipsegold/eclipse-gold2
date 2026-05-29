@@ -1,0 +1,95 @@
+{% comment %}
+==========================================
+  SECTION : L'Engagement — 4 piliers minimalistes
+==========================================
+{% endcomment %}
+
+<section class="ege">
+  <div class="ege-inner">
+    <div class="ege-header eg-fade">
+      <h2 class="ege-title">{{ section.settings.title }}</h2>
+      <p class="ege-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="ege-grid">
+      <div class="ege-pillar eg-fade">
+        <span class="ege-num">I.</span>
+        <h3 class="ege-name">{{ section.settings.p1_name }}</h3>
+        <p class="ege-desc">{{ section.settings.p1_desc }}</p>
+      </div>
+      <div class="ege-pillar eg-fade">
+        <span class="ege-num">II.</span>
+        <h3 class="ege-name">{{ section.settings.p2_name }}</h3>
+        <p class="ege-desc">{{ section.settings.p2_desc }}</p>
+      </div>
+      <div class="ege-pillar eg-fade">
+        <span class="ege-num">III.</span>
+        <h3 class="ege-name">{{ section.settings.p3_name }}</h3>
+        <p class="ege-desc">{{ section.settings.p3_desc }}</p>
+      </div>
+      <div class="ege-pillar eg-fade">
+        <span class="ege-num">IV.</span>
+        <h3 class="ege-name">{{ section.settings.p4_name }}</h3>
+        <p class="ege-desc">{{ section.settings.p4_desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ege { background: #000000; color: #f5f1e8; padding: 120px 24px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+  .ege-inner { max-width: 1100px; margin: 0 auto; }
+  .ege-header { text-align: center; margin-bottom: 96px; }
+  .ege-title { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: clamp(28px, 3.4vw, 42px); letter-spacing: 8px; color: #d4af37; text-transform: uppercase; font-weight: 400; margin: 0 0 24px; line-height: 1.2; }
+  .ege-subtitle { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(15px, 1.4vw, 18px); color: #f5f1e8; opacity: 0.78; margin: 0; letter-spacing: 0.5px; }
+  .ege-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px; }
+  .ege-pillar { text-align: center; }
+  .ege-num { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 26px; color: #d4af37; letter-spacing: 2px; display: block; margin-bottom: 24px; }
+  .ege-name { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 18px; letter-spacing: 3px; color: #f5f1e8; font-weight: 400; margin: 0 0 14px; font-style: normal; }
+  .ege-desc { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: 14px; line-height: 1.7; color: #f5f1e8; opacity: 0.65; margin: 0; }
+  .ege .eg-fade { opacity: 0; transform: translateY(24px); transition: opacity 800ms ease, transform 800ms ease; }
+  .ege .eg-fade.is-visible { opacity: 1; transform: none; }
+  @media (max-width: 749px) {
+    .ege { padding: 80px 20px; }
+    .ege-header { margin-bottom: 56px; }
+    .ege-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .ege-title { letter-spacing: 4px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.ege .eg-fade');
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('is-visible'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "L'Engagement",
+  "tag": "section",
+  "class": "section-eg-engagement",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "L'ENGAGEMENT" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "La promesse Eclipse Gold." },
+    { "type": "header", "content": "Pilier I" },
+    { "type": "text", "id": "p1_name", "label": "Nom", "default": "Livraison soignée" },
+    { "type": "text", "id": "p1_desc", "label": "Description", "default": "4 à 12 jours en Europe" },
+    { "type": "header", "content": "Pilier II" },
+    { "type": "text", "id": "p2_name", "label": "Nom", "default": "Retour gracieux" },
+    { "type": "text", "id": "p2_desc", "label": "Description", "default": "30 jours, sans justification" },
+    { "type": "header", "content": "Pilier III" },
+    { "type": "text", "id": "p3_name", "label": "Nom", "default": "Assistance dédiée" },
+    { "type": "text", "id": "p3_desc", "label": "Description", "default": "Réponse en 24 heures" },
+    { "type": "header", "content": "Pilier IV" },
+    { "type": "text", "id": "p4_name", "label": "Nom", "default": "Garantie deux ans" },
+    { "type": "text", "id": "p4_desc", "label": "Description", "default": "Couverture intégrale" }
+  ],
+  "presets": [{ "name": "L'Engagement", "category": "Eclipse Gold" }]
+}
+{% endschema %}

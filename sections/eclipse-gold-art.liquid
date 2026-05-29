@@ -1,0 +1,95 @@
+{% comment %}
+==========================================
+  SECTION : L'Art d'une Eclipse Gold — 4 piliers
+==========================================
+{% endcomment %}
+
+<section class="ega">
+  <div class="ega-inner">
+    <div class="ega-header eg-fade">
+      <h2 class="ega-title">{{ section.settings.title }}</h2>
+      <p class="ega-subtitle">{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="ega-grid">
+      <div class="ega-pillar eg-fade">
+        <span class="ega-num">I.</span>
+        <h3 class="ega-name">{{ section.settings.p1_name }}</h3>
+        <p class="ega-desc">{{ section.settings.p1_desc }}</p>
+      </div>
+      <div class="ega-pillar eg-fade">
+        <span class="ega-num">II.</span>
+        <h3 class="ega-name">{{ section.settings.p2_name }}</h3>
+        <p class="ega-desc">{{ section.settings.p2_desc }}</p>
+      </div>
+      <div class="ega-pillar eg-fade">
+        <span class="ega-num">III.</span>
+        <h3 class="ega-name">{{ section.settings.p3_name }}</h3>
+        <p class="ega-desc">{{ section.settings.p3_desc }}</p>
+      </div>
+      <div class="ega-pillar eg-fade">
+        <span class="ega-num">IV.</span>
+        <h3 class="ega-name">{{ section.settings.p4_name }}</h3>
+        <p class="ega-desc">{{ section.settings.p4_desc }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ega { background: #000000; color: #f5f1e8; padding: 120px 24px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+  .ega-inner { max-width: 1100px; margin: 0 auto; }
+  .ega-header { text-align: center; margin-bottom: 96px; }
+  .ega-title { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: clamp(28px, 3.4vw, 42px); letter-spacing: 8px; color: #d4af37; text-transform: uppercase; font-weight: 400; margin: 0 0 24px; line-height: 1.2; }
+  .ega-subtitle { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: clamp(15px, 1.4vw, 18px); color: #f5f1e8; opacity: 0.78; margin: 0; letter-spacing: 0.5px; }
+  .ega-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px; }
+  .ega-pillar { text-align: center; }
+  .ega-num { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 26px; color: #d4af37; letter-spacing: 2px; display: block; margin-bottom: 28px; }
+  .ega-name { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-size: 18px; letter-spacing: 6px; color: #f5f1e8; text-transform: uppercase; font-weight: 400; margin: 0 0 16px; }
+  .ega-desc { font-family: 'Didot', 'Bodoni MT', 'Playfair Display', Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.7; color: #f5f1e8; opacity: 0.7; margin: 0; }
+  .ega .eg-fade { opacity: 0; transform: translateY(24px); transition: opacity 800ms ease, transform 800ms ease; }
+  .ega .eg-fade.is-visible { opacity: 1; transform: none; }
+  @media (max-width: 749px) {
+    .ega { padding: 80px 20px; }
+    .ega-header { margin-bottom: 56px; }
+    .ega-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .ega-title { letter-spacing: 4px; }
+  }
+</style>
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.ega .eg-fade');
+    if (!('IntersectionObserver' in window)) { els.forEach(function(e){ e.classList.add('is-visible'); }); return; }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    els.forEach(function (e) { io.observe(e); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "L'Art",
+  "tag": "section",
+  "class": "section-eg-art",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "L'ART D'UNE ÉCLIPSE GOLD" },
+    { "type": "text", "id": "subtitle", "label": "Sous-titre", "default": "Chaque détail compte. Aucun n'est laissé au hasard." },
+    { "type": "header", "content": "Pilier I" },
+    { "type": "text", "id": "p1_name", "label": "Nom", "default": "MONTURE" },
+    { "type": "text", "id": "p1_desc", "label": "Description", "default": "Acier inoxydable doré. Ultra-fine, ultra-légère." },
+    { "type": "header", "content": "Pilier II" },
+    { "type": "text", "id": "p2_name", "label": "Nom", "default": "VERRES" },
+    { "type": "text", "id": "p2_desc", "label": "Description", "default": "Polarisés haute définition. Protection UV400 intégrale." },
+    { "type": "header", "content": "Pilier III" },
+    { "type": "text", "id": "p3_name", "label": "Nom", "default": "CHARNIÈRES" },
+    { "type": "text", "id": "p3_desc", "label": "Description", "default": "Renforcées, ajustables. Conçues pour durer." },
+    { "type": "header", "content": "Pilier IV" },
+    { "type": "text", "id": "p4_name", "label": "Nom", "default": "ASSEMBLAGE" },
+    { "type": "text", "id": "p4_desc", "label": "Description", "default": "Imaginé à Genève. Façonné avec précision." }
+  ],
+  "presets": [{ "name": "L'Art", "category": "Eclipse Gold" }]
+}
+{% endschema %}

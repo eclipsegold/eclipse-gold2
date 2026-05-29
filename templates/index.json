@@ -1,0 +1,95 @@
+{
+  "sections": {
+    "eclipse_gold_video_hero_zT4qP9": {
+      "type": "eclipse-gold-video-hero",
+      "name": "Eclipse Gold Video Hero",
+      "settings": {
+        "fallback_video_url": "https://cdn.shopify.com/videos/c/vp/dafc8d3d44b441eaa870087c143a96be/dafc8d3d44b441eaa870087c143a96be.HD-720p-4.5Mbps-84485596.mp4",
+        "title": "ECLIPSE GOLD",
+        "tagline": "Wear the sun.",
+        "overlay_opacity": 30
+      }
+    },
+    "eclipse_gold_story_aB3xK7": {
+      "type": "eclipse-gold-story",
+      "name": "Eclipse Gold Story",
+      "settings": {
+        "title": "IMAGINÉ À GENÈVE",
+        "body": "<p>Eclipse Gold est née d'une obsession : capturer l'instant où la lumière du soleil traverse une éclipse. Chaque paire porte le nom d'un phénomène astronomique observé depuis des siècles par les astronomes du monde entier.</p><p>Conçues en Suisse, nos lunettes rimless allient la précision horlogère helvétique à un design intemporel. Chaque modèle est une édition limitée — une pièce de collection plus qu'un accessoire.</p>"
+      }
+    },
+    "eclipse_gold_section_8jgN9G": {
+      "type": "eclipse-gold-section",
+      "name": "Eclipse Gold Collection",
+      "settings": {
+        "subtitle": "Collection signature",
+        "title": "LES 10 ÉCLATS",
+        "tagline": "Dix phénomènes du ciel. Dix paires d'exception.",
+        "collection": "les-10-eclats",
+        "hero_product_1": "totalis-noir",
+        "hero_product_2": "helios-jaune"
+      }
+    },
+    "eclipse_gold_art_pK2nM4": {
+      "type": "eclipse-gold-art",
+      "name": "L'Art d'une Eclipse Gold",
+      "settings": {
+        "title": "L'ART D'UNE ÉCLIPSE GOLD",
+        "subtitle": "Chaque détail compte. Aucun n'est laissé au hasard.",
+        "p1_name": "MONTURE",
+        "p1_desc": "Acier inoxydable doré. Ultra-fine, ultra-légère.",
+        "p2_name": "VERRES",
+        "p2_desc": "Polarisés haute définition. Protection UV400 intégrale.",
+        "p3_name": "CHARNIÈRES",
+        "p3_desc": "Renforcées, ajustables. Conçues pour durer.",
+        "p4_name": "ASSEMBLAGE",
+        "p4_desc": "Imaginé à Genève. Façonné avec précision."
+      }
+    },
+    "eclipse_gold_ritual_vR8sL3": {
+      "type": "eclipse-gold-ritual",
+      "name": "Le Rituel",
+      "settings": {
+        "eyebrow": "L'EXPÉRIENCE ECLIPSE GOLD",
+        "title": "Le Rituel",
+        "body": "<p>Chaque paire arrive dans un écrin signé. Une carte gravée révèle le phénomène qu'elle incarne. Le déballage devient un instant suspendu — la première rencontre avec votre éclipse.</p>"
+      }
+    },
+    "eclipse_gold_engagement_hF5tW7": {
+      "type": "eclipse-gold-engagement",
+      "name": "L'Engagement",
+      "settings": {
+        "title": "L'ENGAGEMENT",
+        "subtitle": "La promesse Eclipse Gold.",
+        "p1_name": "Livraison soignée",
+        "p1_desc": "4 à 12 jours en Europe",
+        "p2_name": "Retour gracieux",
+        "p2_desc": "30 jours, sans justification",
+        "p3_name": "Assistance dédiée",
+        "p3_desc": "Réponse en 24 heures",
+        "p4_name": "Garantie deux ans",
+        "p4_desc": "Couverture intégrale"
+      }
+    },
+    "eclipse_gold_initiates_jB9wQ2": {
+      "type": "eclipse-gold-initiates",
+      "name": "Les Initiés",
+      "settings": {
+        "title": "LES INITIÉS",
+        "subtitle": "Une lettre confidentielle. Réservée à ceux qui savent regarder le ciel.",
+        "placeholder": "Votre adresse",
+        "button_label": "Rejoindre",
+        "success": "Bienvenue parmi les Initiés."
+      }
+    }
+  },
+  "order": [
+    "eclipse_gold_video_hero_zT4qP9",
+    "eclipse_gold_story_aB3xK7",
+    "eclipse_gold_section_8jgN9G",
+    "eclipse_gold_art_pK2nM4",
+    "eclipse_gold_ritual_vR8sL3",
+    "eclipse_gold_engagement_hF5tW7",
+    "eclipse_gold_initiates_jB9wQ2"
+  ]
+}

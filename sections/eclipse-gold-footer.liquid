@@ -1,0 +1,134 @@
+{%- liquid
+  assign gold = '#d4af37'
+  assign offwhite = '#f5f1e8'
+-%}
+
+<footer class="eg-footer" role="contentinfo">
+  <div class="eg-footer__inner">
+
+    <div class="eg-footer__columns">
+      <div class="eg-footer__col">
+        <h4 class="eg-footer__h">BOUTIQUE</h4>
+        <ul>
+          <li><a href="/collections/les-10-eclats">Collection</a></li>
+          <li><a href="/blogs/le-journal">Le Journal</a></li>
+          <li><a href="/search">Recherche</a></li>
+        </ul>
+      </div>
+
+      <div class="eg-footer__col">
+        <h4 class="eg-footer__h">AIDE</h4>
+        <ul>
+          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="/pages/livraison">Livraison</a></li>
+          <li><a href="/pages/cgv">CGV</a></li>
+          <li><a href="/pages/mentions-legales">Mentions légales</a></li>
+        </ul>
+      </div>
+
+      <div class="eg-footer__col">
+        <h4 class="eg-footer__h">À PROPOS</h4>
+        <ul>
+          <li><a href="/pages/notre-histoire">Notre histoire</a></li>
+          <li><a href="/blogs/le-journal">Le Journal</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="eg-footer__newsletter">
+      <h3 class="eg-footer__nl-h">REJOIGNEZ LES INITIÉS</h3>
+      <p class="eg-footer__nl-p">— Une lettre confidentielle.</p>
+      {%- form 'customer', class: 'eg-footer__nl-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="Votre adresse"
+          required
+          aria-label="Email"
+          class="eg-footer__nl-input"
+        >
+        <button type="submit" class="eg-footer__nl-btn">S'INSCRIRE</button>
+      {%- endform -%}
+    </div>
+
+    <div class="eg-footer__bottom">
+      <span class="eg-footer__credit">© {{ 'now' | date: '%Y' }} ECLIPSE GOLD — Imaginé à Genève</span>
+    </div>
+
+  </div>
+</footer>
+
+<div id="eg-popup" class="eg-popup" aria-hidden="true" role="dialog" aria-labelledby="eg-popup-title">
+  <div class="eg-popup__overlay" data-eg-popup-close></div>
+  <div class="eg-popup__box" role="document">
+    <button type="button" class="eg-popup__close" aria-label="Fermer" data-eg-popup-close>&times;</button>
+    <h2 id="eg-popup-title" class="eg-popup__title">LES INITIÉS</h2>
+    <p class="eg-popup__subtitle">Une lettre confidentielle. Réservée à ceux qui savent regarder le ciel.</p>
+    {%- form 'customer', class: 'eg-popup__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter,popup">
+      <input
+        type="email"
+        name="contact[email]"
+        placeholder="Votre adresse"
+        required
+        aria-label="Email"
+        class="eg-popup__input"
+      >
+      <button type="submit" class="eg-popup__btn">Rejoindre</button>
+      {%- if form.posted_successfully? -%}
+        <p class="eg-popup__msg">Bienvenue parmi les Initiés.</p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+{%- if template.name == 'product' -%}
+  <template id="eg-product-accordion-tpl">
+    <div class="eg-accordion">
+      <details>
+        <summary>Détails</summary>
+        <div class="eg-accordion__body">Monture acier inoxydable doré, ultra-fine et ultra-légère. Verres polarisés haute définition avec protection UV400 intégrale. Charnières renforcées et ajustables. Imaginé à Genève, façonné avec précision.</div>
+      </details>
+      <details>
+        <summary>Livraison</summary>
+        <div class="eg-accordion__body">Livraison soignée en 4 à 12 jours en Europe. Retour gracieux sous 30 jours, sans justification. Chaque commande est expédiée dans son écrin signé Eclipse Gold.</div>
+      </details>
+    </div>
+  </template>
+{%- endif -%}
+
+{% render 'eg-overrides' %}
+
+{% stylesheet %}
+  .eg-footer{background:#000;color:#f5f1e8;padding:100px 24px 60px;border-top:1px solid rgba(212,175,55,0.18);width:100%;max-width:100vw;overflow-x:hidden;box-sizing:border-box;font-family:'Inter','Helvetica Neue',sans-serif}
+  .eg-footer__inner{max-width:1200px;margin:0 auto}
+  .eg-footer__columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;margin-bottom:80px}
+  @media(max-width:768px){.eg-footer{padding:70px 20px 40px}.eg-footer__columns{grid-template-columns:1fr;gap:36px;margin-bottom:56px}}
+  .eg-footer__h{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;color:#d4af37;font-size:12px;font-weight:400;letter-spacing:4px;text-transform:uppercase;margin:0 0 22px}
+  .eg-footer__col ul{list-style:none;padding:0;margin:0}
+  .eg-footer__col li{margin-bottom:12px}
+  .eg-footer__col a{color:#f5f1e8;text-decoration:none;font-size:13px;font-weight:300;letter-spacing:0.6px;opacity:0.78;transition:opacity 0.3s ease,color 0.3s ease}
+  .eg-footer__col a:hover{opacity:1;color:#d4af37}
+  .eg-footer__newsletter{text-align:center;padding:56px 0;border-top:1px solid rgba(212,175,55,0.18);border-bottom:1px solid rgba(212,175,55,0.18);margin-bottom:40px}
+  .eg-footer__nl-h{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;color:#d4af37;font-size:22px;font-weight:400;letter-spacing:6px;margin:0 0 8px}
+  .eg-footer__nl-p{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;color:#d4af37;opacity:0.7;font-size:14px;letter-spacing:1px;margin:0 0 28px}
+  .eg-footer__nl-form{display:inline-flex;gap:12px;max-width:460px;width:100%;flex-wrap:wrap;justify-content:center}
+  .eg-footer__nl-input{flex:1;min-width:200px;background:transparent;border:1px solid rgba(212,175,55,0.4);color:#f5f1e8;padding:14px 18px;font-size:12px;letter-spacing:1px;font-family:inherit;outline:none;transition:border-color 0.3s ease}
+  .eg-footer__nl-input::placeholder{color:rgba(245,241,232,0.4);font-style:italic}
+  .eg-footer__nl-input:focus{border-color:#d4af37}
+  .eg-footer__nl-btn{background:#d4af37;color:#000;border:none;padding:14px 32px;font-size:11px;font-weight:500;letter-spacing:3px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:background 0.3s ease,color 0.3s ease}
+  .eg-footer__nl-btn:hover{background:#f5f1e8;color:#000}
+  .eg-footer__bottom{text-align:center}
+  .eg-footer__credit{font-family:'Didot','Bodoni 72','Playfair Display',Georgia,serif;font-style:italic;color:#f5f1e8;opacity:0.5;font-size:12px;letter-spacing:2px}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Eclipse Gold Footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": []
+}
+{% endschema %}
