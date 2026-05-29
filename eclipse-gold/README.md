@@ -34,3 +34,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Data layer (Eclipse Gold)
+
+- `data/models.ts` — the 10 sunglass models (SEO/marketing, versioned). Joined to Shopify by `handle`.
+- `data/collection.ts` — the collection hub money page.
+- `data/queries.ts` — pure in-memory lookups.
+- `data/shopify.ts` — Storefront API product fetch (price/stock/images).
+- `scripts/validate-models.ts` — build gate (unique slugs/keywords, complete translations, 10 models).
+
+`npm run validate:models` runs automatically before every `npm run build`.
+Required env vars are documented in `.env.example`.
