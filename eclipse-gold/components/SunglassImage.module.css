@@ -1,0 +1,37 @@
+.frame {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: var(--eg-black);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 42%, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0) 68%);
+  pointer-events: none;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  font-family: var(--eg-serif);
+  font-size: 2rem;
+  letter-spacing: 0.15em;
+  color: var(--eg-gold);
+  background: var(--eg-bg-radial);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
