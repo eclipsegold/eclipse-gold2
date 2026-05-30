@@ -9,6 +9,7 @@ import { collectionJsonLd, breadcrumbJsonLd } from '../../../lib/seo/jsonld'
 import { JsonLd } from '../../../components/JsonLd'
 import { CollectionGrid } from '../../../components/CollectionGrid'
 import { ProductCard } from '../../../components/ProductCard'
+import styles from './collection.module.css'
 
 export const revalidate = 3600
 
@@ -57,7 +58,7 @@ export default async function CollectionPage({
   }))
 
   return (
-    <section className="collection">
+    <section>
       <JsonLd data={collectionJsonLd(items)} />
       <JsonLd
         data={breadcrumbJsonLd([
@@ -65,8 +66,11 @@ export default async function CollectionPage({
           { name: collectionHub.seoTitle[lang], url: abs(`/${lang}/${collectionSlugFor(lang)}`) },
         ])}
       />
-      <h1>{collectionHub.seoTitle[lang]}</h1>
-      <p>{collectionHub.intro[lang]}</p>
+      <header className={styles.header}>
+        <h1 className={styles.kicker}>La Collection</h1>
+        <p className={styles.sub}>Dix éclats</p>
+        <p className={styles.intro}>{collectionHub.intro[lang]}</p>
+      </header>
       <CollectionGrid>
         {ordered.map((m) => (
           <ProductCard
@@ -74,6 +78,7 @@ export default async function CollectionPage({
             href={`/${lang}/${collectionSlugFor(lang)}/${m.slug[lang]}`}
             modelName={m.modelName}
             tagline={m.tagline[lang]}
+            phenomenon={m.phenomenon}
             image={null}
           />
         ))}

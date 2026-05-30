@@ -1,0 +1,27 @@
+.header {
+  text-align: center;
+  padding: var(--eg-s5) var(--eg-s3) var(--eg-s3);
+}
+
+.kicker {
+  font-family: var(--eg-serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.sub {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+  margin-top: var(--eg-s2);
+}
+
+.intro {
+  max-width: 620px;
+  margin: var(--eg-s3) auto 0;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--eg-muted);
+}

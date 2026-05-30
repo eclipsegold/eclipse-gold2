@@ -1,0 +1,34 @@
+.card {
+  display: block;
+  text-align: center;
+  padding: var(--eg-s5) var(--eg-s3);
+  border-bottom: 1px solid var(--eg-line);
+}
+
+.media {
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.phenomenon {
+  display: block;
+  margin-top: var(--eg-s3);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--eg-gold);
+}
+
+.name {
+  font-family: var(--eg-serif);
+  font-size: 1.4rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: var(--eg-s1);
+}
+
+.tagline {
+  font-size: 0.8rem;
+  color: var(--eg-muted);
+  margin-top: var(--eg-s1);
+}
