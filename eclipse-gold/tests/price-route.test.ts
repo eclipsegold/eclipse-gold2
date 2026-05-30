@@ -17,7 +17,7 @@ beforeEach(() => {
 describe('GET /api/price', () => {
   it('returns the price for a handle and country', async () => {
     vi.mocked(getShopifyProduct).mockResolvedValue({
-      handle: 'nebula', title: 'NEBULA', availableForSale: true,
+      handle: 'nebula', title: 'NEBULA', availableForSale: true, variantId: 'v-nebula',
       price: { amount: '49.90', currencyCode: 'CHF' }, images: [],
     })
     const res = await GET(req('https://x/api/price?handle=nebula&country=CH'))
@@ -39,7 +39,7 @@ describe('GET /api/price', () => {
 
   it('defaults country to CH when omitted', async () => {
     vi.mocked(getShopifyProduct).mockResolvedValue({
-      handle: 'nebula', title: 'NEBULA', availableForSale: true,
+      handle: 'nebula', title: 'NEBULA', availableForSale: true, variantId: 'v-nebula',
       price: { amount: '49.90', currencyCode: 'CHF' }, images: [],
     })
     await GET(req('https://x/api/price?handle=nebula'))
