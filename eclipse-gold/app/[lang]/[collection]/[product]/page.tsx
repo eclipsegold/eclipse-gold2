@@ -12,6 +12,7 @@ import { JsonLd } from '../../../../components/JsonLd'
 import { ProductGallery } from '../../../../components/ProductGallery'
 import { Breadcrumbs } from '../../../../components/Breadcrumbs'
 import { Price } from '../../../../components/Price'
+import { AddToCartButton } from '../../../../components/AddToCartButton'
 import styles from './product.module.css'
 
 export const revalidate = 3600
@@ -118,9 +119,7 @@ export default async function ProductPage({
         ) : (
           <span className={styles.unavailable}>Bientôt disponible</span>
         )}
-        <button type="button" className={styles.buy} disabled aria-label="Ajouter au panier">
-          Ajouter au panier
-        </button>
+        <AddToCartButton handle={model.handle} available={shopify?.availableForSale ?? false} />
       </div>
     </article>
   )
