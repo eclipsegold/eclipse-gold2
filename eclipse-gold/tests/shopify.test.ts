@@ -15,6 +15,7 @@ describe('getShopifyProduct', () => {
           handle: 'nebula',
           title: 'NEBULA',
           availableForSale: true,
+          variants: { nodes: [{ id: 'gid://shopify/ProductVariant/111' }] },
           priceRange: { minVariantPrice: { amount: '49.90', currencyCode: 'CHF' } },
           images: { nodes: [{ url: 'https://cdn/nebula.jpg', altText: 'NEBULA' }] },
         },
@@ -32,6 +33,7 @@ describe('getShopifyProduct', () => {
       handle: 'nebula',
       title: 'NEBULA',
       availableForSale: true,
+      variantId: 'gid://shopify/ProductVariant/111',
       price: { amount: '49.90', currencyCode: 'CHF' },
       images: [{ url: 'https://cdn/nebula.jpg', altText: 'NEBULA' }],
     })

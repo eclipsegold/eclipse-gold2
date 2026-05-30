@@ -4,6 +4,7 @@ export interface ShopifyProduct {
   handle: string
   title: string
   availableForSale: boolean
+  variantId: string
   price: { amount: string; currencyCode: string }
   images: { url: string; altText: string | null }[]
 }
@@ -14,6 +15,7 @@ const PRODUCT_QUERY = /* GraphQL */ `
       handle
       title
       availableForSale
+      variants(first: 1) { nodes { id } }
       priceRange { minVariantPrice { amount currencyCode } }
       images(first: 10) { nodes { url altText } }
     }
@@ -56,7 +58,43 @@ export async function getShopifyProduct(
     handle: p.handle,
     title: p.title,
     availableForSale: p.availableForSale,
+    variantId: p.variants?.nodes?.[0]?.id ?? '',
     price: p.priceRange.minVariantPrice,
     images: p.images?.nodes ?? [],
   }
+}
+
+const VARIANT_QUERY = /* GraphQL */ `
+  query Variant($handle: String!, $country: CountryCode!) @inContext(country: $country) {
+    product(handle: $handle) {
+      variants(first: 1) { nodes { id } }
+    }
+  }
+`
+
+export async function getProductVariantId(
+  handle: string,
+  country: Country,
+): Promise<string | null> {
+  const domain = process.env.SHOPIFY_STORE_DOMAIN
+  const token = process.env.SHOPIFY_STOREFRONT_API_TOKEN
+  const version = process.env.SHOPIFY_STOREFRONT_API_VERSION ?? '2025-01'
+  if (!domain || !token) {
+    throw new Error('Missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_API_TOKEN')
+  }
+  const res = await fetch(`https://${domain}/api/${version}/graphql.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': token,
+    },
+    body: JSON.stringify({ query: VARIANT_QUERY, variables: { handle, country } }),
+  })
+  if (!res.ok) throw new Error(`Storefront API error: ${res.status}`)
+  const json = await res.json()
+  if (Array.isArray(json?.errors) && json.errors.length > 0) {
+    const message = json.errors.map((e: { message?: string }) => e.message ?? 'unknown').join('; ')
+    throw new Error(`Storefront API errors: ${message}`)
+  }
+  return json?.data?.product?.variants?.nodes?.[0]?.id ?? null
 }
