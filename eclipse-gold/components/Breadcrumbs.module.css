@@ -1,0 +1,11 @@
+.breadcrumbs {
+  padding: var(--eg-s2) var(--eg-s3);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}
+
+.breadcrumbs a:last-child {
+  color: var(--eg-cream);
+}
