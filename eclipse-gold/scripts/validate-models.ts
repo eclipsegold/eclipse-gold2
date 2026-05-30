@@ -1,5 +1,6 @@
 import { LANGS, type Lang, type SunglassModel, LEGAL_PAGES } from '../data/types'
 import type { LegalPage, LegalPageContent, LegalEntity, Localized } from '../data/types'
+import { LEGAL_SLUGS } from '../lib/i18n'
 
 export interface ValidationError {
   code: string
@@ -116,8 +117,16 @@ function assertComplete(
   }
 }
 
-/** Validates the six trust pages: completeness + per-language slug uniqueness. */
-export function validateLegal(pages: Record<LegalPage, LegalPageContent>): ValidationError[] {
+/**
+ * Validates the six trust pages: completeness, per-language slug uniqueness,
+ * and that each page's `slug` matches the canonical routing map (LEGAL_SLUGS)
+ * — the route/footer/sitemap read LEGAL_SLUGS, so a divergence would silently
+ * break slug→content resolution.
+ */
+export function validateLegal(
+  pages: Record<LegalPage, LegalPageContent>,
+  canonicalSlugs: Record<LegalPage, Localized<string>> = LEGAL_SLUGS,
+): ValidationError[] {
   const errors: ValidationError[] = []
   const slugsByLang: Record<Lang, Map<string, LegalPage>> = {
     fr: new Map(), de: new Map(), it: new Map(),
@@ -138,6 +147,13 @@ export function validateLegal(pages: Record<LegalPage, LegalPageContent>): Valid
     for (const lang of LANGS) {
       const slug = content.slug[lang]
       if (!slug) continue
+      const canonical = canonicalSlugs[page][lang]
+      if (slug !== canonical) {
+        errors.push({
+          code: 'SLUG_MISMATCH',
+          message: `slug.${lang} "${slug}" for ${page} != LEGAL_SLUGS "${canonical}"`,
+        })
+      }
       const prev = slugsByLang[lang].get(slug)
       if (prev) {
         errors.push({

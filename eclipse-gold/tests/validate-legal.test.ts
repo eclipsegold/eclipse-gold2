@@ -24,6 +24,13 @@ describe('validateLegal', () => {
     expect(errors.some((e) => e.code === 'DUPLICATE_LEGAL_SLUG')).toBe(true)
   })
 
+  it('flags a slug that diverges from the canonical LEGAL_SLUGS map', () => {
+    const broken = structuredClone(legalPages)
+    broken.terms.slug.fr = 'cgv-old'
+    const errors = validateLegal(broken)
+    expect(errors.some((e) => e.code === 'SLUG_MISMATCH' && e.message.includes('terms'))).toBe(true)
+  })
+
   it('flags an empty translation', () => {
     const broken = structuredClone(legalPages)
     broken.terms.title.de = ''
