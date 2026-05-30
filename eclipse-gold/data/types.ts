@@ -56,3 +56,40 @@ export function langFromLocale(locale: Locale): Lang {
 export function currencyFromLocale(locale: Locale): Currency {
   return locale.endsWith('CH') ? 'CHF' : 'EUR'
 }
+
+// --- Trust pages (sub-project E) ---
+
+export const LEGAL_PAGES = [
+  'terms', 'legal', 'shipping', 'returns', 'privacy', 'cookies',
+] as const
+export type LegalPage = (typeof LEGAL_PAGES)[number]
+
+/** Written once, referenced in page content via {token} interpolation. */
+export interface LegalEntity {
+  companyName: string
+  legalForm: string
+  address: string[]
+  country: string
+  vatId: string
+  registrationId: string
+  email: string
+  privacyEmail: string
+  publisher: string
+  host: string[]
+}
+
+export interface LegalSection {
+  heading: Localized<string>
+  body: Localized<string[]>
+  bullets?: Localized<string[]>
+}
+
+export interface LegalPageContent {
+  slug: Localized<string>
+  seoTitle: Localized<string>
+  metaDescription: Localized<string>
+  title: Localized<string>
+  intro: Localized<string>
+  sections: LegalSection[]
+  updatedAt: string
+}
