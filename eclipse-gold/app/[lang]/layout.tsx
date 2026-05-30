@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { LANGS } from '../../data/types'
 import { isLang } from '../../lib/i18n'
 import { CurrencyProvider } from '../../components/CurrencyContext'
+import { CartProvider } from '../../components/CartContext'
 import { Header } from '../../components/Header'
 import { Footer } from '../../components/Footer'
 
@@ -26,9 +27,11 @@ export default async function LangLayout({
   // these routes statically prerendered with ISR.
   return (
     <CurrencyProvider>
-      <Header lang={lang} />
-      <main lang={lang}>{children}</main>
-      <Footer lang={lang} />
+      <CartProvider>
+        <Header lang={lang} />
+        <main lang={lang}>{children}</main>
+        <Footer lang={lang} />
+      </CartProvider>
     </CurrencyProvider>
   )
 }
