@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, type ReactNode } from 'react'
 
 export interface CartLine {
   handle: string
@@ -34,47 +34,66 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  function persist(next: CartLine[]) {
-    setLines(next)
-    try {
-      localStorage.setItem(KEY, JSON.stringify(next))
-    } catch {
-      // ignore quota / unavailable storage
-    }
-  }
+  // Functional update keeps this callback's identity stable across renders, so
+  // consumers' effects that depend on cart callbacks don't re-fire every render.
+  const persist = useCallback((update: (prev: CartLine[]) => CartLine[]) => {
+    setLines((prev) => {
+      const next = update(prev)
+      try {
+        localStorage.setItem(KEY, JSON.stringify(next))
+      } catch {
+        // ignore quota / unavailable storage
+      }
+      return next
+    })
+  }, [])
 
-  function addItem(handle: string) {
-    const existing = lines.find((l) => l.handle === handle)
-    persist(
-      existing
-        ? lines.map((l) => (l.handle === handle ? { ...l, quantity: l.quantity + 1 } : l))
-        : [...lines, { handle, quantity: 1 }],
-    )
-    setIsOpen(true)
-  }
+  const addItem = useCallback(
+    (handle: string) => {
+      persist((prev) => {
+        const existing = prev.find((l) => l.handle === handle)
+        return existing
+          ? prev.map((l) => (l.handle === handle ? { ...l, quantity: l.quantity + 1 } : l))
+          : [...prev, { handle, quantity: 1 }]
+      })
+      setIsOpen(true)
+    },
+    [persist],
+  )
 
-  function updateQty(handle: string, quantity: number) {
-    if (quantity <= 0) return removeItem(handle)
-    persist(lines.map((l) => (l.handle === handle ? { ...l, quantity } : l)))
-  }
+  const removeItem = useCallback(
+    (handle: string) => {
+      persist((prev) => prev.filter((l) => l.handle !== handle))
+    },
+    [persist],
+  )
 
-  function removeItem(handle: string) {
-    persist(lines.filter((l) => l.handle !== handle))
-  }
+  const updateQty = useCallback(
+    (handle: string, quantity: number) => {
+      if (quantity <= 0) {
+        removeItem(handle)
+        return
+      }
+      persist((prev) => prev.map((l) => (l.handle === handle ? { ...l, quantity } : l)))
+    },
+    [persist, removeItem],
+  )
 
-  function clear() {
-    persist([])
-  }
+  const clear = useCallback(() => {
+    persist(() => [])
+  }, [persist])
+
+  const open = useCallback(() => setIsOpen(true), [])
+  const close = useCallback(() => setIsOpen(false), [])
 
   const count = lines.reduce((n, l) => n + l.quantity, 0)
 
-  return (
-    <Ctx.Provider
-      value={{ lines, count, isOpen, addItem, updateQty, removeItem, clear, open: () => setIsOpen(true), close: () => setIsOpen(false) }}
-    >
-      {children}
-    </Ctx.Provider>
+  const value = useMemo<CartState>(
+    () => ({ lines, count, isOpen, addItem, updateQty, removeItem, clear, open, close }),
+    [lines, count, isOpen, addItem, updateQty, removeItem, clear, open, close],
   )
+
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
 
 export function useCart(): CartState {
