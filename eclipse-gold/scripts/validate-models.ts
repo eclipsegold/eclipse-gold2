@@ -1,4 +1,5 @@
-import { LANGS, type Lang, type SunglassModel } from '../data/types'
+import { LANGS, type Lang, type SunglassModel, LEGAL_PAGES } from '../data/types'
+import type { LegalPage, LegalPageContent, LegalEntity, Localized } from '../data/types'
 
 export interface ValidationError {
   code: string
@@ -103,20 +104,96 @@ export function validateCollectionOrder(
   return errors
 }
 
+function assertComplete(
+  field: Localized<string>,
+  where: string,
+  errors: ValidationError[],
+): void {
+  for (const lang of LANGS) {
+    if (!field[lang] || field[lang].trim() === '') {
+      errors.push({ code: 'EMPTY_TRANSLATION', message: `${where}.${lang} is empty` })
+    }
+  }
+}
+
+/** Validates the six trust pages: completeness + per-language slug uniqueness. */
+export function validateLegal(pages: Record<LegalPage, LegalPageContent>): ValidationError[] {
+  const errors: ValidationError[] = []
+  const slugsByLang: Record<Lang, Map<string, LegalPage>> = {
+    fr: new Map(), de: new Map(), it: new Map(),
+  }
+
+  for (const page of LEGAL_PAGES) {
+    const content = pages[page]
+    if (!content) {
+      errors.push({ code: 'MISSING_LEGAL_PAGE', message: `missing legal page: ${page}` })
+      continue
+    }
+
+    assertComplete(content.title, `${page}.title`, errors)
+    assertComplete(content.seoTitle, `${page}.seoTitle`, errors)
+    assertComplete(content.metaDescription, `${page}.metaDescription`, errors)
+    assertComplete(content.slug, `${page}.slug`, errors)
+
+    for (const lang of LANGS) {
+      const slug = content.slug[lang]
+      if (!slug) continue
+      const prev = slugsByLang[lang].get(slug)
+      if (prev) {
+        errors.push({
+          code: 'DUPLICATE_LEGAL_SLUG',
+          message: `slug.${lang} "${slug}" used by both ${prev} and ${page}`,
+        })
+      } else {
+        slugsByLang[lang].set(slug, page)
+      }
+    }
+
+    content.sections.forEach((section, i) => {
+      assertComplete(section.heading, `${page}.sections[${i}].heading`, errors)
+      for (const lang of LANGS) {
+        if (!Array.isArray(section.body[lang]) || section.body[lang].length === 0) {
+          errors.push({ code: 'EMPTY_TRANSLATION', message: `${page}.sections[${i}].body.${lang} is empty` })
+        }
+        if (section.bullets && (!Array.isArray(section.bullets[lang]) || section.bullets[lang].length === 0)) {
+          errors.push({ code: 'EMPTY_TRANSLATION', message: `${page}.sections[${i}].bullets.${lang} is empty` })
+        }
+      }
+    })
+  }
+
+  return errors
+}
+
+/** Non-blocking: surfaces [À COMPLÉTER] entity placeholders before go-live. */
+export function legalEntityWarnings(entity: LegalEntity): string[] {
+  const warnings: string[] = []
+  for (const [key, value] of Object.entries(entity)) {
+    const flat = Array.isArray(value) ? value.join(' ') : value
+    if (flat.includes('[À COMPLÉTER]')) {
+      warnings.push(`legalEntity.${key} still contains a placeholder — complete before go-live.`)
+    }
+  }
+  return warnings
+}
+
 // CLI runner — invoked by `npm run validate:models` (prebuild gate).
 async function main(): Promise<void> {
   const { models } = await import('../data/models')
   const { collectionHub } = await import('../data/collection')
+  const { legalPages, legalEntity } = await import('../data/legal')
   const errors = [
     ...validateFullSet(models),
     ...validateCollectionOrder(models, collectionHub.modelOrder),
+    ...validateLegal(legalPages),
   ]
   if (errors.length > 0) {
-    console.error(`✗ Model validation failed (${errors.length} error(s)):`)
+    console.error(`✗ Validation failed (${errors.length} error(s)):`)
     for (const e of errors) console.error(`  [${e.code}] ${e.message}`)
     process.exit(1)
   }
-  console.log(`✓ ${models.length} models validated`)
+  for (const w of legalEntityWarnings(legalEntity)) console.warn(`⚠️  ${w}`)
+  console.log(`✓ ${models.length} models and ${LEGAL_PAGES.length} legal pages validated`)
 }
 
 // Run only when executed directly, not when imported by tests.
