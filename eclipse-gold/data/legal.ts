@@ -172,9 +172,106 @@ const shipping: LegalPageContent = {
   ],
 }
 
+const returns: LegalPageContent = {
+  slug: { fr: 'retours', de: 'ruckgabe', it: 'resi' },
+  seoTitle: {
+    fr: 'Retours — Eclipse Gold',
+    de: 'Rückgabe — Eclipse Gold',
+    it: 'Resi — Eclipse Gold',
+  },
+  metaDescription: {
+    fr: 'Retours sous 14 jours. Frais de retour à la charge du client.',
+    de: 'Rückgabe innerhalb von 14 Tagen. Rücksendekosten trägt der Kunde.',
+    it: 'Resi entro 14 giorni. Spese di reso a carico del cliente.',
+  },
+  title: { fr: 'Retours', de: 'Rückgabe', it: 'Resi' },
+  intro: {
+    fr: 'Vous disposez de 14 jours pour changer d’avis.',
+    de: 'Sie haben 14 Tage Zeit, um es sich anders zu überlegen.',
+    it: 'Hai 14 giorni per cambiare idea.',
+  },
+  updatedAt: '2026-05-30',
+  sections: [
+    {
+      heading: { fr: 'Conditions', de: 'Bedingungen', it: 'Condizioni' },
+      body: {
+        fr: ['Le délai de rétractation est de 14 jours à compter de la réception de votre commande.'],
+        de: ['Die Widerrufsfrist beträgt 14 Tage ab Erhalt Ihrer Bestellung.'],
+        it: ['Il termine di recesso è di 14 giorni dalla ricezione del tuo ordine.'],
+      },
+      bullets: {
+        fr: ['Délai : 14 jours après réception', 'Article non porté, dans son état d’origine', 'Frais de retour à la charge du client'],
+        de: ['Frist: 14 Tage nach Erhalt', 'Artikel ungetragen, im Originalzustand', 'Rücksendekosten trägt der Kunde'],
+        it: ['Termine: 14 giorni dalla ricezione', 'Articolo non indossato, nello stato originale', 'Spese di reso a carico del cliente'],
+      },
+    },
+    {
+      heading: { fr: 'Procédure', de: 'Ablauf', it: 'Procedura' },
+      body: {
+        fr: ['Pour initier un retour, contactez-nous à {email} en précisant votre numéro de commande. Le remboursement intervient après réception et contrôle de l’article.'],
+        de: ['Um eine Rückgabe einzuleiten, kontaktieren Sie uns unter {email} und geben Sie Ihre Bestellnummer an. Die Rückerstattung erfolgt nach Erhalt und Prüfung des Artikels.'],
+        it: ['Per avviare un reso, contattaci a {email} indicando il numero d’ordine. Il rimborso avviene dopo la ricezione e il controllo dell’articolo.'],
+      },
+    },
+  ],
+}
+
+const privacy: LegalPageContent = {
+  slug: { fr: 'confidentialite', de: 'datenschutz', it: 'privacy' },
+  seoTitle: {
+    fr: 'Politique de confidentialité — Eclipse Gold',
+    de: 'Datenschutzerklärung — Eclipse Gold',
+    it: 'Informativa sulla privacy — Eclipse Gold',
+  },
+  metaDescription: {
+    fr: 'Comment Eclipse Gold collecte et protège vos données personnelles.',
+    de: 'Wie Eclipse Gold Ihre personenbezogenen Daten erhebt und schützt.',
+    it: 'Come Eclipse Gold raccoglie e protegge i tuoi dati personali.',
+  },
+  title: { fr: 'Politique de confidentialité', de: 'Datenschutzerklärung', it: 'Informativa sulla privacy' },
+  intro: {
+    fr: 'Nous traitons vos données personnelles avec soin et uniquement pour traiter vos commandes.',
+    de: 'Wir behandeln Ihre personenbezogenen Daten sorgfältig und ausschließlich zur Abwicklung Ihrer Bestellungen.',
+    it: 'Trattiamo i tuoi dati personali con cura ed esclusivamente per gestire i tuoi ordini.',
+  },
+  updatedAt: '2026-05-30',
+  sections: [
+    {
+      heading: { fr: 'Données collectées', de: 'Erhobene Daten', it: 'Dati raccolti' },
+      body: {
+        fr: ['Nous collectons les données nécessaires au traitement de votre commande :'],
+        de: ['Wir erheben die zur Abwicklung Ihrer Bestellung erforderlichen Daten:'],
+        it: ['Raccogliamo i dati necessari alla gestione del tuo ordine:'],
+      },
+      bullets: {
+        fr: ['Nom et adresse de livraison', 'Adresse e-mail', 'Données de paiement (traitées par notre prestataire)'],
+        de: ['Name und Lieferadresse', 'E-Mail-Adresse', 'Zahlungsdaten (von unserem Dienstleister verarbeitet)'],
+        it: ['Nome e indirizzo di consegna', 'Indirizzo e-mail', 'Dati di pagamento (trattati dal nostro fornitore)'],
+      },
+    },
+    {
+      heading: { fr: 'Paiement', de: 'Zahlung', it: 'Pagamento' },
+      body: {
+        fr: ['Les paiements sont traités par Stripe. Vos données de carte ne transitent jamais par nos serveurs.'],
+        de: ['Zahlungen werden von Stripe verarbeitet. Ihre Kartendaten werden niemals über unsere Server geleitet.'],
+        it: ['I pagamenti sono gestiti da Stripe. I dati della tua carta non transitano mai dai nostri server.'],
+      },
+    },
+    {
+      heading: { fr: 'Vos droits', de: 'Ihre Rechte', it: 'I tuoi diritti' },
+      body: {
+        fr: ['Vous pouvez demander l’accès, la rectification ou la suppression de vos données en écrivant à {privacyEmail}.'],
+        de: ['Sie können Zugang, Berichtigung oder Löschung Ihrer Daten verlangen, indem Sie an {privacyEmail} schreiben.'],
+        it: ['Puoi richiedere l’accesso, la rettifica o la cancellazione dei tuoi dati scrivendo a {privacyEmail}.'],
+      },
+    },
+  ],
+}
+
 export const legalPages: Record<LegalPage, LegalPageContent> = {
   terms,
   legal,
   shipping,
-  // returns, privacy, cookies added in Tasks 7–9
+  returns,
+  privacy,
 } as Record<LegalPage, LegalPageContent>
