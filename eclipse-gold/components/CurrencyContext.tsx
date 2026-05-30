@@ -1,6 +1,7 @@
 'use client'
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 import type { Country } from '../lib/currency'
+import { DEFAULT_COUNTRY } from '../lib/geo'
 
 interface CurrencyState {
   country: Country
@@ -10,13 +11,17 @@ interface CurrencyState {
 const Ctx = createContext<CurrencyState | null>(null)
 
 export function CurrencyProvider({
-  initialCountry,
+  initialCountry = DEFAULT_COUNTRY,
   children,
 }: {
-  initialCountry: Country
+  initialCountry?: Country
   children: ReactNode
 }) {
   const [country, setCountryState] = useState<Country>(initialCountry)
+  useEffect(() => {
+    const m = document.cookie.match(/(?:^|;\s*)eg-country=([^;]+)/)
+    if (m) setCountryState(decodeURIComponent(m[1]) as Country)
+  }, [])
   function setCountry(c: Country) {
     document.cookie = `eg-country=${c}; path=/; max-age=31536000; samesite=lax`
     setCountryState(c)
