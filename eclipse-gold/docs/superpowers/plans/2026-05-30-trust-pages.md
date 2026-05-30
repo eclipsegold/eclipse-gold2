@@ -1366,25 +1366,38 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 - Modify: `app/sitemap.ts`
 - Test: `tests/legal-sitemap.test.ts`
 
+> **Codebase convention (read first):** `app/sitemap.ts` is a single default
+> `async sitemap(props: { id: Promise<string> })` that **awaits `props.id`** and
+> branches on the split id (`'static'` / `'collection'` / products fallback).
+> There is no `staticUrls()` helper. The legal URLs go into the `'static'`
+> branch (which currently returns the 3 home URLs at priority 0.8). The function
+> is async and returns a Promise — the test must `await` it with a Promise id.
+
 - [ ] **Step 1: Write the failing test**
 
 Create `tests/legal-sitemap.test.ts`:
 
 ```ts
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import sitemap from '../app/sitemap'
 import { abs } from '../lib/seo/metadata'
 
-describe('static sitemap includes legal pages', () => {
-  it('contains the fr CGV and de Impressum URLs', () => {
-    const urls = sitemap({ id: 0 }).map((e) => e.url)
+beforeEach(() => {
+  process.env.NEXT_PUBLIC_SITE_URL = 'https://eclipsegold.com'
+})
+
+describe('static sitemap split includes legal pages', () => {
+  it('contains the fr CGV, de Impressum and it Spedizioni URLs', async () => {
+    const entries = await sitemap({ id: Promise.resolve('static') })
+    const urls = entries.map((e) => e.url)
     expect(urls).toContain(abs('/fr/infos/cgv'))
     expect(urls).toContain(abs('/de/infos/impressum'))
     expect(urls).toContain(abs('/it/infos/spedizioni'))
   })
 
-  it('adds 18 legal URLs (6 pages × 3 langs) on top of the 3 home URLs', () => {
-    expect(sitemap({ id: 0 })).toHaveLength(3 + 18)
+  it('adds 18 legal URLs (6 pages × 3 langs) on top of the 3 home URLs', async () => {
+    const entries = await sitemap({ id: Promise.resolve('static') })
+    expect(entries).toHaveLength(3 + 18)
   })
 })
 ```
@@ -1392,37 +1405,51 @@ describe('static sitemap includes legal pages', () => {
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `npx vitest run tests/legal-sitemap.test.ts --no-file-parallelism`
-Expected: FAIL — `staticUrls()` only returns the 3 home URLs.
+Expected: FAIL — the `'static'` split returns only the 3 home URLs (length 3).
 
 - [ ] **Step 3: Implement the sitemap addition**
 
-In `app/sitemap.ts`, extend the imports:
+In `app/sitemap.ts`, extend the **existing** imports. They currently are:
+
+```ts
+import { LANGS } from '../data/types'
+import { COLLECTION_SLUG } from '../lib/i18n'
+```
+
+Change them to add the legal symbols:
 
 ```ts
 import { LANGS, LEGAL_PAGES } from '../data/types'
-import { collectionSlugFor, legalSlugFor } from '../lib/i18n'
+import { COLLECTION_SLUG, legalSlugFor } from '../lib/i18n'
 ```
 
-Replace the `staticUrls` function with:
+Then replace the `'static'` branch inside the default `sitemap` function. It is
+currently:
 
 ```ts
-function staticUrls(): MetadataRoute.Sitemap {
-  const home: MetadataRoute.Sitemap = LANGS.map((lang) => ({
-    url: abs(`/${lang}`),
-    changeFrequency: 'monthly' as const,
-    priority: 1,
-  }))
+  if (id === 'static') {
+    return LANGS.map((lang) => ({ url: abs(`/${lang}`), changeFrequency: 'monthly' as const, priority: 0.8 }))
+  }
+```
 
-  const legal: MetadataRoute.Sitemap = LANGS.flatMap((lang) =>
-    LEGAL_PAGES.map((page) => ({
-      url: abs(`/${lang}/infos/${legalSlugFor(page, lang)}`),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    })),
-  )
+Replace it with (home pages unchanged, plus the 18 legal URLs):
 
-  return [...home, ...legal]
-}
+```ts
+  if (id === 'static') {
+    const home = LANGS.map((lang) => ({
+      url: abs(`/${lang}`),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    }))
+    const legal = LANGS.flatMap((lang) =>
+      LEGAL_PAGES.map((page) => ({
+        url: abs(`/${lang}/infos/${legalSlugFor(page, lang)}`),
+        changeFrequency: 'yearly' as const,
+        priority: 0.3,
+      })),
+    )
+    return [...home, ...legal]
+  }
 ```
 
 - [ ] **Step 4: Run test to verify it passes**
