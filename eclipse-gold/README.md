@@ -54,3 +54,11 @@ Required env vars are documented in `.env.example`.
 - Content pages are statically prerendered with ISR (`export const revalidate = 3600`); `/api/price` is the only on-demand route.
 
 > Notes: the middleware is named `proxy.ts` (Next 16 renamed `middleware` → `proxy`). `generateSitemaps` passes its `id` as a `Promise` in Next 16 — `app/sitemap.ts` awaits it. Product images use a plain `<img>` for this sober pass; `next/image` is deferred to the design sub-project. The product page tolerates Shopify being unavailable (renders "Bientôt disponible"), so the build succeeds without `SHOPIFY_*` env vars.
+
+## Design system (premium)
+
+- Tokens in `app/globals.css` (`:root` variables): black `#000`, gold `#d4af37`, cream `#f5f1e8`; Playfair Display (serif titles) + Inter (body) self-hosted via `next/font`.
+- One CSS Module per component. Mono-dark theme (no light/dark).
+- `components/SunglassImage.tsx` applies the uniform image treatment (black bg, square crop, gold halo) and an "EG" monogram placeholder when no image.
+- `components/Reveal.tsx` + `useReveal.ts` do sober scroll-reveal (respects `prefers-reduced-motion`).
+- The product page has a fixed gold price/CTA bar pinned to the viewport bottom; the "Ajouter au panier" button is a disabled stub until the commerce sub-project.
