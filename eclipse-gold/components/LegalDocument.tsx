@@ -23,6 +23,9 @@ export function LegalDocument({
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    // updatedAt is a date-only string parsed as UTC midnight; pin the render
+    // timezone so non-UTC servers don't display the day before.
+    timeZone: 'UTC',
   })
 
   return (
@@ -47,7 +50,7 @@ export function LegalDocument({
       ))}
 
       <p className={styles.updated}>
-        {UPDATED_LABEL[lang]} : {updated}
+        {UPDATED_LABEL[lang]} : <time dateTime={content.updatedAt}>{updated}</time>
       </p>
     </article>
   )
