@@ -1,0 +1,56 @@
+.doc {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--eg-s5) var(--eg-s3) var(--eg-s4);
+  color: var(--eg-cream);
+}
+
+.title {
+  font-family: var(--eg-serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  text-transform: uppercase;
+  letter-spacing: var(--eg-track);
+  color: var(--eg-cream);
+}
+
+.intro {
+  margin-top: var(--eg-s3);
+  color: var(--eg-muted);
+}
+
+.section {
+  margin-top: var(--eg-s4);
+}
+
+.heading {
+  font-family: var(--eg-serif);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  color: var(--eg-gold);
+}
+
+.body {
+  margin-top: var(--eg-s2);
+  line-height: 1.7;
+}
+
+.bullets {
+  margin-top: var(--eg-s2);
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--eg-s1);
+  line-height: 1.6;
+}
+
+.bullets li {
+  list-style: disc;
+}
+
+.updated {
+  margin-top: var(--eg-s5);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}
