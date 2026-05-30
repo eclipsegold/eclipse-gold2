@@ -128,8 +128,53 @@ const legal: LegalPageContent = {
   ],
 }
 
+const shipping: LegalPageContent = {
+  slug: { fr: 'livraison', de: 'versand', it: 'spedizioni' },
+  seoTitle: {
+    fr: 'Livraison — Eclipse Gold',
+    de: 'Versand — Eclipse Gold',
+    it: 'Spedizioni — Eclipse Gold',
+  },
+  metaDescription: {
+    fr: 'Livraison offerte, délais de 7 à 21 jours ouvrés selon la destination.',
+    de: 'Kostenloser Versand, Lieferzeit 7 bis 21 Werktage je nach Zielort.',
+    it: 'Spedizione gratuita, tempi di 7-21 giorni lavorativi a seconda della destinazione.',
+  },
+  title: { fr: 'Livraison', de: 'Versand', it: 'Spedizioni' },
+  intro: {
+    fr: 'La livraison est offerte sur toutes les commandes.',
+    de: 'Der Versand ist bei allen Bestellungen kostenlos.',
+    it: 'La spedizione è gratuita su tutti gli ordini.',
+  },
+  updatedAt: '2026-05-30',
+  sections: [
+    {
+      heading: { fr: 'Délais et frais', de: 'Fristen und Kosten', it: 'Tempi e costi' },
+      body: {
+        fr: ['Les commandes sont préparées puis expédiées selon la destination.'],
+        de: ['Die Bestellungen werden je nach Zielort vorbereitet und versandt.'],
+        it: ['Gli ordini vengono preparati e spediti a seconda della destinazione.'],
+      },
+      bullets: {
+        fr: ['Livraison offerte partout', 'Délais : 7 à 21 jours ouvrés selon la destination', 'Transporteur : selon la destination'],
+        de: ['Kostenloser Versand überallhin', 'Lieferzeit: 7 bis 21 Werktage je nach Zielort', 'Versanddienstleister: je nach Zielort'],
+        it: ['Spedizione gratuita ovunque', 'Tempi: 7-21 giorni lavorativi a seconda della destinazione', 'Corriere: a seconda della destinazione'],
+      },
+    },
+    {
+      heading: { fr: 'Suivi de commande', de: 'Sendungsverfolgung', it: 'Tracciamento dell’ordine' },
+      body: {
+        fr: ['Pour toute question sur l’acheminement de votre commande, écrivez-nous à {email}.'],
+        de: ['Bei Fragen zur Zustellung Ihrer Bestellung schreiben Sie uns an {email}.'],
+        it: ['Per qualsiasi domanda sulla consegna del tuo ordine, scrivici a {email}.'],
+      },
+    },
+  ],
+}
+
 export const legalPages: Record<LegalPage, LegalPageContent> = {
   terms,
   legal,
-  // shipping, returns, privacy, cookies added in Tasks 6–9
+  shipping,
+  // returns, privacy, cookies added in Tasks 7–9
 } as Record<LegalPage, LegalPageContent>
