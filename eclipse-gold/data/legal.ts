@@ -268,10 +268,55 @@ const privacy: LegalPageContent = {
   ],
 }
 
+const cookies: LegalPageContent = {
+  slug: { fr: 'cookies', de: 'cookies', it: 'cookie' },
+  seoTitle: {
+    fr: 'Cookies — Eclipse Gold',
+    de: 'Cookies — Eclipse Gold',
+    it: 'Cookie — Eclipse Gold',
+  },
+  metaDescription: {
+    fr: 'Eclipse Gold n’utilise que des cookies strictement nécessaires au fonctionnement du site.',
+    de: 'Eclipse Gold verwendet nur technisch notwendige Cookies.',
+    it: 'Eclipse Gold utilizza solo cookie strettamente necessari al funzionamento del sito.',
+  },
+  title: { fr: 'Cookies', de: 'Cookies', it: 'Cookie' },
+  intro: {
+    fr: 'Nous n’utilisons que des cookies nécessaires au fonctionnement du site.',
+    de: 'Wir verwenden nur Cookies, die für den Betrieb der Website erforderlich sind.',
+    it: 'Utilizziamo solo cookie necessari al funzionamento del sito.',
+  },
+  updatedAt: '2026-05-30',
+  sections: [
+    {
+      heading: { fr: 'Cookies utilisés', de: 'Verwendete Cookies', it: 'Cookie utilizzati' },
+      body: {
+        fr: ['Le site n’utilise pas de cookies publicitaires ni de mesure d’audience. Seuls des cookies fonctionnels sont employés :'],
+        de: ['Die Website verwendet keine Werbe- oder Analyse-Cookies. Es werden ausschließlich funktionale Cookies eingesetzt:'],
+        it: ['Il sito non utilizza cookie pubblicitari né di misurazione del pubblico. Sono impiegati solo cookie funzionali:'],
+      },
+      bullets: {
+        fr: ['Préférence de pays/devise (affichage du prix)', 'Sécurité du paiement (Stripe)'],
+        de: ['Land-/Währungseinstellung (Preisanzeige)', 'Zahlungssicherheit (Stripe)'],
+        it: ['Preferenza paese/valuta (visualizzazione del prezzo)', 'Sicurezza del pagamento (Stripe)'],
+      },
+    },
+    {
+      heading: { fr: 'Gestion', de: 'Verwaltung', it: 'Gestione' },
+      body: {
+        fr: ['Ces cookies étant strictement nécessaires, aucun consentement n’est requis. Vous pouvez les supprimer via les réglages de votre navigateur.'],
+        de: ['Da diese Cookies unbedingt erforderlich sind, ist keine Einwilligung notwendig. Sie können sie über die Einstellungen Ihres Browsers löschen.'],
+        it: ['Essendo strettamente necessari, questi cookie non richiedono consenso. Puoi eliminarli tramite le impostazioni del browser.'],
+      },
+    },
+  ],
+}
+
 export const legalPages: Record<LegalPage, LegalPageContent> = {
   terms,
   legal,
   shipping,
   returns,
   privacy,
-} as Record<LegalPage, LegalPageContent>
+  cookies,
+}
