@@ -1,0 +1,40 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--eg-s2) var(--eg-s3);
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--eg-line);
+}
+
+.brand {
+  font-family: var(--eg-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.nav a {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--eg-s2);
+}
+
+.cart {
+  background: none;
+  border: none;
+  color: var(--eg-muted);
+  cursor: not-allowed;
+  font-size: 1rem;
+}

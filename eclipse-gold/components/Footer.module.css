@@ -1,0 +1,37 @@
+.footer {
+  border-top: 1px solid var(--eg-line);
+  padding: var(--eg-s5) var(--eg-s3) var(--eg-s4);
+  text-align: center;
+}
+
+.brand {
+  font-family: var(--eg-serif);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.links {
+  margin-top: var(--eg-s3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eg-s1);
+}
+
+.links a {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}
+
+.trust {
+  margin-top: var(--eg-s4);
+  padding-top: var(--eg-s3);
+  border-top: 1px solid var(--eg-line);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+  line-height: 2;
+}

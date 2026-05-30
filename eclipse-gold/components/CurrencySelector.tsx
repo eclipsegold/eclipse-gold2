@@ -1,12 +1,14 @@
 'use client'
 import { useCurrency } from './CurrencyContext'
 import type { Country } from '../lib/currency'
+import styles from './CurrencySelector.module.css'
 
 export function CurrencySelector() {
   const { country, setCountry } = useCurrency()
   return (
     <select
       aria-label="Devise"
+      className={styles.select}
       value={country === 'CH' ? 'CH' : 'FR'}
       onChange={(e) => setCountry(e.target.value as Country)}
     >

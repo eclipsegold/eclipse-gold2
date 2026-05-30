@@ -1,0 +1,14 @@
+.select {
+  background: transparent;
+  color: var(--eg-muted);
+  border: 1px solid var(--eg-line);
+  border-radius: 2px;
+  padding: 2px 4px;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+}
+
+.select option {
+  background: var(--eg-black);
+  color: var(--eg-cream);
+}

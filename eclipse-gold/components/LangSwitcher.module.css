@@ -1,0 +1,14 @@
+.switcher {
+  display: flex;
+  gap: var(--eg-s1);
+}
+
+.switcher a {
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: var(--eg-muted);
+}
+
+.switcher a[aria-current='true'] {
+  color: var(--eg-gold);
+}
