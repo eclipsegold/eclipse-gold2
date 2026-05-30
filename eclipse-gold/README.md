@@ -45,3 +45,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 `npm run validate:models` runs automatically before every `npm run build`.
 Required env vars are documented in `.env.example`.
+
+## Routing & SEO (shell)
+
+- Per-language routes: `/fr`, `/de`, `/it` (home), `/{lang}/{collectionSlug}` (collection), `/{lang}/{collectionSlug}/{productSlug}` (product). `npm run build` prerenders 36 pages (3 home + 3 collection + 30 product) plus 3 split sitemaps.
+- Currency: `eg-country` cookie set by `proxy.ts` from `x-vercel-ip-country`; the `Price` client island resolves CHF/EUR and refetches via `/api/price`. The geo cookie is read client-side (in `CurrencyProvider`) so content pages stay statically prerendered.
+- SEO: per-page canonical + hreflang (`lib/seo/metadata.ts`), JSON-LD (`lib/seo/jsonld.ts`), split sitemaps served at `/sitemap/<id>.xml` (`app/sitemap.ts`), robots (`app/robots.ts`).
+- Content pages are statically prerendered with ISR (`export const revalidate = 3600`); `/api/price` is the only on-demand route.
+
+> Notes: the middleware is named `proxy.ts` (Next 16 renamed `middleware` → `proxy`). `generateSitemaps` passes its `id` as a `Promise` in Next 16 — `app/sitemap.ts` awaits it. Product images use a plain `<img>` for this sober pass; `next/image` is deferred to the design sub-project. The product page tolerates Shopify being unavailable (renders "Bientôt disponible"), so the build succeeds without `SHOPIFY_*` env vars.
