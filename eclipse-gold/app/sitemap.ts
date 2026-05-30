@@ -8,7 +8,10 @@ export async function generateSitemaps() {
   return [{ id: 'products' }, { id: 'collection' }, { id: 'static' }]
 }
 
-export default async function sitemap({ id }: { id: string }): Promise<MetadataRoute.Sitemap> {
+export default async function sitemap(props: { id: Promise<string> }): Promise<MetadataRoute.Sitemap> {
+  // Next 16 passes `id` as a Promise — must await before comparing, otherwise
+  // every split silently falls through to the products branch.
+  const id = await props.id
   if (id === 'static') {
     return LANGS.map((lang) => ({ url: abs(`/${lang}`), changeFrequency: 'monthly' as const, priority: 0.8 }))
   }
