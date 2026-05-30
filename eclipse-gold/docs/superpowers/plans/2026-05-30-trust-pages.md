@@ -801,37 +801,48 @@ Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>"
 - Modify: `scripts/validate-models.ts`
 - Test: `tests/validate-legal.test.ts`
 
+> **Codebase convention (read first):** `scripts/validate-models.ts` validators
+> **return `ValidationError[]`** (`{ code, message }`), they do **not** throw.
+> The file **already has** a `main()` CLI runner guarded by
+> `if (process.argv[1] && process.argv[1].endsWith('validate-models.ts'))`.
+> We extend that existing `main()` — do NOT add a second self-executing block.
+
 - [ ] **Step 1: Write the failing test**
 
-Create `tests/validate-legal.test.ts`:
+Create `tests/validate-legal.test.ts` (matches the existing array-returning style in `tests/validate-models.test.ts`):
 
 ```ts
 import { describe, it, expect } from 'vitest'
 import { validateLegal } from '../scripts/validate-models'
 import { legalPages } from '../data/legal'
-import type { LegalPageContent } from '../data/types'
+import type { LegalPage, LegalPageContent } from '../data/types'
+
+type Pages = Record<LegalPage, LegalPageContent>
 
 describe('validateLegal', () => {
-  it('passes for the real legal content', () => {
-    expect(() => validateLegal(legalPages)).not.toThrow()
+  it('returns no errors for the real legal content', () => {
+    expect(validateLegal(legalPages)).toEqual([])
   })
 
-  it('throws when a page is missing', () => {
-    const broken = { ...legalPages } as Record<string, LegalPageContent>
+  it('flags a missing page', () => {
+    const broken = structuredClone(legalPages) as Partial<Pages>
     delete broken.cookies
-    expect(() => validateLegal(broken as Parameters<typeof validateLegal>[0])).toThrow(/cookies/)
+    const errors = validateLegal(broken as Pages)
+    expect(errors.some((e) => e.code === 'MISSING_LEGAL_PAGE' && e.message.includes('cookies'))).toBe(true)
   })
 
-  it('throws on a duplicate slug within a language', () => {
+  it('flags a duplicate slug within a language', () => {
     const broken = structuredClone(legalPages)
     broken.cookies.slug.fr = broken.terms.slug.fr // collide on fr
-    expect(() => validateLegal(broken)).toThrow(/[Dd]uplicate/)
+    const errors = validateLegal(broken)
+    expect(errors.some((e) => e.code === 'DUPLICATE_LEGAL_SLUG')).toBe(true)
   })
 
-  it('throws when a translation is empty', () => {
+  it('flags an empty translation', () => {
     const broken = structuredClone(legalPages)
     broken.terms.title.de = ''
-    expect(() => validateLegal(broken)).toThrow(/de/)
+    const errors = validateLegal(broken)
+    expect(errors.some((e) => e.code === 'EMPTY_TRANSLATION' && e.message.includes('de'))).toBe(true)
   })
 })
 ```
@@ -841,98 +852,141 @@ describe('validateLegal', () => {
 Run: `npx vitest run tests/validate-legal.test.ts --no-file-parallelism`
 Expected: FAIL — `validateLegal` is not exported.
 
-- [ ] **Step 3: Implement `validateLegal` and a main runner**
+- [ ] **Step 3: Implement `validateLegal` + `legalEntityWarnings`**
 
-In `scripts/validate-models.ts`, add the imports at the top (extend the existing `data/types` import line to include `LEGAL_PAGES`, `type LegalPage`, `type LegalPageContent`, `type Localized`):
+In `scripts/validate-models.ts`, extend the **existing** top import line. It is
+currently:
 
 ```ts
-import { LANGS, LEGAL_PAGES } from '../data/types'
-import type { LegalPage, LegalPageContent, Localized } from '../data/types'
-import { legalEntity } from '../data/legal'
+import { LANGS, type Lang, type SunglassModel } from '../data/types'
 ```
 
-Add these functions to the file:
+Change it to (add the legal symbols; keep `Lang`/`SunglassModel`):
 
 ```ts
-function assertComplete(field: Localized<string>, where: string): void {
+import { LANGS, type Lang, type SunglassModel, LEGAL_PAGES } from '../data/types'
+import type { LegalPage, LegalPageContent, LegalEntity, Localized } from '../data/types'
+```
+
+Add these functions (anywhere among the other exported validators, e.g. after `validateCollectionOrder`):
+
+```ts
+function assertComplete(
+  field: Localized<string>,
+  where: string,
+  errors: ValidationError[],
+): void {
   for (const lang of LANGS) {
     if (!field[lang] || field[lang].trim() === '') {
-      throw new Error(`Empty translation [${lang}] at ${where}`)
+      errors.push({ code: 'EMPTY_TRANSLATION', message: `${where}.${lang} is empty` })
     }
   }
 }
 
-export function validateLegal(pages: Record<LegalPage, LegalPageContent>): void {
-  const slugsByLang: Record<string, Set<string>> = { fr: new Set(), de: new Set(), it: new Set() }
+/** Validates the six trust pages: completeness + per-language slug uniqueness. */
+export function validateLegal(pages: Record<LegalPage, LegalPageContent>): ValidationError[] {
+  const errors: ValidationError[] = []
+  const slugsByLang: Record<Lang, Map<string, LegalPage>> = {
+    fr: new Map(), de: new Map(), it: new Map(),
+  }
 
   for (const page of LEGAL_PAGES) {
     const content = pages[page]
-    if (!content) throw new Error(`Missing legal page: ${page}`)
+    if (!content) {
+      errors.push({ code: 'MISSING_LEGAL_PAGE', message: `missing legal page: ${page}` })
+      continue
+    }
 
-    assertComplete(content.title, `${page}.title`)
-    assertComplete(content.seoTitle, `${page}.seoTitle`)
-    assertComplete(content.metaDescription, `${page}.metaDescription`)
+    assertComplete(content.title, `${page}.title`, errors)
+    assertComplete(content.seoTitle, `${page}.seoTitle`, errors)
+    assertComplete(content.metaDescription, `${page}.metaDescription`, errors)
+    assertComplete(content.slug, `${page}.slug`, errors)
 
     for (const lang of LANGS) {
       const slug = content.slug[lang]
-      if (!slug) throw new Error(`Empty slug [${lang}] for ${page}`)
-      if (slugsByLang[lang].has(slug)) throw new Error(`Duplicate slug [${lang}]: ${slug}`)
-      slugsByLang[lang].add(slug)
+      if (!slug) continue
+      const prev = slugsByLang[lang].get(slug)
+      if (prev) {
+        errors.push({
+          code: 'DUPLICATE_LEGAL_SLUG',
+          message: `slug.${lang} "${slug}" used by both ${prev} and ${page}`,
+        })
+      } else {
+        slugsByLang[lang].set(slug, page)
+      }
     }
 
     content.sections.forEach((section, i) => {
-      assertComplete(section.heading, `${page}.sections[${i}].heading`)
+      assertComplete(section.heading, `${page}.sections[${i}].heading`, errors)
       for (const lang of LANGS) {
         if (!Array.isArray(section.body[lang]) || section.body[lang].length === 0) {
-          throw new Error(`Empty body [${lang}] at ${page}.sections[${i}]`)
+          errors.push({ code: 'EMPTY_TRANSLATION', message: `${page}.sections[${i}].body.${lang} is empty` })
         }
         if (section.bullets && (!Array.isArray(section.bullets[lang]) || section.bullets[lang].length === 0)) {
-          throw new Error(`Empty bullets [${lang}] at ${page}.sections[${i}]`)
+          errors.push({ code: 'EMPTY_TRANSLATION', message: `${page}.sections[${i}].bullets.${lang} is empty` })
         }
       }
     })
   }
+
+  return errors
 }
 
-/** Non-blocking warning: surfaces [À COMPLÉTER] entity placeholders before go-live. */
-export function warnEntityPlaceholders(): void {
-  for (const [key, value] of Object.entries(legalEntity)) {
+/** Non-blocking: surfaces [À COMPLÉTER] entity placeholders before go-live. */
+export function legalEntityWarnings(entity: LegalEntity): string[] {
+  const warnings: string[] = []
+  for (const [key, value] of Object.entries(entity)) {
     const flat = Array.isArray(value) ? value.join(' ') : value
     if (flat.includes('[À COMPLÉTER]')) {
-      console.warn(`⚠️  legalEntity.${key} still contains a placeholder — complete before go-live.`)
+      warnings.push(`legalEntity.${key} still contains a placeholder — complete before go-live.`)
     }
   }
+  return warnings
 }
 ```
 
-At the very bottom of the file, add a self-executing main block so the existing `prebuild` hook (`tsx scripts/validate-models.ts`) actually enforces the gate:
+- [ ] **Step 4: Wire into the existing `main()` runner**
+
+The file already ends with a `main()` that loads models/collection and exits on
+errors. Update **only** that function to also load and validate the legal data.
+Replace the existing `main` body with:
 
 ```ts
-// Run as a script (npm run validate:models / prebuild). tsx executes the module.
-import { getAllModels } from '../data/queries'
-import { legalPages } from '../data/legal'
-
-if (process.argv[1] && process.argv[1].includes('validate-models')) {
-  validateFullSet(getAllModels())
-  validateLegal(legalPages)
-  warnEntityPlaceholders()
-  console.log('✓ validate-models: models and legal content OK')
+async function main(): Promise<void> {
+  const { models } = await import('../data/models')
+  const { collectionHub } = await import('../data/collection')
+  const { legalPages, legalEntity } = await import('../data/legal')
+  const errors = [
+    ...validateFullSet(models),
+    ...validateCollectionOrder(models, collectionHub.modelOrder),
+    ...validateLegal(legalPages),
+  ]
+  if (errors.length > 0) {
+    console.error(`✗ Validation failed (${errors.length} error(s)):`)
+    for (const e of errors) console.error(`  [${e.code}] ${e.message}`)
+    process.exit(1)
+  }
+  for (const w of legalEntityWarnings(legalEntity)) console.warn(`⚠️  ${w}`)
+  console.log(`✓ ${models.length} models and ${LEGAL_PAGES.length} legal pages validated`)
 }
 ```
 
-Note: `getAllModels` may already be imported at the top of the file — if so, do not duplicate the import; reuse the existing one and only add the `legalPages` import.
+The existing self-execution guard at the bottom of the file
+(`if (process.argv[1] && process.argv[1].endsWith('validate-models.ts')) void main()`)
+stays unchanged — do not add another one.
 
-- [ ] **Step 4: Run test to verify it passes**
+- [ ] **Step 5: Run test to verify it passes**
 
 Run: `npx vitest run tests/validate-legal.test.ts --no-file-parallelism`
 Expected: PASS (4 tests).
 
-- [ ] **Step 5: Verify the gate runs end-to-end**
+- [ ] **Step 6: Verify the gate runs end-to-end**
 
 Run: `npm run validate:models`
-Expected: prints `✓ validate-models: models and legal content OK` and a `⚠️` warning line for each `[À COMPLÉTER]` entity field; exit code 0.
+Expected: prints `✓ 10 models and 6 legal pages validated` plus one `⚠️` line per
+`[À COMPLÉTER]` entity field; exit code 0.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
 git add scripts/validate-models.ts tests/validate-legal.test.ts
