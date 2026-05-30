@@ -4,7 +4,9 @@ import { notFound } from 'next/navigation'
 import { isLang, collectionSlugFor } from '../../lib/i18n'
 import { collectionHub } from '../../data/collection'
 import { buildMetadata } from '../../lib/seo/metadata'
+import { Reveal } from '../../components/Reveal'
 import type { Lang } from '../../data/types'
+import styles from './home.module.css'
 
 function homePaths(): Record<Lang, string> {
   return { fr: '/fr', de: '/de', it: '/it' }
@@ -34,12 +36,18 @@ export default async function HomePage({
   if (!isLang(lang)) notFound()
   const collectionHref = `/${lang}/${collectionSlugFor(lang)}`
   return (
-    <section className="home">
-      <h1>Eclipse Gold</h1>
-      <p>{collectionHub.intro[lang]}</p>
-      <Link href={collectionHref} className="cta">
-        Découvrir la collection
-      </Link>
-    </section>
+    <>
+      <section className={styles.hero}>
+        <div className={styles.ring} aria-hidden="true" />
+        <h1 className={styles.title}>Wear the Sun</h1>
+        <p className={styles.subtitle}>10 éclats · Lunettes rimless or</p>
+        <Link href={collectionHref} className={styles.cta}>
+          Découvrir la collection
+        </Link>
+      </section>
+      <Reveal>
+        <p className={styles.intro}>{collectionHub.intro[lang]}</p>
+      </Reveal>
+    </>
   )
 }
