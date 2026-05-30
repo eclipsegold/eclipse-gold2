@@ -74,3 +74,13 @@ Required env vars are documented in `.env.example`.
 - Catalogue pages stay statically prerendered; only checkout + the API routes are dynamic.
 
 > Operational note: monitor failed `payment_intent.succeeded` webhooks in production — a payment captured without a created Shopify order means DSers won't fulfil it. The webhook returns 500 on order-creation failure so Stripe retries automatically.
+
+## Trust pages (sub-project E)
+
+- Six pages (CGV, mentions légales, livraison, retours, confidentialité, cookies) × 3 langs under `/{lang}/infos/{slug}` (localized slugs), statically prerendered (18 pages, ISR `revalidate = 3600`).
+- Content lives in `data/legal.ts`: one `legalEntity` (referenced via `{token}` interpolation, see `lib/legal.ts`) and six `legalPageContent` objects, all `Localized<>`. Slugs resolve through `legalSlugFor` / `legalPageForSlug` in `lib/i18n.ts`.
+- Rendered by `components/LegalDocument.tsx`. Footer links are localized via the same helpers.
+- `scripts/validate-models.ts` also runs `validateLegal()` (complete translations, unique slugs) and warns on `[À COMPLÉTER]` entity placeholders; it runs in `prebuild`.
+- No cookie-consent banner: only strictly-necessary cookies (`eg-country`, Stripe) are used. A consent banner becomes necessary only when tracking is added.
+
+> Before go-live: complete `legalEntity` placeholders (`companyName`, `legalForm`, `registrationId`, `publisher`) and have the drafted legal text reviewed by a professional.
