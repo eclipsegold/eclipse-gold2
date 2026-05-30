@@ -27,9 +27,10 @@ describe('sitemap', () => {
     ])
   })
 
-  it('static sitemap has the 3 home URLs', async () => {
+  it('static sitemap leads with the 3 home URLs', async () => {
     const entries = await sitemap({ id: Promise.resolve('static') })
-    expect(entries.map((e) => e.url)).toEqual([
+    // Home URLs come first; legal pages follow (covered in legal-sitemap.test.ts).
+    expect(entries.slice(0, 3).map((e) => e.url)).toEqual([
       'https://eclipsegold.com/fr',
       'https://eclipsegold.com/de',
       'https://eclipsegold.com/it',
