@@ -7,7 +7,7 @@ import type { LegalEntity } from '../data/types'
  */
 export function interpolateEntity(text: string, entity: LegalEntity): string {
   return text.replace(/\{(\w+)\}/g, (match, key: string) => {
-    if (!(key in entity)) return match
+    if (!Object.hasOwn(entity, key)) return match
     const value = entity[key as keyof LegalEntity]
     return Array.isArray(value) ? value.join(', ') : value
   })
