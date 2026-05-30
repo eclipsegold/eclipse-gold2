@@ -1,3 +1,5 @@
+import type { Country } from '../lib/currency'
+
 export interface ShopifyProduct {
   handle: string
   title: string
@@ -20,7 +22,7 @@ const PRODUCT_QUERY = /* GraphQL */ `
 
 export async function getShopifyProduct(
   handle: string,
-  country: 'CH' | 'FR',
+  country: Country,
 ): Promise<ShopifyProduct | null> {
   const domain = process.env.SHOPIFY_STORE_DOMAIN
   const token = process.env.SHOPIFY_STOREFRONT_API_TOKEN
