@@ -1,0 +1,11 @@
+.page {
+  min-height: 70vh;
+}
+
+.title {
+  text-align: center;
+  font-family: var(--eg-serif);
+  text-transform: uppercase;
+  letter-spacing: var(--eg-track);
+  padding: var(--eg-s4) var(--eg-s3) 0;
+}

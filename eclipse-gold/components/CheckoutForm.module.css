@@ -1,0 +1,72 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eg-s2);
+  max-width: 480px;
+  margin: 0 auto;
+  padding: var(--eg-s4) var(--eg-s3);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}
+
+.field input {
+  background: transparent;
+  border: 1px solid var(--eg-line);
+  color: var(--eg-cream);
+  padding: 10px;
+  font-size: 0.9rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--eg-s2);
+}
+
+.pay {
+  margin-top: var(--eg-s3);
+  background: var(--eg-gold);
+  color: var(--eg-black);
+  border: none;
+  padding: 14px;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.pay:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.shipping {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--eg-gold);
+  text-transform: uppercase;
+}
+
+.error {
+  color: #e88;
+  font-size: 0.8rem;
+}
+
+.empty {
+  text-align: center;
+  color: var(--eg-muted);
+  padding: var(--eg-s5) var(--eg-s3);
+}
