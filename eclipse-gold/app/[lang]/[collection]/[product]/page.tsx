@@ -12,6 +12,7 @@ import { JsonLd } from '../../../../components/JsonLd'
 import { ProductGallery } from '../../../../components/ProductGallery'
 import { Breadcrumbs } from '../../../../components/Breadcrumbs'
 import { Price } from '../../../../components/Price'
+import styles from './product.module.css'
 
 export const revalidate = 3600
 
@@ -73,7 +74,7 @@ export default async function ProductPage({
   const url = abs(`/${lang}/${collectionSlugFor(lang)}/${model.slug[lang]}`)
 
   return (
-    <article className="product">
+    <article className={styles.article}>
       <JsonLd
         data={productJsonLd({
           name: model.modelName,
@@ -100,19 +101,27 @@ export default async function ProductPage({
         ]}
       />
       <ProductGallery images={images} />
-      <h1>{model.modelName}</h1>
-      <p className="tagline">{model.tagline[lang]}</p>
-      {shopify ? (
-        <Price handle={model.handle} lang={lang} defaultAmount={defaultAmount} defaultCurrency={defaultCurrency} />
-      ) : (
-        <p className="price-unavailable">Bientôt disponible</p>
-      )}
-      <p>{model.intro[lang]}</p>
-      <ul className="features">
-        {model.features[lang].map((f, i) => (
-          <li key={i}>{f}</li>
-        ))}
-      </ul>
+      <div className={styles.body}>
+        <p className={styles.phenomenon}>{model.phenomenon}</p>
+        <h1 className={styles.name}>{model.modelName}</h1>
+        <p className={styles.tagline}>{model.tagline[lang]}</p>
+        <p className={styles.desc}>{model.intro[lang]}</p>
+        <ul className={styles.features}>
+          {model.features[lang].map((f, i) => (
+            <li key={i}>{f}</li>
+          ))}
+        </ul>
+      </div>
+      <div className={styles.sticky}>
+        {shopify ? (
+          <Price handle={model.handle} lang={lang} defaultAmount={defaultAmount} defaultCurrency={defaultCurrency} />
+        ) : (
+          <span className={styles.unavailable}>Bientôt disponible</span>
+        )}
+        <button type="button" className={styles.buy} disabled aria-label="Ajouter au panier">
+          Ajouter au panier
+        </button>
+      </div>
     </article>
   )
 }

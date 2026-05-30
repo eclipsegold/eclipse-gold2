@@ -1,0 +1,83 @@
+.article {
+  padding-bottom: 96px;
+}
+
+.body {
+  text-align: center;
+  padding: var(--eg-s4) var(--eg-s3) var(--eg-s3);
+}
+
+.phenomenon {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--eg-gold);
+}
+
+.name {
+  font-family: var(--eg-serif);
+  font-size: 1.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: var(--eg-s2);
+}
+
+.tagline {
+  font-family: var(--eg-serif);
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-top: var(--eg-s2);
+}
+
+.desc {
+  font-size: 0.85rem;
+  line-height: 1.9;
+  color: var(--eg-muted);
+  margin-top: var(--eg-s3);
+}
+
+.features {
+  list-style: none;
+  margin-top: var(--eg-s3);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--eg-cream);
+  line-height: 2.4;
+}
+
+.sticky {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--eg-s2);
+  padding: 12px 16px;
+  background: rgba(10, 10, 10, 0.96);
+  border-top: 1px solid var(--eg-gold);
+  backdrop-filter: blur(8px);
+}
+
+.buy {
+  flex: 1;
+  text-align: center;
+  background: var(--eg-gold);
+  color: var(--eg-black);
+  border: none;
+  padding: 13px;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: not-allowed;
+  opacity: 0.92;
+}
+
+.unavailable {
+  flex: 1;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eg-muted);
+}

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { Lang } from '../data/types'
 import { currencyFor, formatPrice, type Currency } from '../lib/currency'
 import { useCurrency } from './CurrencyContext'
+import styles from './Price.module.css'
 
 export function Price({
   handle,
@@ -49,5 +50,5 @@ export function Price({
     }
   }, [country, lang, handle, defaultAmount, defaultCurrency])
 
-  return <span className="price">{formatPrice(amount, currency, lang)}</span>
+  return <span className={styles.price}>{formatPrice(amount, currency, lang)}</span>
 }

@@ -1,0 +1,6 @@
+.price {
+  font-family: var(--eg-serif);
+  font-size: 1.1rem;
+  color: var(--eg-gold);
+  letter-spacing: 0.04em;
+}
