@@ -85,7 +85,51 @@ const terms: LegalPageContent = {
   ],
 }
 
+const legal: LegalPageContent = {
+  slug: { fr: 'mentions-legales', de: 'impressum', it: 'note-legali' },
+  seoTitle: {
+    fr: 'Mentions légales — Eclipse Gold',
+    de: 'Impressum — Eclipse Gold',
+    it: 'Note legali — Eclipse Gold',
+  },
+  metaDescription: {
+    fr: 'Mentions légales d’Eclipse Gold : éditeur, contact et hébergeur du site.',
+    de: 'Impressum von Eclipse Gold: Betreiber, Kontakt und Hosting der Website.',
+    it: 'Note legali di Eclipse Gold: editore, contatto e hosting del sito.',
+  },
+  title: { fr: 'Mentions légales', de: 'Impressum', it: 'Note legali' },
+  intro: { fr: '', de: '', it: '' },
+  updatedAt: '2026-05-30',
+  sections: [
+    {
+      heading: { fr: 'Éditeur du site', de: 'Betreiber der Website', it: 'Editore del sito' },
+      body: {
+        fr: ['{companyName}, {legalForm}.', 'Adresse : {address}.', 'Contact : {email}.', 'Directeur de la publication : {publisher}.', 'Identifiant : {registrationId}.', 'TVA : {vatId}.'],
+        de: ['{companyName}, {legalForm}.', 'Adresse: {address}.', 'Kontakt: {email}.', 'Verantwortlich für den Inhalt: {publisher}.', 'Registernummer: {registrationId}.', 'MwSt: {vatId}.'],
+        it: ['{companyName}, {legalForm}.', 'Indirizzo: {address}.', 'Contatto: {email}.', 'Direttore della pubblicazione: {publisher}.', 'Identificativo: {registrationId}.', 'IVA: {vatId}.'],
+      },
+    },
+    {
+      heading: { fr: 'Hébergement', de: 'Hosting', it: 'Hosting' },
+      body: {
+        fr: ['Le site est hébergé par {host}.'],
+        de: ['Die Website wird gehostet von {host}.'],
+        it: ['Il sito è ospitato da {host}.'],
+      },
+    },
+    {
+      heading: { fr: 'Propriété intellectuelle', de: 'Geistiges Eigentum', it: 'Proprietà intellettuale' },
+      body: {
+        fr: ['L’ensemble des contenus du site (textes, images, marque Eclipse Gold) est protégé. Toute reproduction sans autorisation est interdite.'],
+        de: ['Sämtliche Inhalte der Website (Texte, Bilder, Marke Eclipse Gold) sind geschützt. Jede Vervielfältigung ohne Genehmigung ist untersagt.'],
+        it: ['Tutti i contenuti del sito (testi, immagini, marchio Eclipse Gold) sono protetti. Qualsiasi riproduzione senza autorizzazione è vietata.'],
+      },
+    },
+  ],
+}
+
 export const legalPages: Record<LegalPage, LegalPageContent> = {
   terms,
-  // legal, shipping, returns, privacy, cookies added in Tasks 5–9
+  legal,
+  // shipping, returns, privacy, cookies added in Tasks 6–9
 } as Record<LegalPage, LegalPageContent>
