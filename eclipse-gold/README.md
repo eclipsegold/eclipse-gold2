@@ -62,3 +62,15 @@ Required env vars are documented in `.env.example`.
 - `components/SunglassImage.tsx` applies the uniform image treatment (black bg, square crop, gold halo) and an "EG" monogram placeholder when no image.
 - `components/Reveal.tsx` + `useReveal.ts` do sober scroll-reveal (respects `prefers-reduced-motion`).
 - The product page has a fixed gold price/CTA bar pinned to the viewport bottom; the "Ajouter au panier" button is a disabled stub until the commerce sub-project.
+
+## Commerce (Stripe + Shopify/DSers)
+
+- Cart is client-side (`components/CartContext.tsx`, localStorage `eg-cart`) holding `{handle, quantity}` only.
+- Checkout (`/{lang}/checkout`) is a dynamic page using the Stripe **Payment Element** on our domain.
+- `/api/checkout/intent` recomputes the amount server-side (`data/pricing.ts` → Shopify Storefront) and creates a Stripe PaymentIntent — the client price is never trusted.
+- `/api/webhooks/stripe` verifies the signature and, on `payment_intent.succeeded`, creates a **paid Shopify order** via the Admin API (`data/shopify-admin.ts`), idempotent by PaymentIntent id. **DSers** detects that order and fulfils it on AliExpress.
+- Shipping is free; the address is collected in the checkout form and attached to the PaymentIntent.
+- Secrets (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `SHOPIFY_ADMIN_API_TOKEN`) are server-only; see `.env.example`.
+- Catalogue pages stay statically prerendered; only checkout + the API routes are dynamic.
+
+> Operational note: monitor failed `payment_intent.succeeded` webhooks in production — a payment captured without a created Shopify order means DSers won't fulfil it. The webhook returns 500 on order-creation failure so Stripe retries automatically.
