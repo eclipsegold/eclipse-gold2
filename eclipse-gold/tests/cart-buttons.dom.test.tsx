@@ -17,6 +17,6 @@ describe('AddToCartButton', () => {
   it('adds to cart and updates the header count', () => {
     wrap(<><AddToCartButton handle="nebula" available={true} /><CartButton /></>)
     act(() => { screen.getByText(/ajouter au panier/i).click() })
-    expect(screen.getByLabelText(/panier/i).textContent).toContain('1')
+    expect(screen.getByRole('button', { name: /^Panier/ }).textContent).toContain('1')
   })
 })
