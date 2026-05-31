@@ -30,6 +30,8 @@ export interface SunglassModel {
   audience: Audience
   polarized: boolean
   lensTint: string
+  /** Product photo under /public, e.g. '/images/products/totalis.png'. Optional. */
+  image?: string
   // SEO & content (translated)
   slug: Localized<string>
   primaryKeyword: Localized<string>

@@ -4,6 +4,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'totalis',
     modelName: 'TOTALIS',
+    image: '/images/products/totalis.webp',
     phenomenon: 'totality',
     order: 1,
     featured: true,
@@ -50,6 +51,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'helios',
     modelName: 'HELIOS',
+    image: '/images/products/helios.webp',
     phenomenon: 'heliacal',
     order: 2,
     featured: false,
@@ -96,6 +98,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'nebula',
     modelName: 'NEBULA',
+    image: '/images/products/nebula.webp',
     phenomenon: 'nebula',
     order: 3,
     featured: true,
@@ -142,6 +145,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'umbra',
     modelName: 'UMBRA',
+    image: '/images/products/umbra.webp',
     phenomenon: 'umbra',
     order: 4,
     featured: false,
@@ -188,6 +192,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'zenith',
     modelName: 'ZENITH',
+    image: '/images/products/zenith.webp',
     phenomenon: 'zenith',
     order: 5,
     featured: false,
@@ -234,6 +239,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'syzygy',
     modelName: 'SYZYGY',
+    image: '/images/products/syzygy.webp',
     phenomenon: 'syzygy',
     order: 6,
     featured: false,
@@ -280,6 +286,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'penumbra',
     modelName: 'PENUMBRA',
+    image: '/images/products/penumbra.webp',
     phenomenon: 'penumbra',
     order: 7,
     featured: false,
@@ -326,6 +333,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'parhelion',
     modelName: 'PARHELION',
+    image: '/images/products/parhelion.webp',
     phenomenon: 'parhelion',
     order: 8,
     featured: false,
@@ -372,6 +380,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'equinox',
     modelName: 'EQUINOX',
+    image: '/images/products/equinox.webp',
     phenomenon: 'equinox',
     order: 9,
     featured: false,
@@ -418,6 +427,7 @@ export const models: SunglassModel[] = [
   {
     handle: 'chroma',
     modelName: 'CHROMA',
+    image: '/images/products/chroma.webp',
     phenomenon: 'chroma',
     order: 10,
     featured: false,

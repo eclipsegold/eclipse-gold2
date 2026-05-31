@@ -79,7 +79,7 @@ export default async function CollectionPage({
             modelName={m.modelName}
             tagline={m.tagline[lang]}
             phenomenon={m.phenomenon}
-            image={null}
+            image={m.image ? { url: m.image, alt: m.modelName } : null}
           />
         ))}
       </CollectionGrid>

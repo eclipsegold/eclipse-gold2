@@ -71,7 +71,11 @@ export default async function ProductPage({
   }
   const defaultCurrency = currencyFor(lang, DEFAULT_COUNTRY)
   const defaultAmount = shopify?.price.amount ?? '49.90'
-  const images = shopify?.images.map((i) => ({ url: i.url, alt: i.altText ?? model.modelName })) ?? []
+  const shopifyImages = shopify?.images.map((i) => ({ url: i.url, alt: i.altText ?? model.modelName })) ?? []
+  // The curated local product photo is the primary/hero image; Shopify images follow.
+  const images = model.image
+    ? [{ url: model.image, alt: model.modelName }, ...shopifyImages]
+    : shopifyImages
   const url = abs(`/${lang}/${collectionSlugFor(lang)}/${model.slug[lang]}`)
 
   return (
@@ -81,7 +85,7 @@ export default async function ProductPage({
           name: model.modelName,
           description: model.metaDescription[lang],
           url,
-          image: images.map((i) => i.url),
+          image: images.map((i) => (i.url.startsWith('http') ? i.url : abs(i.url))),
           price: defaultAmount,
           currency: defaultCurrency,
           availability: shopify?.availableForSale ?? false,
