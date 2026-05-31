@@ -146,6 +146,41 @@
   }
 }
 
+/* ---- Brand story (#story anchor) ---- */
+.story {
+  max-width: 760px;
+  margin: var(--eg-s6) auto;
+  padding: 0 var(--eg-s3);
+  text-align: center;
+  scroll-margin-top: 96px;
+}
+
+.storyKicker {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--eg-gold);
+  margin-bottom: var(--eg-s2);
+}
+
+.storyHeading {
+  font-family: var(--eg-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 6vw, 4rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--eg-cream);
+}
+
+.storyBody {
+  margin-top: var(--eg-s3);
+  font-family: var(--eg-serif);
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: var(--eg-muted);
+}
+
 /* ---- Featured models ---- */
 .featured {
   margin: var(--eg-s6) auto var(--eg-s5);

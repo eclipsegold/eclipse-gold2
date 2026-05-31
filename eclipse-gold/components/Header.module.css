@@ -16,11 +16,24 @@
   justify-content: space-between;
 }
 
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--eg-s3);
+}
+
 .brand {
   font-family: var(--eg-serif);
   font-size: 0.95rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: var(--eg-s3);
 }
 
 .nav a {
@@ -28,10 +41,29 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--eg-muted);
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--eg-cream);
 }
 
 .actions {
   display: flex;
   align-items: center;
   gap: var(--eg-s2);
+}
+
+.desktopOnly {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
+
+  .desktopOnly {
+    display: flex;
+  }
 }

@@ -25,6 +25,9 @@ interface HomeCopy {
   s2Kicker: string
   s2Heading: string
   s2Body: string
+  storyKicker: string
+  storyHeading: string
+  storyBody: string
   featuredKicker: string
   featuredHeading: string
   reassurance: [string, string, string]
@@ -40,6 +43,10 @@ const COPY: Record<Lang, HomeCopy> = {
     s2Heading: "L'or, sans la monture",
     s2Body:
       "Des verres UV400 suspendus à une ligne d'or presque invisible. Une présence minimale, un éclat maximal — pensé pour la lumière du Sud.",
+    storyKicker: 'Notre Histoire',
+    storyHeading: 'Née d’une éclipse',
+    storyBody:
+      "Eclipse Gold puise son ADN dans les phénomènes du ciel — éclipses, halos, alignements d'astres. Chaque modèle traduit un instant de lumière en une monture rimless or, à la fois discrète et solaire. Une collection pensée comme une carte du ciel à porter sur le regard.",
     featuredKicker: 'Les éclats',
     featuredHeading: 'Modèles phares',
     reassurance: ['Livraison offerte', 'Retours 14 jours', 'Paiement sécurisé'],
@@ -53,6 +60,10 @@ const COPY: Record<Lang, HomeCopy> = {
     s2Heading: 'Gold, ohne Fassung',
     s2Body:
       'UV400-Gläser, gehalten von einer fast unsichtbaren Goldlinie. Minimale Präsenz, maximaler Glanz — gemacht für das Licht des Südens.',
+    storyKicker: 'Unsere Geschichte',
+    storyHeading: 'Aus einer Finsternis geboren',
+    storyBody:
+      'Eclipse Gold schöpft seine DNA aus den Phänomenen des Himmels — Finsternissen, Halos, Sternenkonstellationen. Jedes Modell übersetzt einen Moment des Lichts in eine randlose Gold-Fassung, zugleich dezent und solar. Eine Kollektion wie eine Himmelskarte, getragen über dem Blick.',
     featuredKicker: 'Die Lichtblitze',
     featuredHeading: 'Highlight-Modelle',
     reassurance: ['Gratis Versand', '14 Tage Rückgabe', 'Sichere Zahlung'],
@@ -66,6 +77,10 @@ const COPY: Record<Lang, HomeCopy> = {
     s2Heading: "L'oro, senza montatura",
     s2Body:
       'Lenti UV400 sospese a una linea d’oro quasi invisibile. Presenza minima, bagliore massimo — pensato per la luce del Sud.',
+    storyKicker: 'La nostra storia',
+    storyHeading: 'Nata da un’eclissi',
+    storyBody:
+      'Eclipse Gold trae il suo DNA dai fenomeni del cielo — eclissi, aloni, allineamenti di astri. Ogni modello traduce un istante di luce in una montatura rimless oro, discreta e solare al tempo stesso. Una collezione pensata come una mappa del cielo da portare sullo sguardo.',
     featuredKicker: 'I bagliori',
     featuredHeading: 'Modelli di punta',
     reassurance: ['Spedizione gratuita', 'Resi 14 giorni', 'Pagamento sicuro'],
@@ -151,6 +166,14 @@ export default async function HomePage({
             <h2 className={styles.editorialHeading}>{t.s2Heading}</h2>
             <p className={styles.editorialBody}>{t.s2Body}</p>
           </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section id="story" className={styles.story}>
+          <p className={styles.storyKicker}>{t.storyKicker}</p>
+          <h2 className={styles.storyHeading}>{t.storyHeading}</h2>
+          <p className={styles.storyBody}>{t.storyBody}</p>
         </section>
       </Reveal>
 
