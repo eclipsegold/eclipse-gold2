@@ -11,16 +11,18 @@ export function Header({ lang }: { lang: Lang }) {
   const collectionHref = `/${lang}/${collectionSlugFor(lang)}`
   return (
     <header className={styles.header}>
-      <Link href={`/${lang}`} className={styles.brand}>
-        Eclipse Gold
-      </Link>
-      <nav className={styles.nav}>
-        <Link href={collectionHref}>Collection</Link>
-      </nav>
-      <div className={styles.actions}>
-        <LangSwitcher current={lang} />
-        <CurrencySelector />
-        <CartButton />
+      <div className={styles.inner}>
+        <Link href={`/${lang}`} className={styles.brand}>
+          Eclipse Gold
+        </Link>
+        <nav className={styles.nav}>
+          <Link href={collectionHref}>Collection</Link>
+        </nav>
+        <div className={styles.actions}>
+          <LangSwitcher current={lang} />
+          <CurrencySelector />
+          <CartButton />
+        </div>
       </div>
       <CartDrawer lang={lang} />
     </header>

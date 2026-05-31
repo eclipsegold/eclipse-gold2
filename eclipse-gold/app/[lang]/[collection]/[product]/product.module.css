@@ -1,4 +1,6 @@
 .article {
+  max-width: var(--eg-maxw);
+  margin: 0 auto;
   padding-bottom: 96px;
 }
 
@@ -16,8 +18,10 @@
 
 .name {
   font-family: var(--eg-serif);
-  font-size: 1.8rem;
-  letter-spacing: 0.2em;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 9vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: var(--eg-s2);
 }

@@ -4,6 +4,11 @@
   text-align: center;
 }
 
+.inner {
+  max-width: var(--eg-maxw);
+  margin: 0 auto;
+}
+
 .brand {
   font-family: var(--eg-serif);
   font-size: 1rem;

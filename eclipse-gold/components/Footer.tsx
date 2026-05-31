@@ -32,16 +32,18 @@ function linkFor(page: LegalPage, lang: Lang) {
 export function Footer({ lang }: { lang: Lang }) {
   return (
     <footer className={styles.footer}>
-      <p className={styles.brand}>Eclipse Gold</p>
-      <nav aria-label={NAV_ARIA[lang].legal} className={styles.links}>
-        {LEGAL_GROUP.map((page) => linkFor(page, lang))}
-      </nav>
-      <nav aria-label={NAV_ARIA[lang].help} className={styles.links}>
-        {HELP_GROUP.map((page) => linkFor(page, lang))}
-      </nav>
-      <p className={styles.trust}>
-        ✦ Livraison Suisse &amp; France &nbsp; ✦ Retours 14 jours &nbsp; ✦ Paiement sécurisé
-      </p>
+      <div className={styles.inner}>
+        <p className={styles.brand}>Eclipse Gold</p>
+        <nav aria-label={NAV_ARIA[lang].legal} className={styles.links}>
+          {LEGAL_GROUP.map((page) => linkFor(page, lang))}
+        </nav>
+        <nav aria-label={NAV_ARIA[lang].help} className={styles.links}>
+          {HELP_GROUP.map((page) => linkFor(page, lang))}
+        </nav>
+        <p className={styles.trust}>
+          ✦ Livraison Suisse &amp; France &nbsp; ✦ Retours 14 jours &nbsp; ✦ Paiement sécurisé
+        </p>
+      </div>
     </footer>
   )
 }

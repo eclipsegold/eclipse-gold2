@@ -1,11 +1,16 @@
 .page {
   min-height: 70vh;
+  max-width: var(--eg-maxw);
+  margin: 0 auto;
 }
 
 .title {
   text-align: center;
   font-family: var(--eg-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 4rem);
+  line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: var(--eg-track);
+  letter-spacing: 0.12em;
   padding: var(--eg-s4) var(--eg-s3) 0;
 }
