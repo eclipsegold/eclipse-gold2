@@ -37,3 +37,7 @@
   color: var(--eg-muted);
   margin-top: var(--eg-s1);
 }
+
+.price {
+  margin-top: var(--eg-s2);
+}

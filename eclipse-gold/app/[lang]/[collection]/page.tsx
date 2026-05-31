@@ -9,6 +9,7 @@ import { collectionJsonLd, breadcrumbJsonLd } from '../../../lib/seo/jsonld'
 import { JsonLd } from '../../../components/JsonLd'
 import { CollectionGrid } from '../../../components/CollectionGrid'
 import { ProductCard } from '../../../components/ProductCard'
+import { Price } from '../../../components/Price'
 import styles from './collection.module.css'
 
 export const revalidate = 3600
@@ -80,6 +81,9 @@ export default async function CollectionPage({
             tagline={m.tagline[lang]}
             phenomenon={m.phenomenon}
             image={m.image ? { url: m.image, alt: m.modelName } : null}
+            price={
+              <Price handle={m.handle} lang={lang} defaultAmount="49.90" defaultCurrency="CHF" />
+            }
           />
         ))}
       </CollectionGrid>
