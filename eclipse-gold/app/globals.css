@@ -10,6 +10,7 @@
   --eg-sans: var(--font-inter), system-ui, sans-serif;
 
   --eg-track: 0.3em;
+  --eg-maxw: 1200px;
   --eg-s1: 0.5rem;
   --eg-s2: 1rem;
   --eg-s3: 1.5rem;

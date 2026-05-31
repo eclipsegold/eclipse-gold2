@@ -1,18 +1,23 @@
 .card {
   display: block;
   text-align: center;
-  padding: var(--eg-s5) var(--eg-s3);
-  border-bottom: 1px solid var(--eg-line);
+  padding: var(--eg-s2) 0 var(--eg-s4);
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--eg-line);
 }
 
 .media {
-  max-width: 360px;
+  width: 100%;
   margin: 0 auto;
 }
 
 .phenomenon {
   display: block;
-  margin-top: var(--eg-s3);
+  margin-top: var(--eg-s2);
   font-size: 0.65rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
