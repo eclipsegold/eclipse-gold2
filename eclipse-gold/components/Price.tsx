@@ -10,11 +10,16 @@ export function Price({
   lang,
   defaultAmount,
   defaultCurrency,
+  compareAtAmount,
+  size = 'default',
 }: {
   handle: string
   lang: Lang
   defaultAmount: string
   defaultCurrency: Currency
+  /** Struck-through reference price shown before the real price (same currency). */
+  compareAtAmount?: string
+  size?: 'default' | 'lg'
 }) {
   const { country } = useCurrency()
   const [amount, setAmount] = useState(defaultAmount)
@@ -50,5 +55,12 @@ export function Price({
     }
   }, [country, lang, handle, defaultAmount, defaultCurrency])
 
-  return <span className={styles.price}>{formatPrice(amount, currency, lang)}</span>
+  return (
+    <span className={size === 'lg' ? `${styles.price} ${styles.lg}` : styles.price}>
+      {compareAtAmount ? (
+        <s className={styles.compare}>{formatPrice(compareAtAmount, currency, lang)}</s>
+      ) : null}
+      <span className={styles.amount}>{formatPrice(amount, currency, lang)}</span>
+    </span>
+  )
 }

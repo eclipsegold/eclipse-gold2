@@ -2,17 +2,27 @@
 import { useCart } from './CartContext'
 import styles from './AddToCartButton.module.css'
 
-export function AddToCartButton({ handle, available }: { handle: string; available: boolean }) {
+export function AddToCartButton({
+  handle,
+  available,
+  label = 'Ajouter au panier',
+  size = 'default',
+}: {
+  handle: string
+  available: boolean
+  label?: string
+  size?: 'default' | 'lg'
+}) {
   const { addItem } = useCart()
   return (
     <button
       type="button"
-      className={styles.button}
+      className={size === 'lg' ? `${styles.button} ${styles.lg}` : styles.button}
       disabled={!available}
-      aria-label="Ajouter au panier"
+      aria-label={label}
       onClick={() => addItem(handle)}
     >
-      Ajouter au panier
+      {label}
     </button>
   )
 }

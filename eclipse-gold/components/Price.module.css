@@ -4,3 +4,19 @@
   color: var(--eg-gold);
   letter-spacing: 0.04em;
 }
+
+.price.lg {
+  font-size: 1.9rem;
+}
+
+.compare {
+  color: var(--eg-muted);
+  text-decoration: line-through;
+  font-size: 0.62em;
+  margin-right: 0.55em;
+  letter-spacing: 0.02em;
+}
+
+.amount {
+  color: var(--eg-gold);
+}

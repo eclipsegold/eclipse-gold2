@@ -1,7 +1,7 @@
 .article {
   max-width: var(--eg-maxw);
   margin: 0 auto;
-  padding-bottom: 96px;
+  padding-bottom: var(--eg-s5);
 }
 
 .body {
@@ -24,6 +24,26 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-top: var(--eg-s2);
+}
+
+.reviews {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eg-s1);
+  margin-top: var(--eg-s2);
+}
+
+.stars {
+  color: var(--eg-gold);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+.reviewsText {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--eg-muted);
 }
 
 .tagline {
@@ -49,43 +69,48 @@
   line-height: 2.4;
 }
 
-.sticky {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 30;
+/* ---- Conversion purchase block ---- */
+.purchase {
+  max-width: 420px;
+  margin: var(--eg-s4) auto 0;
+  padding-top: var(--eg-s4);
+  border-top: 1px solid var(--eg-line);
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: var(--eg-s2);
-  padding: 12px 16px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  background: rgba(10, 10, 10, 0.96);
-  border-top: 1px solid var(--eg-gold);
-  backdrop-filter: blur(8px);
 }
 
-.buy {
-  flex: 1;
-  text-align: center;
-  background: var(--eg-gold);
-  color: var(--eg-black);
-  border: none;
-  padding: 13px;
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+.urgency {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
   font-weight: 600;
-  border-radius: 2px;
-  cursor: not-allowed;
-  opacity: 0.92;
+  color: #e1483b;
+  text-align: center;
 }
 
-.unavailable {
-  flex: 1;
-  text-align: center;
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
+.guarantee {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eg-s1) var(--eg-s3);
+  margin-top: var(--eg-s2);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--eg-muted);
+}
+
+.guarantee li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.check {
+  color: var(--eg-gold);
+  font-weight: 700;
 }

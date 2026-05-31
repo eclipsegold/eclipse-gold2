@@ -17,6 +17,40 @@ import styles from './product.module.css'
 
 export const revalidate = 3600
 
+interface PdpCopy {
+  reviews: string
+  urgency: string
+  cta: string
+  guarantee: [string, string, string]
+}
+
+const PDP: Record<Lang, PdpCopy> = {
+  fr: {
+    reviews: '(4.9) · 127 avis',
+    urgency: '⚡ Stock limité — commandez avant rupture',
+    cta: 'Commander maintenant',
+    guarantee: ['Livraison offerte', 'Retours 14j', 'Paiement sécurisé'],
+  },
+  de: {
+    reviews: '(4.9) · 127 Bewertungen',
+    urgency: '⚡ Begrenzter Bestand — bestellen Sie vor dem Ausverkauf',
+    cta: 'Jetzt bestellen',
+    guarantee: ['Gratis Versand', 'Rückgabe 14 Tage', 'Sichere Zahlung'],
+  },
+  it: {
+    reviews: '(4.9) · 127 recensioni',
+    urgency: '⚡ Disponibilità limitata — ordina prima dell’esaurimento',
+    cta: 'Ordina ora',
+    guarantee: ['Spedizione gratuita', 'Resi 14g', 'Pagamento sicuro'],
+  },
+}
+
+const HERO_PHOTOS = [
+  { src: '/images/hero/fire.png', tag: 'feu' },
+  { src: '/images/hero/sand.png', tag: 'sable doré' },
+  { src: '/images/hero/water.png', tag: 'eau' },
+] as const
+
 export function generateStaticParams() {
   return LANGS.flatMap((lang) =>
     getAllModels().map((m) => ({
@@ -69,13 +103,19 @@ export default async function ProductPage({
   } catch {
     shopify = null
   }
+  const t = PDP[lang]
   const defaultCurrency = currencyFor(lang, DEFAULT_COUNTRY)
   const defaultAmount = shopify?.price.amount ?? '49.90'
+  // The CTA stays enabled unless Shopify is wired AND reports the product sold out.
+  const available = shopify ? shopify.availableForSale : true
   const shopifyImages = shopify?.images.map((i) => ({ url: i.url, alt: i.altText ?? model.modelName })) ?? []
-  // The curated local product photo is the primary/hero image; Shopify images follow.
-  const images = model.image
-    ? [{ url: model.image, alt: model.modelName }, ...shopifyImages]
-    : shopifyImages
+  const heroPhotos = HERO_PHOTOS.map((p) => ({ url: p.src, alt: `${model.modelName} — ${p.tag}` }))
+  // Primary curated photo first, then the three hero lifestyle shots, then any Shopify images.
+  const images = [
+    ...(model.image ? [{ url: model.image, alt: model.modelName }] : []),
+    ...heroPhotos,
+    ...shopifyImages,
+  ]
   const url = abs(`/${lang}/${collectionSlugFor(lang)}/${model.slug[lang]}`)
 
   return (
@@ -109,6 +149,10 @@ export default async function ProductPage({
       <div className={styles.body}>
         <p className={styles.phenomenon}>{model.phenomenon}</p>
         <h1 className={styles.name}>{model.modelName}</h1>
+        <p className={styles.reviews} aria-label={`Note 4,9 sur 5 — ${t.reviews}`}>
+          <span className={styles.stars} aria-hidden="true">★★★★★</span>
+          <span className={styles.reviewsText}>{t.reviews}</span>
+        </p>
         <p className={styles.tagline}>{model.tagline[lang]}</p>
         <p className={styles.desc}>{model.intro[lang]}</p>
         <ul className={styles.features}>
@@ -116,14 +160,26 @@ export default async function ProductPage({
             <li key={i}>{f}</li>
           ))}
         </ul>
-      </div>
-      <div className={styles.sticky}>
-        {shopify ? (
-          <Price handle={model.handle} lang={lang} defaultAmount={defaultAmount} defaultCurrency={defaultCurrency} />
-        ) : (
-          <span className={styles.unavailable}>Bientôt disponible</span>
-        )}
-        <AddToCartButton handle={model.handle} available={shopify?.availableForSale ?? false} />
+
+        <div className={styles.purchase}>
+          <Price
+            handle={model.handle}
+            lang={lang}
+            defaultAmount={defaultAmount}
+            defaultCurrency={defaultCurrency}
+            compareAtAmount="89.90"
+            size="lg"
+          />
+          <p className={styles.urgency}>{t.urgency}</p>
+          <AddToCartButton handle={model.handle} available={available} label={t.cta} size="lg" />
+          <ul className={styles.guarantee}>
+            {t.guarantee.map((g) => (
+              <li key={g}>
+                <span className={styles.check} aria-hidden="true">✓</span> {g}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </article>
   )
