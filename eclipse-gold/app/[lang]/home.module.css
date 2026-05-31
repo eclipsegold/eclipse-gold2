@@ -1,71 +1,200 @@
+/* ---- Hero (full-screen video) ---- */
 .hero {
-  height: 88vh;
-  min-height: 540px;
+  position: relative;
+  height: 100svh;
+  min-height: 560px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: var(--eg-bg-radial);
+  overflow: hidden;
+}
+
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(circle at 50% 40%, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.78) 85%);
+}
+
+.heroContent {
   position: relative;
+  z-index: 2;
   padding: 0 var(--eg-s3);
 }
 
-.ring {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  background: var(--eg-black);
-  box-shadow: 0 0 2px 2px var(--eg-gold), 0 0 70px 14px rgba(212, 175, 55, 0.45);
-  margin-bottom: var(--eg-s4);
-  animation: breathe 6s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%,
-  100% {
-    box-shadow: 0 0 2px 2px var(--eg-gold), 0 0 60px 10px rgba(212, 175, 55, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 2px 2px var(--eg-gold), 0 0 90px 22px rgba(212, 175, 55, 0.6);
-  }
-}
-
-.title {
+.heroTitle {
   font-family: var(--eg-serif);
   font-weight: 400;
-  font-size: clamp(1.8rem, 8vw, 2.6rem);
-  line-height: 1.25;
+  font-size: clamp(3rem, 11vw, 7rem);
+  line-height: 1.04;
   text-transform: uppercase;
-  letter-spacing: var(--eg-track);
+  letter-spacing: 0.1em;
+  color: var(--eg-cream);
+  text-shadow: 0 2px 40px rgba(0, 0, 0, 0.6);
 }
 
-.subtitle {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--eg-muted);
+.heroSubtitle {
   margin: var(--eg-s3) 0 var(--eg-s4);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--eg-cream);
 }
 
-.cta {
+.heroCta {
   display: inline-block;
   border: 1px solid var(--eg-gold);
   color: var(--eg-gold);
-  padding: 12px 28px;
-  font-size: 0.7rem;
+  padding: 14px 34px;
+  font-size: 0.72rem;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   border-radius: 2px;
+  background: rgba(0, 0, 0, 0.25);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.intro {
-  max-width: 640px;
+.heroCta:hover {
+  background: var(--eg-gold);
+  color: var(--eg-black);
+}
+
+/* ---- Editorial sections (alternating image / text) ---- */
+.editorial {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: var(--eg-s4);
+  max-width: var(--eg-maxw);
   margin: var(--eg-s6) auto;
   padding: 0 var(--eg-s3);
-  text-align: center;
+}
+
+.editorialMedia {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--eg-black);
+}
+
+.editorialMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.editorialText {
+  padding: var(--eg-s2) 0;
+}
+
+.editorialKicker {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--eg-gold);
+  margin-bottom: var(--eg-s2);
+}
+
+.editorialHeading {
   font-family: var(--eg-serif);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-weight: 400;
+  font-size: clamp(3rem, 6vw, 4.2rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--eg-cream);
+}
+
+.editorialBody {
+  margin-top: var(--eg-s3);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--eg-muted);
+  max-width: 46ch;
+}
+
+.editorialLink {
+  display: inline-block;
+  margin-top: var(--eg-s3);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--eg-gold);
+  border-bottom: 1px solid var(--eg-gold);
+  padding-bottom: 4px;
+}
+
+@media (min-width: 768px) {
+  .editorial {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--eg-s6);
+  }
+
+  /* Keep the image first in source order but render text on the left. */
+  .editorialReverse .editorialText {
+    order: -1;
+  }
+}
+
+/* ---- Featured models ---- */
+.featured {
+  margin: var(--eg-s6) auto var(--eg-s5);
+}
+
+.featuredHead {
+  text-align: center;
+  max-width: var(--eg-maxw);
+  margin: 0 auto var(--eg-s4);
+  padding: 0 var(--eg-s3);
+}
+
+.featuredHeading {
+  font-family: var(--eg-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 6vw, 4rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--eg-cream);
+}
+
+/* ---- Reassurance band ---- */
+.reassurance {
+  border-top: 1px solid var(--eg-line);
+  border-bottom: 1px solid var(--eg-line);
+  padding: var(--eg-s4) var(--eg-s3);
+}
+
+.reassuranceInner {
+  max-width: var(--eg-maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eg-s3) var(--eg-s5);
+}
+
+.reassuranceItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eg-s1);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--eg-cream);
+}
+
+.reassuranceMark {
+  color: var(--eg-gold);
 }
