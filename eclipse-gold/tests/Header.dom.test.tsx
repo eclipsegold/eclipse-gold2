@@ -17,7 +17,7 @@ describe('Header', () => {
       </CurrencyProvider>,
     )
     expect(screen.getByText('Eclipse Gold')).toBeInTheDocument()
-    expect(screen.getByLabelText(/panier/i)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /panier/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /collection/i })).toHaveAttribute(
       'href',
       '/fr/lunettes-de-soleil-rimless-or',

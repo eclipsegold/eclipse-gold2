@@ -30,11 +30,3 @@
   align-items: center;
   gap: var(--eg-s2);
 }
-
-.cart {
-  background: none;
-  border: none;
-  color: var(--eg-muted);
-  cursor: not-allowed;
-  font-size: 1rem;
-}

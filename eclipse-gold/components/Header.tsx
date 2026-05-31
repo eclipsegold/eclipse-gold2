@@ -3,6 +3,8 @@ import type { Lang } from '../data/types'
 import { collectionSlugFor } from '../lib/i18n'
 import { LangSwitcher } from './LangSwitcher'
 import { CurrencySelector } from './CurrencySelector'
+import { CartButton } from './CartButton'
+import { CartDrawer } from './CartDrawer'
 import styles from './Header.module.css'
 
 export function Header({ lang }: { lang: Lang }) {
@@ -18,10 +20,9 @@ export function Header({ lang }: { lang: Lang }) {
       <div className={styles.actions}>
         <LangSwitcher current={lang} />
         <CurrencySelector />
-        <button type="button" aria-label="Panier" disabled className={styles.cart}>
-          🛒
-        </button>
+        <CartButton />
       </div>
+      <CartDrawer lang={lang} />
     </header>
   )
 }
