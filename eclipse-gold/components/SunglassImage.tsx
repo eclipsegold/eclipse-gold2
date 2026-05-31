@@ -12,11 +12,12 @@ export function SunglassImage({
   size?: keyof typeof SIZES
 }) {
   const px = SIZES[size]
+  const heightPx = Math.round((px * 4) / 3)
   return (
     <div className={styles.frame}>
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img className={styles.img} src={src} alt={alt} loading="lazy" width={px} height={px} />
+        <img className={styles.img} src={src} alt={alt} loading="lazy" width={px} height={heightPx} />
       ) : (
         <span className={styles.placeholder} aria-hidden="true">EG</span>
       )}
