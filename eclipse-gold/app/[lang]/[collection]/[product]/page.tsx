@@ -27,29 +27,23 @@ interface PdpCopy {
 const PDP: Record<Lang, PdpCopy> = {
   fr: {
     reviews: '(4.9) · 127 avis',
-    urgency: '⚡ Stock limité — commandez avant rupture',
+    urgency: 'Édition limitée · Expédié sous 48h',
     cta: 'Commander maintenant',
     guarantee: ['Livraison offerte', 'Retours 14j', 'Paiement sécurisé'],
   },
   de: {
     reviews: '(4.9) · 127 Bewertungen',
-    urgency: '⚡ Begrenzter Bestand — bestellen Sie vor dem Ausverkauf',
+    urgency: 'Limitierte Auflage · Versand in 48 Std.',
     cta: 'Jetzt bestellen',
     guarantee: ['Gratis Versand', 'Rückgabe 14 Tage', 'Sichere Zahlung'],
   },
   it: {
     reviews: '(4.9) · 127 recensioni',
-    urgency: '⚡ Disponibilità limitata — ordina prima dell’esaurimento',
+    urgency: 'Edizione limitata · Spedito in 48h',
     cta: 'Ordina ora',
     guarantee: ['Spedizione gratuita', 'Resi 14g', 'Pagamento sicuro'],
   },
 }
-
-const HERO_PHOTOS = [
-  { src: '/images/hero/fire.png', tag: 'feu' },
-  { src: '/images/hero/sand.png', tag: 'sable doré' },
-  { src: '/images/hero/water.png', tag: 'eau' },
-] as const
 
 export function generateStaticParams() {
   return LANGS.flatMap((lang) =>
@@ -109,13 +103,11 @@ export default async function ProductPage({
   // The CTA stays enabled unless Shopify is wired AND reports the product sold out.
   const available = shopify ? shopify.availableForSale : true
   const shopifyImages = shopify?.images.map((i) => ({ url: i.url, alt: i.altText ?? model.modelName })) ?? []
-  const heroPhotos = HERO_PHOTOS.map((p) => ({ url: p.src, alt: `${model.modelName} — ${p.tag}` }))
-  // Primary curated photo first, then the three hero lifestyle shots, then any Shopify images.
-  const images = [
-    ...(model.image ? [{ url: model.image, alt: model.modelName }] : []),
-    ...heroPhotos,
-    ...shopifyImages,
-  ]
+  // Each product shows only its own curated photo (+ any Shopify images). The
+  // hero lifestyle shots (fire/sand/water) live on the home page only.
+  const images = model.image
+    ? [{ url: model.image, alt: model.modelName }, ...shopifyImages]
+    : shopifyImages
   const url = abs(`/${lang}/${collectionSlugFor(lang)}/${model.slug[lang]}`)
 
   return (
@@ -162,6 +154,14 @@ export default async function ProductPage({
         </ul>
 
         <div className={styles.purchase}>
+          {/*
+            LEGAL RISK: the struck-through 89.90 reference price is a marketing
+            anchor, not a genuine former selling price. Displaying a fake
+            "was" price is unlawful in CH (UWG / Preisbekanntgabeverordnung)
+            and FR (Code de la consommation — prix de référence). Kept for now
+            per request; before going live, either make it a real prior price
+            (charged for the legally required period) or remove compareAtAmount.
+          */}
           <Price
             handle={model.handle}
             lang={lang}

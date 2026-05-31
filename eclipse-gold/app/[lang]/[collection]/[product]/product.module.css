@@ -82,10 +82,10 @@
 }
 
 .urgency {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  color: #e1483b;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.75);
   text-align: center;
 }
 
