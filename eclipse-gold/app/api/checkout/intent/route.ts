@@ -10,6 +10,10 @@ export async function POST(request: Request): Promise<Response> {
     return Response.json({ error: 'invalid body' }, { status: 400 })
   }
   const country = (body.country ?? 'CH') as Country
+  // We only ship to Switzerland and France.
+  if (country !== 'CH' && country !== 'FR') {
+    return Response.json({ error: 'unsupported_country' }, { status: 400 })
+  }
   try {
     const cart = await priceCart(body.lines ?? [], country)
     const pi = await getStripe().paymentIntents.create({

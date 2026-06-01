@@ -14,9 +14,17 @@ export interface BuildMetadataArgs {
   pathByLang: Localized<string>
   title: string
   description: string
+  /** Open Graph type. Defaults to 'website'; product pages can pass 'product'. */
+  ogType?: 'website' | 'article' | 'product'
 }
 
-export function buildMetadata({ lang, pathByLang, title, description }: BuildMetadataArgs): Metadata {
+export function buildMetadata({
+  lang,
+  pathByLang,
+  title,
+  description,
+  ogType = 'website',
+}: BuildMetadataArgs): Metadata {
   const languages: Record<string, string> = {}
   for (const l of LANGS) languages[l] = abs(pathByLang[l])
   languages['x-default'] = abs(pathByLang.fr)
@@ -32,8 +40,18 @@ export function buildMetadata({ lang, pathByLang, title, description }: BuildMet
       title,
       description,
       url: abs(pathByLang[lang]),
-      type: 'website',
+      // Next's OpenGraph type union doesn't include 'product'; cast keeps the
+      // public API flexible while emitting a valid og:type meta tag.
+      type: ogType as 'website',
       locale: lang,
+      siteName: 'Eclipse Gold',
     },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+    // og:image and twitter:image are populated automatically from
+    // app/opengraph-image.tsx via metadataBase (set in the root layout).
   }
 }

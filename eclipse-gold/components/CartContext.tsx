@@ -20,6 +20,7 @@ interface CartState {
 
 const Ctx = createContext<CartState | null>(null)
 const KEY = 'eg-cart'
+const MAX_QTY = 10
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([])
@@ -53,7 +54,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       persist((prev) => {
         const existing = prev.find((l) => l.handle === handle)
         return existing
-          ? prev.map((l) => (l.handle === handle ? { ...l, quantity: l.quantity + 1 } : l))
+          ? prev.map((l) =>
+              l.handle === handle ? { ...l, quantity: Math.min(MAX_QTY, l.quantity + 1) } : l,
+            )
           : [...prev, { handle, quantity: 1 }]
       })
       setIsOpen(true)
@@ -74,7 +77,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         removeItem(handle)
         return
       }
-      persist((prev) => prev.map((l) => (l.handle === handle ? { ...l, quantity } : l)))
+      const capped = Math.min(MAX_QTY, quantity)
+      persist((prev) => prev.map((l) => (l.handle === handle ? { ...l, quantity: capped } : l)))
     },
     [persist, removeItem],
   )

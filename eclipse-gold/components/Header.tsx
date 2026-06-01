@@ -16,6 +16,7 @@ interface NavCopy {
   open: string
   close: string
   menu: string
+  skip: string
 }
 
 const NAV: Record<Lang, NavCopy> = {
@@ -27,6 +28,7 @@ const NAV: Record<Lang, NavCopy> = {
     open: 'Ouvrir le menu',
     close: 'Fermer le menu',
     menu: 'Menu',
+    skip: 'Aller au contenu',
   },
   de: {
     collection: 'Kollektion',
@@ -36,6 +38,7 @@ const NAV: Record<Lang, NavCopy> = {
     open: 'Menü öffnen',
     close: 'Menü schließen',
     menu: 'Menü',
+    skip: 'Zum Inhalt',
   },
   it: {
     collection: 'Collezione',
@@ -45,6 +48,7 @@ const NAV: Record<Lang, NavCopy> = {
     open: 'Apri il menu',
     close: 'Chiudi il menu',
     menu: 'Menu',
+    skip: 'Vai al contenuto',
   },
 }
 
@@ -57,6 +61,9 @@ export function Header({ lang }: { lang: Lang }) {
 
   return (
     <header className={styles.header}>
+      <a href="#main-content" className={styles.skipLink}>
+        {t.skip}
+      </a>
       <div className={styles.inner}>
         <div className={styles.left}>
           <MobileNav
@@ -82,9 +89,9 @@ export function Header({ lang }: { lang: Lang }) {
             <LangSwitcher current={lang} />
           </div>
           <div className={styles.desktopOnly}>
-            <CurrencySelector />
+            <CurrencySelector lang={lang} />
           </div>
-          <CartButton />
+          <CartButton lang={lang} />
         </div>
       </div>
       <CartDrawer lang={lang} />

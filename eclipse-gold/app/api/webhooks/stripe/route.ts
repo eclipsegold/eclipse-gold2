@@ -1,6 +1,6 @@
 import type Stripe from 'stripe'
 import { getStripe } from '../../../../lib/stripe'
-import { sendOrderEmail } from '../../../../lib/notify'
+import { sendOrderEmail, sendCustomerConfirmationEmail, type OrderNotification } from '../../../../lib/notify'
 
 function parseName(full: string | null | undefined): { firstName: string; lastName: string } {
   const parts = (full ?? '').trim().split(/\s+/)
@@ -44,7 +44,7 @@ export async function POST(request: Request): Promise<Response> {
     const lines = JSON.parse((pi.metadata?.lines as string) ?? '[]') as { v: string; q: number }[]
     const name = parseName(pi.shipping?.name)
     const addr: Record<string, string> = pi.shipping?.address ?? {}
-    await sendOrderEmail({
+    const order: OrderNotification = {
       paymentIntentId: pi.id,
       email: pi.receipt_email ?? '',
       currency: (pi.currency ?? 'chf').toUpperCase(),
@@ -58,7 +58,12 @@ export async function POST(request: Request): Promise<Response> {
         zip: addr.postal_code ?? '',
         country: addr.country ?? (pi.metadata?.country as string) ?? 'CH',
       },
-    })
+    }
+    // Owner notification first — a hard failure here throws and yields 500 so
+    // Stripe retries. The customer receipt is best-effort (never throws) and a
+    // missing customer email is a non-fatal skip.
+    await sendOrderEmail(order)
+    await sendCustomerConfirmationEmail(order)
     await getStripe().paymentIntents.update(pi.id, {
       metadata: { ...pi.metadata, notified: 'true' },
     })

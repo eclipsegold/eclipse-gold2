@@ -26,26 +26,6 @@
   margin-top: var(--eg-s2);
 }
 
-.reviews {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--eg-s1);
-  margin-top: var(--eg-s2);
-}
-
-.stars {
-  color: var(--eg-gold);
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
-}
-
-.reviewsText {
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  color: var(--eg-muted);
-}
-
 .tagline {
   font-family: var(--eg-serif);
   font-size: 1.1rem;
@@ -81,11 +61,11 @@
   gap: var(--eg-s2);
 }
 
-.urgency {
+.shipping {
   font-size: 0.66rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(212, 175, 55, 0.75);
+  color: var(--eg-muted);
   text-align: center;
 }
 

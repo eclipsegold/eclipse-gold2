@@ -1,3 +1,37 @@
+.skipLink {
+  position: absolute;
+  left: 50%;
+  top: var(--eg-s2);
+  transform: translate(-50%, -200%);
+  z-index: 50;
+  background: var(--eg-gold);
+  color: var(--eg-black);
+  padding: 10px 18px;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.skipLink:focus,
+.skipLink:focus-visible {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid var(--eg-cream);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skipLink {
+    transition: none;
+  }
+}
+
 .header {
   position: sticky;
   top: 0;

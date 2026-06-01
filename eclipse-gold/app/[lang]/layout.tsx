@@ -29,7 +29,7 @@ export default async function LangLayout({
     <CurrencyProvider>
       <CartProvider>
         <Header lang={lang} />
-        <main lang={lang}>{children}</main>
+        <main id="main-content" lang={lang}>{children}</main>
         <Footer lang={lang} />
       </CartProvider>
     </CurrencyProvider>

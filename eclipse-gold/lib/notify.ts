@@ -62,3 +62,71 @@ export async function sendOrderEmail(order: OrderNotification): Promise<void> {
     throw new Error(`Resend error: ${JSON.stringify(error)}`)
   }
 }
+
+/** Customer-facing receipt body (French — primary market). */
+function formatCustomerEmail(o: OrderNotification): string {
+  const items = o.lines.map((l) => `  - ${l.handle} × ${l.quantity}`).join('\n')
+  const a = o.address
+  return [
+    'Merci pour votre commande chez Eclipse Gold !',
+    '',
+    `Référence : ${o.paymentIntentId}`,
+    `Total payé : ${o.total.toFixed(2)} ${o.currency}`,
+    '',
+    'Articles :',
+    items || '  (aucun)',
+    '',
+    'Livraison (offerte) :',
+    `  ${a.firstName} ${a.lastName}`.trim(),
+    `  ${a.address1}`,
+    `  ${a.zip} ${a.city}`.trim(),
+    `  ${a.country}`,
+    '',
+    'Vous disposez de 14 jours pour vous rétracter.',
+    '',
+    'À bientôt,',
+    "L'équipe Eclipse Gold",
+  ].join('\n')
+}
+
+/**
+ * Sends a confirmation/receipt to the CUSTOMER (order.email).
+ *
+ * Graceful, non-throwing: if Resend isn't configured or the customer didn't
+ * provide an email, we log and return rather than failing the whole flow.
+ *
+ * NOTE: Customer emails require a Resend *verified domain* configured via
+ * ORDER_FROM_EMAIL. The default sandbox sender (onboarding@resend.dev) only
+ * delivers to the Resend account owner, NOT to arbitrary customers.
+ */
+export async function sendCustomerConfirmationEmail(order: OrderNotification): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY
+  const to = order.email
+  const body = formatCustomerEmail(order)
+
+  if (!to) {
+    console.log(`[ORDER] no customer email on order ${order.paymentIntentId} — skipping receipt`)
+    return
+  }
+  if (!apiKey) {
+    console.log(`[ORDER] Resend not configured — customer receipt (would send to ${to}):\n${body}`)
+    return
+  }
+
+  try {
+    const { Resend } = await import('resend')
+    const resend = new Resend(apiKey)
+    const { error } = await resend.emails.send({
+      from: process.env.ORDER_FROM_EMAIL ?? 'Eclipse Gold <onboarding@resend.dev>',
+      to,
+      subject: 'Confirmation de votre commande — Eclipse Gold',
+      text: body,
+    })
+    if (error) {
+      // Non-fatal: the order is already captured and the owner is notified.
+      console.error(`[ORDER] customer receipt failed for ${order.paymentIntentId}`, error)
+    }
+  } catch (err) {
+    console.error(`[ORDER] customer receipt threw for ${order.paymentIntentId}`, err)
+  }
+}

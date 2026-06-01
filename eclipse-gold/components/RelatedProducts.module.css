@@ -1,0 +1,15 @@
+.related {
+  margin-top: var(--eg-s5);
+  padding-top: var(--eg-s4);
+  border-top: 1px solid var(--eg-line);
+}
+
+.heading {
+  font-family: var(--eg-serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: var(--eg-s4);
+}

@@ -24,6 +24,7 @@ export function Price({
   const { country } = useCurrency()
   const [amount, setAmount] = useState(defaultAmount)
   const [currency, setCurrency] = useState<Currency>(defaultCurrency)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const target = currencyFor(lang, country)
@@ -32,9 +33,11 @@ export function Price({
       // default-currency market shows the server price (no stale refetch value).
       setAmount(defaultAmount)
       setCurrency(defaultCurrency)
+      setLoading(false)
       return
     }
     const controller = new AbortController()
+    setLoading(true)
     fetch(`/api/price?handle=${encodeURIComponent(handle)}&country=${country}`, {
       signal: controller.signal,
     })
@@ -44,10 +47,12 @@ export function Price({
           setAmount(data.amount)
           setCurrency(data.currencyCode as Currency)
         }
+        setLoading(false)
       })
       .catch((err) => {
         if (err?.name !== 'AbortError') {
-          // swallow network errors; the default price stays shown
+          // swallow network errors; the default price stays shown as a fallback
+          setLoading(false)
         }
       })
     return () => {
@@ -56,7 +61,11 @@ export function Price({
   }, [country, lang, handle, defaultAmount, defaultCurrency])
 
   return (
-    <span className={size === 'lg' ? `${styles.price} ${styles.lg}` : styles.price}>
+    <span
+      className={size === 'lg' ? `${styles.price} ${styles.lg}` : styles.price}
+      aria-busy={loading}
+      style={loading ? { opacity: 0.55, transition: 'opacity 0.2s ease' } : { transition: 'opacity 0.2s ease' }}
+    >
       {compareAtAmount ? (
         <s className={styles.compare}>{formatPrice(compareAtAmount, currency, lang)}</s>
       ) : null}

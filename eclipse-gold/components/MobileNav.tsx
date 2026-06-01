@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import type { Lang } from '../data/types'
 import { LangSwitcher } from './LangSwitcher'
@@ -24,13 +24,42 @@ export function MobileNav({
 }) {
   const [open, setOpen] = useState(false)
   const close = () => setOpen(false)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  // ESC to close, body scroll lock, and focus management while open.
+  useEffect(() => {
+    if (!open) return
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('keydown', onKeyDown)
+
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    // Move focus to the first focusable item in the panel.
+    const first = panelRef.current?.querySelector<HTMLElement>(
+      'a[href], button:not([disabled]), select, input',
+    )
+    first?.focus()
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = prevOverflow
+      // Restore focus to the toggle when the menu closes.
+      toggleRef.current?.focus()
+    }
+  }, [open])
 
   return (
     <div className={styles.root}>
       <button
+        ref={toggleRef}
         type="button"
         className={styles.toggle}
-        aria-label={open ? labels.close : labels.open}
+        aria-label={labels.menu}
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((v) => !v)}
@@ -52,7 +81,7 @@ export function MobileNav({
       {open && (
         <>
           <div className={styles.scrim} onClick={close} aria-hidden="true" />
-          <div id="mobile-menu" className={styles.panel}>
+          <div ref={panelRef} id="mobile-menu" className={styles.panel}>
             <nav className={styles.links} aria-label={labels.menu}>
               {links.map((l) => (
                 <Link key={l.href} href={l.href} className={styles.link} onClick={close}>
@@ -62,7 +91,7 @@ export function MobileNav({
             </nav>
             <div className={styles.menuFooter}>
               <LangSwitcher current={lang} />
-              <CurrencySelector />
+              <CurrencySelector lang={lang} />
             </div>
             <Link href={legal.href} className={styles.legal} onClick={close}>
               {legal.label}

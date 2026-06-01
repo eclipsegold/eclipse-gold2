@@ -11,8 +11,10 @@
   border: none;
   color: var(--eg-cream);
   cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
   padding: 4px;
-  margin-left: -4px;
+  margin-left: -11px;
 }
 
 /* The hamburger only exists on mobile; desktop uses the inline nav. */

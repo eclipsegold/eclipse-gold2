@@ -1,4 +1,5 @@
-import { siteUrl } from './metadata'
+import { siteUrl, abs } from './metadata'
+import { legalEntity } from '../../data/legal'
 
 export interface ProductLdArgs {
   name: string
@@ -63,6 +64,14 @@ export function organizationJsonLd() {
     '@type': 'Organization' as const,
     name: 'Eclipse Gold',
     url: siteUrl(),
+    logo: abs('/opengraph-image'),
+    contactPoint: {
+      '@type': 'ContactPoint' as const,
+      email: legalEntity.email,
+      contactType: 'customer service',
+      areaServed: ['CH', 'FR'],
+      availableLanguage: ['fr', 'de', 'it'],
+    },
   }
 }
 

@@ -1,6 +1,13 @@
-import { describe, it, expect, afterEach, beforeEach } from 'vitest'
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react'
 import { CartProvider } from '../components/CartContext'
+
+// Stripe redirects back with these query params; simulate a successful payment.
+vi.mock('next/navigation', () => ({
+  useSearchParams: () =>
+    new URLSearchParams('redirect_status=succeeded&payment_intent=pi_test_1'),
+}))
+
 import { ConfirmationView } from '../app/[lang]/checkout/confirmation/page'
 
 afterEach(() => cleanup())

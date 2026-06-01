@@ -5,7 +5,7 @@ const updatePI = vi.fn()
 vi.mock('../lib/stripe', () => ({
   getStripe: () => ({ webhooks: { constructEvent }, paymentIntents: { update: updatePI } }),
 }))
-vi.mock('../lib/notify', () => ({ sendOrderEmail: vi.fn() }))
+vi.mock('../lib/notify', () => ({ sendOrderEmail: vi.fn(), sendCustomerConfirmationEmail: vi.fn() }))
 import { sendOrderEmail } from '../lib/notify'
 import { POST } from '../app/api/webhooks/stripe/route'
 

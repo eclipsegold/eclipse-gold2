@@ -13,35 +13,36 @@ import { ProductGallery } from '../../../../components/ProductGallery'
 import { Breadcrumbs } from '../../../../components/Breadcrumbs'
 import { Price } from '../../../../components/Price'
 import { AddToCartButton } from '../../../../components/AddToCartButton'
+import { RelatedProducts } from '../../../../components/RelatedProducts'
 import styles from './product.module.css'
 
 export const revalidate = 3600
 
 interface PdpCopy {
-  reviews: string
-  urgency: string
+  shipping: string
   cta: string
   guarantee: [string, string, string]
+  relatedHeading: string
 }
 
 const PDP: Record<Lang, PdpCopy> = {
   fr: {
-    reviews: '(4.9) · 127 avis',
-    urgency: 'Édition limitée · Expédié sous 48h',
+    shipping: 'Préparation sous 48h · Livraison 7–21 jours ouvrés',
     cta: 'Commander maintenant',
     guarantee: ['Livraison offerte', 'Retours 14j', 'Paiement sécurisé'],
+    relatedHeading: 'Autres modèles',
   },
   de: {
-    reviews: '(4.9) · 127 Bewertungen',
-    urgency: 'Limitierte Auflage · Versand in 48 Std.',
+    shipping: 'Bearbeitung in 48 Std. · Lieferung 7–21 Werktage',
     cta: 'Jetzt bestellen',
     guarantee: ['Gratis Versand', 'Rückgabe 14 Tage', 'Sichere Zahlung'],
+    relatedHeading: 'Weitere Modelle',
   },
   it: {
-    reviews: '(4.9) · 127 recensioni',
-    urgency: 'Edizione limitata · Spedito in 48h',
+    shipping: 'Preparazione in 48h · Consegna 7–21 giorni lavorativi',
     cta: 'Ordina ora',
     guarantee: ['Spedizione gratuita', 'Resi 14g', 'Pagamento sicuro'],
+    relatedHeading: 'Altri modelli',
   },
 }
 
@@ -132,10 +133,6 @@ export default async function ProductPage({
       <div className={styles.body}>
         <p className={styles.phenomenon}>{model.phenomenon}</p>
         <h1 className={styles.name}>{model.modelName}</h1>
-        <p className={styles.reviews} aria-label={`Note 4,9 sur 5 — ${t.reviews}`}>
-          <span className={styles.stars} aria-hidden="true">★★★★★</span>
-          <span className={styles.reviewsText}>{t.reviews}</span>
-        </p>
         <p className={styles.tagline}>{model.tagline[lang]}</p>
         <p className={styles.desc}>{model.intro[lang]}</p>
         <ul className={styles.features}>
@@ -145,24 +142,15 @@ export default async function ProductPage({
         </ul>
 
         <div className={styles.purchase}>
-          {/*
-            LEGAL RISK: the struck-through 89.90 reference price is a marketing
-            anchor, not a genuine former selling price. Displaying a fake
-            "was" price is unlawful in CH (UWG / Preisbekanntgabeverordnung)
-            and FR (Code de la consommation — prix de référence). Kept for now
-            per request; before going live, either make it a real prior price
-            (charged for the legally required period) or remove compareAtAmount.
-          */}
           <Price
             handle={model.handle}
             lang={lang}
             defaultAmount={defaultAmount}
             defaultCurrency={defaultCurrency}
-            compareAtAmount="89.90"
             size="lg"
           />
-          <p className={styles.urgency}>{t.urgency}</p>
-          <AddToCartButton handle={model.handle} available={available} label={t.cta} size="lg" />
+          <p className={styles.shipping}>{t.shipping}</p>
+          <AddToCartButton handle={model.handle} available={available} label={t.cta} size="lg" lang={lang} />
           <ul className={styles.guarantee}>
             {t.guarantee.map((g) => (
               <li key={g}>
@@ -172,6 +160,7 @@ export default async function ProductPage({
           </ul>
         </div>
       </div>
+      <RelatedProducts lang={lang} currentHandle={model.handle} heading={t.relatedHeading} />
     </article>
   )
 }

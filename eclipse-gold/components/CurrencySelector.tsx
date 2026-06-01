@@ -1,15 +1,20 @@
 'use client'
+import type { Lang } from '../data/types'
 import { useCurrency } from './CurrencyContext'
 import type { Country } from '../lib/currency'
 import styles from './CurrencySelector.module.css'
 
-export function CurrencySelector() {
+const LABEL: Record<Lang, string> = { fr: 'Devise', de: 'Währung', it: 'Valuta' }
+
+export function CurrencySelector({ lang = 'fr' }: { lang?: Lang }) {
   const { country, setCountry } = useCurrency()
+  // Only CH/FR are valid options; anything else falls back to the FR default.
+  const value = country === 'CH' ? 'CH' : 'FR'
   return (
     <select
-      aria-label="Devise"
+      aria-label={LABEL[lang]}
       className={styles.select}
-      value={country === 'CH' ? 'CH' : 'FR'}
+      value={value}
       onChange={(e) => setCountry(e.target.value as Country)}
     >
       <option value="CH">CHF (Suisse)</option>
