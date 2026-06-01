@@ -1,6 +1,6 @@
 import type { Country, Currency } from '../lib/currency'
 import { currencyForCountry } from '../lib/currency'
-import { getShopifyProduct } from './shopify'
+import { getCatalogProduct } from './catalog'
 
 export interface CartLineInput {
   handle: string
@@ -30,7 +30,7 @@ export async function priceCart(lines: CartLineInput[], country: Country): Promi
   let total = 0
   for (const line of lines) {
     const qty = Math.max(1, Math.floor(line.quantity))
-    const product = await getShopifyProduct(line.handle, country)
+    const product = getCatalogProduct(line.handle, country)
     if (!product || !product.availableForSale || !product.variantId) {
       throw new Error(`Unavailable product: ${line.handle}`)
     }

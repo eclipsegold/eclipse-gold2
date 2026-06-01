@@ -1,19 +1,19 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 
-vi.mock('../data/shopify', () => ({ getShopifyProduct: vi.fn() }))
-import { getShopifyProduct } from '../data/shopify'
+vi.mock('../data/catalog', () => ({ getCatalogProduct: vi.fn() }))
+import { getCatalogProduct } from '../data/catalog'
 import { priceCart } from '../data/pricing'
 
 const make = (handle: string, amount: string, currencyCode = 'CHF') => ({
-  handle, title: handle, availableForSale: true, variantId: `v-${handle}`,
+  handle, title: handle, availableForSale: true, variantId: handle,
   price: { amount, currencyCode }, images: [],
 })
 
-beforeEach(() => vi.mocked(getShopifyProduct).mockReset())
+beforeEach(() => vi.mocked(getCatalogProduct).mockReset())
 
 describe('priceCart', () => {
-  it('sums line totals from server-resolved prices', async () => {
-    vi.mocked(getShopifyProduct).mockImplementation(async (h: string) =>
+  it('sums line totals from the local catalogue', async () => {
+    vi.mocked(getCatalogProduct).mockImplementation((h: string) =>
       h === 'nebula' ? make('nebula', '49.90') : make('helios', '49.90'),
     )
     const cart = await priceCart(
@@ -23,11 +23,11 @@ describe('priceCart', () => {
     expect(cart.total).toBeCloseTo(149.7, 2)
     expect(cart.currency).toBe('CHF')
     expect(cart.lines).toHaveLength(2)
-    expect(cart.lines[0]).toMatchObject({ handle: 'nebula', variantId: 'v-nebula', quantity: 2 })
+    expect(cart.lines[0]).toMatchObject({ handle: 'nebula', variantId: 'nebula', quantity: 2 })
   })
 
   it('uses EUR for non-CH countries', async () => {
-    vi.mocked(getShopifyProduct).mockResolvedValue(make('nebula', '52.00', 'EUR'))
+    vi.mocked(getCatalogProduct).mockReturnValue(make('nebula', '49.90', 'EUR'))
     const cart = await priceCart([{ handle: 'nebula', quantity: 1 }], 'FR')
     expect(cart.currency).toBe('EUR')
   })
@@ -37,7 +37,7 @@ describe('priceCart', () => {
   })
 
   it('throws on an unknown or unavailable handle', async () => {
-    vi.mocked(getShopifyProduct).mockResolvedValue(null)
+    vi.mocked(getCatalogProduct).mockReturnValue(null)
     await expect(priceCart([{ handle: 'ghost', quantity: 1 }], 'CH')).rejects.toThrow(/ghost/)
   })
 })

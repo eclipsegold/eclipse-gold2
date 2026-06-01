@@ -1,6 +1,6 @@
 import type Stripe from 'stripe'
 import { getStripe } from '../../../../lib/stripe'
-import { createPaidOrder, orderExistsForPayment } from '../../../../data/shopify-admin'
+import { sendOrderEmail } from '../../../../lib/notify'
 
 function parseName(full: string | null | undefined): { firstName: string; lastName: string } {
   const parts = (full ?? '').trim().split(/\s+/)
@@ -34,18 +34,22 @@ export async function POST(request: Request): Promise<Response> {
     receipt_email?: string
   }
 
+  // Idempotency: Stripe delivers at least once. We flag the PaymentIntent once
+  // notified so retries don't send a duplicate email.
+  if (pi.metadata?.notified === 'true') {
+    return Response.json({ received: true, idempotent: true })
+  }
+
   try {
-    if (await orderExistsForPayment(pi.id)) {
-      return Response.json({ received: true, idempotent: true })
-    }
     const lines = JSON.parse((pi.metadata?.lines as string) ?? '[]') as { v: string; q: number }[]
     const name = parseName(pi.shipping?.name)
     const addr: Record<string, string> = pi.shipping?.address ?? {}
-    await createPaidOrder({
+    await sendOrderEmail({
       paymentIntentId: pi.id,
       email: pi.receipt_email ?? '',
       currency: (pi.currency ?? 'chf').toUpperCase(),
-      lines: lines.map((l) => ({ variantId: l.v, quantity: l.q })),
+      total: (pi.amount ?? 0) / 100,
+      lines: lines.map((l) => ({ handle: l.v, quantity: l.q })),
       address: {
         firstName: name.firstName,
         lastName: name.lastName,
@@ -55,10 +59,13 @@ export async function POST(request: Request): Promise<Response> {
         country: addr.country ?? (pi.metadata?.country as string) ?? 'CH',
       },
     })
+    await getStripe().paymentIntents.update(pi.id, {
+      metadata: { ...pi.metadata, notified: 'true' },
+    })
     return Response.json({ received: true })
   } catch (error) {
     // Payment already captured — return 500 so Stripe retries; never lose the order.
-    console.error('webhook: failed to create Shopify order', error)
-    return Response.json({ error: 'order creation failed' }, { status: 500 })
+    console.error('webhook: failed to notify order', error)
+    return Response.json({ error: 'order notification failed' }, { status: 500 })
   }
 }

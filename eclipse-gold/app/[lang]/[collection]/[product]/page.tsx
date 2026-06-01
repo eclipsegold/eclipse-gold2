@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { LANGS, type Lang } from '../../../../data/types'
 import { isLang, collectionSlugFor, COLLECTION_SLUG } from '../../../../lib/i18n'
 import { getAllModels, getModelBySlug } from '../../../../data/queries'
-import { getShopifyProduct } from '../../../../data/shopify'
+import { getCatalogProduct } from '../../../../data/catalog'
 import { buildMetadata, abs } from '../../../../lib/seo/metadata'
 import { productJsonLd, breadcrumbJsonLd } from '../../../../lib/seo/jsonld'
 import { currencyFor } from '../../../../lib/currency'
@@ -91,23 +91,14 @@ export default async function ProductPage({
   const model = getModelBySlug(product, lang)
   if (!model) notFound()
 
-  let shopify: Awaited<ReturnType<typeof getShopifyProduct>> = null
-  try {
-    shopify = await getShopifyProduct(model.handle, DEFAULT_COUNTRY)
-  } catch {
-    shopify = null
-  }
+  const catalog = getCatalogProduct(model.handle, DEFAULT_COUNTRY)
   const t = PDP[lang]
   const defaultCurrency = currencyFor(lang, DEFAULT_COUNTRY)
-  const defaultAmount = shopify?.price.amount ?? '49.90'
-  // The CTA stays enabled unless Shopify is wired AND reports the product sold out.
-  const available = shopify ? shopify.availableForSale : true
-  const shopifyImages = shopify?.images.map((i) => ({ url: i.url, alt: i.altText ?? model.modelName })) ?? []
-  // Each product shows only its own curated photo (+ any Shopify images). The
-  // hero lifestyle shots (fire/sand/water) live on the home page only.
-  const images = model.image
-    ? [{ url: model.image, alt: model.modelName }, ...shopifyImages]
-    : shopifyImages
+  const defaultAmount = catalog?.price.amount ?? '49.90'
+  const available = catalog ? catalog.availableForSale : true
+  // Each product shows only its own curated photo. The hero lifestyle shots
+  // (fire/sand/water) live on the home page only.
+  const images = model.image ? [{ url: model.image, alt: model.modelName }] : []
   const url = abs(`/${lang}/${collectionSlugFor(lang)}/${model.slug[lang]}`)
 
   return (
@@ -120,7 +111,7 @@ export default async function ProductPage({
           image: images.map((i) => (i.url.startsWith('http') ? i.url : abs(i.url))),
           price: defaultAmount,
           currency: defaultCurrency,
-          availability: shopify?.availableForSale ?? false,
+          availability: catalog?.availableForSale ?? false,
         })}
       />
       <JsonLd
