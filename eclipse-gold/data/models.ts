@@ -28,9 +28,9 @@ export const models: SunglassModel[] = [
       it: 'TOTALIS — Occhiali da sole senza montatura oro oversize | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'TOTALIS : lunettes de soleil rimless or au format oversize, large couverture. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'TOTALIS: randlose Sonnenbrille in Gold im großen Oversize-Format. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'TOTALIS: occhiali da sole senza montatura oro in formato oversize. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'TOTALIS : lunettes de soleil rimless or au format oversize, large couverture. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'TOTALIS: randlose Sonnenbrille in Gold im großen Oversize-Format. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'TOTALIS: occhiali da sole senza montatura oro in formato oversize. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'La pleine éclipse, sur tout le regard.',
@@ -75,9 +75,9 @@ export const models: SunglassModel[] = [
       it: 'HELIOS — Occhiali da sole aviatore dorati con lenti a specchio | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'HELIOS : lunettes solaires dorées aviateur à verres miroir pour homme. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'HELIOS: goldene Piloten-Sonnenbrille mit Spiegelgläsern für Herren. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'HELIOS: occhiali da sole aviatore dorati con lenti a specchio da uomo. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'HELIOS : lunettes solaires dorées aviateur à verres miroir pour homme. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'HELIOS: goldene Piloten-Sonnenbrille mit Spiegelgläsern für Herren. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'HELIOS: occhiali da sole aviatore dorati con lenti a specchio da uomo. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Le premier lever du soleil, capté dans le verre.',
@@ -122,9 +122,9 @@ export const models: SunglassModel[] = [
       it: 'NEBULA — Occhiali da sole senza montatura oro da donna | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'NEBULA : lunettes de soleil rimless or au galbe cat-eye, pensées pour elle. Verres UV400, monture sans cerclage. Livraison Suisse & France.',
+      fr: 'NEBULA : lunettes de soleil rimless or au galbe cat-eye, pensées pour elle. Verres UV400, monture sans cerclage. Livraison dans le monde entier.',
       de: 'NEBULA: randlose Sonnenbrille in Gold mit Cat-Eye-Form. UV400-Gläser, ohne Fassung. Lieferung in die Schweiz & nach Frankreich.',
-      it: 'NEBULA: occhiali da sole senza montatura oro con forma cat-eye. Lenti UV400. Spedizione in Svizzera e Francia.',
+      it: 'NEBULA: occhiali da sole senza montatura oro con forma cat-eye. Lenti UV400. Spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'La courbe céleste, posée sur le regard.',
@@ -169,9 +169,9 @@ export const models: SunglassModel[] = [
       it: 'UMBRA — Occhiali da sole senza montatura nero e oro | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'UMBRA : lunettes de soleil rimless or à verres noirs rectangulaires, contraste profond. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'UMBRA: randlose Sonnenbrille in Gold mit schwarzen, rechteckigen Gläsern. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'UMBRA: occhiali da sole senza montatura oro con lenti nere rettangolari. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'UMBRA : lunettes de soleil rimless or à verres noirs rectangulaires, contraste profond. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'UMBRA: randlose Sonnenbrille in Gold mit schwarzen, rechteckigen Gläsern. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'UMBRA: occhiali da sole senza montatura oro con lenti nere rettangolari. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Le cœur de l’ombre, taillé net.',
@@ -216,9 +216,9 @@ export const models: SunglassModel[] = [
       it: 'ZENITH — Occhiali da sole aviatore oro senza montatura | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'ZENITH : lunettes solaires aviateur or sans monture, ligne haute et épurée. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'ZENITH: randlose Piloten-Sonnenbrille in Gold, hohe und klare Linie. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'ZENITH: occhiali da sole aviatore oro senza montatura, linea alta e pulita. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'ZENITH : lunettes solaires aviateur or sans monture, ligne haute et épurée. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'ZENITH: randlose Piloten-Sonnenbrille in Gold, hohe und klare Linie. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'ZENITH: occhiali da sole aviatore oro senza montatura, linea alta e pulita. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Le point le plus haut du ciel.',
@@ -263,9 +263,9 @@ export const models: SunglassModel[] = [
       it: 'SYZYGY — Occhiali da sole tondi senza montatura oro | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'SYZYGY : lunettes solaires rondes rimless or, cercles parfaits alignés. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'SYZYGY: runde randlose Sonnenbrille in Gold mit perfekt ausgerichteten Kreisen. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'SYZYGY: occhiali da sole tondi senza montatura oro, cerchi perfetti allineati. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'SYZYGY : lunettes solaires rondes rimless or, cercles parfaits alignés. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'SYZYGY: runde randlose Sonnenbrille in Gold mit perfekt ausgerichteten Kreisen. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'SYZYGY: occhiali da sole tondi senza montatura oro, cerchi perfetti allineati. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Trois astres, une seule ligne.',
@@ -310,9 +310,9 @@ export const models: SunglassModel[] = [
       it: 'PENUMBRA — Occhiali da sole con lenti sfumate oro | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'PENUMBRA : lunettes solaires femme à verres dégradés or, monture carrée rimless. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'PENUMBRA: Damen-Sonnenbrille mit goldenen Verlaufsgläsern, eckige randlose Form. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'PENUMBRA: occhiali da sole donna con lenti sfumate oro, forma squadrata rimless. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'PENUMBRA : lunettes solaires femme à verres dégradés or, monture carrée rimless. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'PENUMBRA: Damen-Sonnenbrille mit goldenen Verlaufsgläsern, eckige randlose Form. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'PENUMBRA: occhiali da sole donna con lenti sfumate oro, forma squadrata rimless. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'L’ombre douce, là où la lumière s’estompe.',
@@ -357,9 +357,9 @@ export const models: SunglassModel[] = [
       it: 'PARHELION — Occhiali da sole oro polarizzati | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'PARHELION : lunettes de soleil or polarisées pour homme, anti-reflets rectangulaires. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'PARHELION: polarisierte Sonnenbrille in Gold für Herren, blendfrei und rechteckig. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'PARHELION: occhiali da sole oro polarizzati da uomo, antiriflesso rettangolari. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'PARHELION : lunettes de soleil or polarisées pour homme, anti-reflets rectangulaires. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'PARHELION: polarisierte Sonnenbrille in Gold für Herren, blendfrei und rechteckig. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'PARHELION: occhiali da sole oro polarizzati da uomo, antiriflesso rettangolari. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Le faux soleil qui ne vous éblouit pas.',
@@ -404,9 +404,9 @@ export const models: SunglassModel[] = [
       it: 'EQUINOX — Occhiali senza montatura unisex oro | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'EQUINOX : lunettes sans monture unisexe or, forme carrée équilibrée. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'EQUINOX: randlose Unisex-Sonnenbrille in Gold, ausgewogene eckige Form. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'EQUINOX: occhiali senza montatura unisex oro, forma squadrata equilibrata. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'EQUINOX : lunettes sans monture unisexe or, forme carrée équilibrée. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'EQUINOX: randlose Unisex-Sonnenbrille in Gold, ausgewogene eckige Form. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'EQUINOX: occhiali senza montatura unisex oro, forma squadrata equilibrata. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'Le jour et la nuit, à parts égales.',
@@ -451,9 +451,9 @@ export const models: SunglassModel[] = [
       it: 'CHROMA — Occhiali da sole oro con lenti colorate | Eclipse Gold',
     },
     metaDescription: {
-      fr: 'CHROMA : lunettes solaires or à verres colorés ronds pour femme, teintes vives. Verres UV400, 49.90 CHF, livraison Suisse & France.',
-      de: 'CHROMA: Damen-Sonnenbrille in Gold mit runden farbigen Gläsern in lebhaften Tönen. UV400-Gläser, 49.90 CHF, Lieferung Schweiz & Frankreich.',
-      it: 'CHROMA: occhiali da sole oro con lenti tonde colorate da donna, tinte vivaci. Lenti UV400, 49.90 CHF, spedizione Svizzera e Francia.',
+      fr: 'CHROMA : lunettes solaires or à verres colorés ronds pour femme, teintes vives. Verres UV400, 49.90 CHF, livraison dans le monde entier.',
+      de: 'CHROMA: Damen-Sonnenbrille in Gold mit runden farbigen Gläsern in lebhaften Tönen. UV400-Gläser, 49.90 CHF, Lieferung weltweit.',
+      it: 'CHROMA: occhiali da sole oro con lenti tonde colorate da donna, tinte vivaci. Lenti UV400, 49.90 CHF, spedizione in tutto il mondo.',
     },
     tagline: {
       fr: 'La lumière décomposée en couleurs.',

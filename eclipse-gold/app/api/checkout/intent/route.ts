@@ -9,11 +9,10 @@ export async function POST(request: Request): Promise<Response> {
   } catch {
     return Response.json({ error: 'invalid body' }, { status: 400 })
   }
+  // Worldwide shipping. The country here only drives the display currency
+  // (CHF for Switzerland, EUR otherwise); the shipping address is collected by
+  // Stripe at payment and can be any country.
   const country = (body.country ?? 'CH') as Country
-  // We only ship to Switzerland and France.
-  if (country !== 'CH' && country !== 'FR') {
-    return Response.json({ error: 'unsupported_country' }, { status: 400 })
-  }
   try {
     const cart = await priceCart(body.lines ?? [], country)
     const pi = await getStripe().paymentIntents.create({

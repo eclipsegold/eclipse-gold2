@@ -41,7 +41,7 @@ export function Footer({ lang }: { lang: Lang }) {
           {HELP_GROUP.map((page) => linkFor(page, lang))}
         </nav>
         <p className={styles.trust}>
-          ✦ Livraison Suisse &amp; France &nbsp; ✦ Retours 14 jours &nbsp; ✦ Paiement sécurisé
+          ✦ Livraison mondiale &nbsp; ✦ Retours 14 jours &nbsp; ✦ Paiement sécurisé
         </p>
       </div>
     </footer>

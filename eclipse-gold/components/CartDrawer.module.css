@@ -96,6 +96,73 @@
   align-self: flex-start;
 }
 
+.suggest {
+  border-top: 1px solid var(--eg-line);
+  padding: var(--eg-s2) 0 var(--eg-s3);
+}
+
+.suggestTitle {
+  color: var(--eg-muted);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  margin-bottom: var(--eg-s2);
+}
+
+.suggestCard {
+  display: flex;
+  align-items: center;
+  gap: var(--eg-s2);
+}
+
+.suggestImg {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 1px solid var(--eg-line);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.suggestInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.suggestName {
+  font-family: var(--eg-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+}
+
+.suggestPrice {
+  color: var(--eg-muted);
+  font-size: 0.78rem;
+}
+
+.suggestAdd {
+  background: none;
+  border: 1px solid var(--eg-gold);
+  color: var(--eg-gold);
+  padding: 8px 14px;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  white-space: nowrap;
+  min-height: 40px;
+}
+
+.suggestAdd:hover {
+  background: var(--eg-gold);
+  color: var(--eg-black);
+}
+
 .checkout {
   display: block;
   width: 100%;
