@@ -11,6 +11,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  distDir: ".next-prod",
   images: {
     formats: ["image/avif", "image/webp"],
   },

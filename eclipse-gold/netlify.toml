@@ -1,7 +1,7 @@
 [build]
   base = "eclipse-gold"
   command = "npm run build"
-  publish = ".next"
+  publish = ".next-prod"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
